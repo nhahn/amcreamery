@@ -3,6 +3,6 @@ class Job < ActiveRecord::Base
   # Relationships
   # ---------------------------
 
-  has_and_belongs_to_many :shift
+  has_many :assignment, :through => :shift_jobs 
 
 end

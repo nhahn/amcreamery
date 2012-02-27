@@ -43,6 +43,13 @@ ActiveRecord::Schema.define(:version => 20120219055020) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "shift_jobs", :force => true do |t|
+    t.integer  "job_id"
+    t.integer  "shift_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "shifts", :force => true do |t|
     t.integer  "assignment_id"
     t.date     "date"
@@ -51,13 +58,6 @@ ActiveRecord::Schema.define(:version => 20120219055020) do
     t.text     "notes"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
-  end
-
-  create_table "shifts_jobs", :force => true do |t|
-    t.integer  "job_id"
-    t.integer  "shift_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "stores", :force => true do |t|

@@ -9,9 +9,9 @@ class Assignment < ActiveRecord::Base
   # Validations
   # ----------------------
 
-  validate_presence_of :store_id, :employee_id, :start_date, :pay_level
+  validates_presence_of :store_id, :employee_id, :start_date, :pay_level
 
-  validate_inclusion_of :pay_level, :in => 1..6
+  validates_inclusion_of :pay_level, :in => 1..6
 
   # Scope
   # ----------------------
@@ -20,7 +20,7 @@ class Assignment < ActiveRecord::Base
 
   scope :for_store, lambda {|store| where('store_id = ?', store.id) }
 
-  scope :for_employee, lambda { |employee| where ('employee_id = ?', employee.id) }
+  scope :for_employee, lambda { |employee| where('employee_id = ?', employee.id) }
 
   scope :for_pay_level, lambda { |pay| joins(:employees).where('pay_level = ?', pay)}
 

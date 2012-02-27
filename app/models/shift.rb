@@ -1,6 +1,6 @@
 class Shift < ActiveRecord::Base
 
   belongs_to :assignment
-  has_and_belongs_to_many :jobs
+  has_many :jobs, :through => :shift_jobs
 
 end

@@ -1,0 +1,30 @@
+FactoryGirl.define do
+
+  factory :employee do
+    first_name "John"
+    last_name "Smith"
+    ssn "123456789"
+    date_of_birth 20.years.ago
+    phone "1234567890"
+    role "employee"
+    active true
+  end
+
+  factory :assignment do
+    association :store
+    association :employee
+    start_date 3.days.ago
+    pay_level 1  
+  end
+
+  factory :store do
+    name "CMU"
+    street "5000 Forbes Ave"
+    zip "15213"
+    phone "4125555555"
+    latitude 40.5
+    longitude 60.1
+    active true
+  end
+
+end
