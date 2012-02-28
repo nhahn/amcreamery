@@ -7,7 +7,9 @@ gem 'nifty-generators'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-
+gem 'validates_timeliness'
+gem 'nifty-generators'
+gem 'will_paginate'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -27,6 +29,7 @@ group :test do
   gem 'shoulda'
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
+  gem 'mocha'
   gem 'simplecov'
 end
 

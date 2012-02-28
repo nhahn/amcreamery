@@ -14,6 +14,8 @@ class Assignment < ActiveRecord::Base
 
   validates_presence_of :store_id, :employee_id, :start_date, :pay_level
 
+  validates_date :end_date, :on_or_before => lambda { Date.current }, :allow_nil => true, :allow_blank => true
+  
   validates_inclusion_of :pay_level, :in => 1..6
 
   validates_associated :store, :employee
