@@ -25,12 +25,12 @@ class StoreTest < ActiveSupport::TestCase
       @OaklandStore = Factory.create(:store, :name=> "Oakland", :street => "200 5th Ave", :zip => "15222")
       @InactiveStore = Factory.create(:store, :name=> "Inactive", :active => false)
 
-      @CMUManager = Factory.create(:employee, :role => "owner")
+      @CMUManager = Factory.create(:employee, :role => "admin")
       @CMUEmployee = Factory.create(:employee, :first_name => "Jim", :last_name => "Jones", :date_of_birth => 8.years.ago)
 
       @ShadyManager = Factory.create(:employee, :role => "manager", :first_name => "Shady", :last_name => "Guy", :date_of_birth => 30.years.ago)
 
-      @OaklandManager = Factory.create(:employee, :role => "owner", :first_name => "Joe", :last_name => "White", :date_of_birth => 40.years.ago)
+      @OaklandManager = Factory.create(:employee, :role => "admin", :first_name => "Joe", :last_name => "White", :date_of_birth => 40.years.ago)
       @OaklandEmployee = Factory.create(:employee, :first_name => "Tyler", :last_name => "Mansfield", :date_of_birth => 14.years.ago)
 
       @CMUManagerAssignment = Factory.create(:assignment, :store => @CMUStore, :employee => @CMUManager)
@@ -47,6 +47,7 @@ class StoreTest < ActiveSupport::TestCase
       @CMUStore.destroy
       @ShadyStore.destroy
       @OaklandStore.destroy
+      @InactiveStore.destroy
       @CMUManager.destroy
       @CMUEmployee.destroy
       @ShadyManager.destroy

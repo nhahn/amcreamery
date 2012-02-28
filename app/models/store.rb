@@ -1,6 +1,6 @@
 class Store < ActiveRecord::Base
 
-  :after_validation :fix_phone
+#  after_validation :fix_phone
   
   # Relationships
   # ---------------------
@@ -35,7 +35,7 @@ class Store < ActiveRecord::Base
   private
   def fix_phone
     
-    phone.gsub!(/[().- ]/, //)
+    phone.gsub!(/[().\- ]/, //)
   end
 
 end

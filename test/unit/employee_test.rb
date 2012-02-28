@@ -4,4 +4,119 @@ class EmployeeTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
+
+  # Check relationships
+  should have_many(:assignments)
+  should have_many(:stores).through(:assignments)
+  should have_one(:user)
+
+  # Validation Macros
+  should validate_presence_of(:first_name)
+  should validate_presence_of(:last_name)
+  should validate_presence_of(:date_of_birth)
+  should validate_presence_of(:role)
+  should validate_presence_of(:ssn)
+
+  # Check the role regex
+  should_not allow_value("killer").for(:role)
+
+  #Check the SSN regex
+  should_not allow_value("444").for(:ssn)
+  should_not allow_value("555-555.5555").for(:ssn)
+  
+  # Check the phone regex
+  should_not allow_value("703123").for(:phone)
+  should_not allow_value("703-22-3456").for(:phone)
+  should_not allow_value("703.333!3456").for(:phone)
+
+# -------------------------
+  # Test scope and other methods
+
+  context "Three stores, with five employees, each with an assignment to that store" do
+    setup do
+      @CMUStore = Factory.create(:store)
+      @ShadyStore = Factory.create(:store, :name=> "Shadyside", :street => "300 Negley Ave", :zip => "15218")
+      @OaklandStore = Factory.create(:store, :name=> "Oakland", :street => "200 5th Ave", :zip => "15222")
+
+      @CMUManager = Factory.create(:employee, :role => "admin")
+      @CMUEmployee = Factory.create(:employee, :first_name => "Jim", :last_name => "Jones", :date_of_birth => 8.years.ago)
+
+      @ShadyManager = Factory.create(:employee, :role => "manager", :first_name => "Shady", :last_name => "Guy", :date_of_birth => 30.years.ago)
+
+      @OaklandManager = Factory.create(:employee, :role => "admin", :first_name => "Joe", :last_name => "White", :date_of_birth => 40.years.ago)
+      @OaklandEmployee = Factory.create(:employee, :first_name => "Tyler", :last_name => "Mansfield", :date_of_birth => 14.years.ago, :active => false)
+
+      @CMUManagerAssignment = Factory.create(:assignment, :store => @CMUStore, :employee => @CMUManager)
+      @CMUEmployeeAssignment = Factory.create(:assignment, :store => @CMUStore, :employee => @CMUEmployee, :start_date =>5.days.ago)
+
+      @ShadyManagerAssignment = Factory.create(:assignment, :store => @ShadyStore, :employee => @ShadyManager, :start_date => 1.year.ago)
+
+      @OaklandManagerAssignment = Factory.create(:assignment, :store => @OaklandStore, :employee => @OaklandManager, :start_date => 2.years.ago)
+      @OaklandEmployeeAssignment = Factory.create(:assignment, :store => @OaklandStore, :employee => @OaklandEmployee, :start_date => 4.months.ago)
+
+    end
+
+    teardown do
+      @CMUStore.destroy
+      @ShadyStore.destroy
+      @OaklandStore.destroy
+      @CMUManager.destroy
+      @CMUEmployee.destroy
+      @ShadyManager.destroy
+      @OaklandManager.destroy
+      @OaklandEmployee.destroy
+      @CMUManagerAssignment.destroy
+      @CMUEmployeeAssignment.destroy
+      @ShadyManagerAssignment.destroy
+      @OaklandManagerAssignment.destroy
+      @OaklandEmployeeAssignment.destroy
+    end
+
+    should "return the age of an employee" do
+      assert_equal "30", @ShadyManager.age.to_s
+    end
+
+    should "return the current asssignment of an employee" do
+      assert_equal 1, @CMUManager.current_assignment.size
+    end
+
+    should "return the employees in alphabetical order" do
+      assert_equal ["Guy", "Jones", "Mansfield", "Smith", "White"], Employee.alphabetical.map{|e| e.last_name}
+    end
+
+    should "check if employees are younger than 18" do
+      assert_equal false,  @OaklandEmployee.over_18?
+      assert_equal true,  @OaklandManager.over_18?
+    end
+
+    should "return all employees younder than 18" do
+      assert_equal ["Jones", "Mansfield"], Employee.younger_than_18.alphabetical.map{|e| e.last_name}
+
+    end
+
+    should "return all employees older than 18" do
+      assert_equal ["Guy", "Smith", "White"], Employee.is_18_or_older.alphabetical.map{|e| e.last_name}
+    end
+
+    should "return the active employees" do
+      assert_equal ["Guy", "Jones",  "Smith", "White"], Employee.active.alphabetical.map{|e| e.last_name}
+    end
+
+    should "return the inactive employee" do
+      assert_equal "Mansfield", Employee.inactive.first.last_name
+    end
+
+    should "return managers" do
+      assert_equal "Guy", Employee.managers.first.last_name
+    end
+
+    should "return admins" do
+      assert_equal ["Smith", "White"], Employee.admins.alphabetical.map{|e| e.last_name}
+    end
+
+    should "return regular employees" do
+      assert_equal ["Jones", "Mansfield"], Employee.regulars.alphabetical.map{|e| e.last_name}
+    end
+
+  end
 end

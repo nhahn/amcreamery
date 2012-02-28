@@ -6,7 +6,7 @@ class CreateAssignments < ActiveRecord::Migration
       t.integer :employee_id
 
       t.date :start_date
-      t.date :end_date
+      t.date :end_date, :default => nil
       t.integer :pay_level
 
       t.timestamps

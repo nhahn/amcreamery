@@ -1,5 +1,6 @@
 class Employee < ActiveRecord::Base
 
+#  after_validation :fix_phone_ssn
   # Relationships
   # -------------------------
   has_one  :user
@@ -15,12 +16,14 @@ class Employee < ActiveRecord::Base
 
   validates_format_of :phone, :with => /^(\d{10}|\(?\d{3}\)?[-. ]\d{3}[-.]\d{4})$/, :message => "should be 10 digits (area code needed) and delimited with dashes only"
 
+  validates_format_of :role, :with => /employee|admin|manager/
+
   # Scope
   # -------------------------
 
-  scope :younger_than_18, lambda { where('date_of_birth < ?', Time.current - 18.years)}
+  scope :younger_than_18, lambda { where('date_of_birth > ?', 18.years.ago.strftime("%Y-%m-%d"))}
 
-  scope :is_18_or_older, lambda { where('date_of_birth >= ?', Time.current - 18.years)}
+  scope :is_18_or_older, lambda { where('date_of_birth <= ?', 18.years.ago.strftime("%Y-%m-%d"))}
   
   scope :active, where('active = ?', true)
 
@@ -30,7 +33,7 @@ class Employee < ActiveRecord::Base
 
   scope :managers, where('role = ?', 'manager')
 
-  scope :admins, where('role = ?', 'admins')
+  scope :admins, where('role = ?', 'admin')
 
   scope :alphabetical, order('last_name', 'first_name')
 
@@ -39,14 +42,20 @@ class Employee < ActiveRecord::Base
   end
 
   def current_assignment
-    joins(:assignments).where('end_date = NULL')
+    assignments.all.map{|a| a unless a.end_date != nil}.compact 
   end
 
   def over_18?
-    date_of_birth < (Time.current - 18.years) 
+    date_of_birth <= 18.years.ago.strftime("%Y-%m-%d") 
   end
 
   def age
-    (Time.current - date_of_birth).year
+    Time.current.year - date_of_birth.year
+  end
+
+  private
+  def fix_phone_ssn
+    phone.gsub!(/[().\- ]/, //) 
+    ssn.gsub!(/-/, //)
   end
 end

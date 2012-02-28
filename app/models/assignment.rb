@@ -1,7 +1,7 @@
 class Assignment < ActiveRecord::Base
 
   # ----------------------
-  :before_create :end_previous_assignment
+#  before_create :end_previous_assignment
 
   # Relationships
   # ----------------------
@@ -16,26 +16,29 @@ class Assignment < ActiveRecord::Base
 
   validates_inclusion_of :pay_level, :in => 1..6
 
+  validates_associated :store, :employee
+
   # Scope
   # ----------------------
 
-  scope :current, where('end_date = ?', nil)
+  scope :current, where('end_date IS NULL')
 
   scope :for_store, lambda {|store| where('store_id = ?', store.id) }
 
   scope :for_employee, lambda { |employee| where('employee_id = ?', employee.id) }
 
-  scope :for_pay_level, lambda { |pay| joins(:employees).where('pay_level = ?', pay)}
+  scope :for_pay_level, lambda { |pay| where('pay_level = ?', pay)}
 
   scope :by_pay_level, order('pay_level')
 
-  scope :by_store, lambda { joins(:stores).order('stores.name') }
+  scope :by_store, lambda { joins(:store).order('stores.name') }
 
-  def end_previous_assignment (employee)
-  
-  	previous_assignment = Assignment.find_by_employee_id(employee.id).where('end_date = ?', nil)
-  	previous_assignment.end_date = Time.now
-    
+  def end_previous_assignment
+  	previous_assignment = Assignment.find_all_by_employee_id(employee_id).each{|e| return e if e.end_date == nil}
+  	if previous_assignment != nil 
+      previous_assignment.end_date = Time.now
+      previous_assignment.save!
+    end
   end
 
 end
