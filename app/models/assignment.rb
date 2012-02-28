@@ -1,5 +1,8 @@
 class Assignment < ActiveRecord::Base
 
+  # ----------------------
+  :before_create :end_previous_assignment
+
   # Relationships
   # ----------------------
   belongs_to :store
@@ -30,7 +33,8 @@ class Assignment < ActiveRecord::Base
 
   def end_previous_assignment (employee)
   
-  	
+  	previous_assignment = Assignment.find_by_employee_id(employee.id).where('end_date = ?', nil)
+  	previous_assignment.end_date = Time.now
     
   end
 

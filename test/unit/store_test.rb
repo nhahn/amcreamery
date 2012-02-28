@@ -15,7 +15,7 @@ class StoreTest < ActiveSupport::TestCase
   should validate_presence_of(:zip)
 
   # -------------------------------
-  # Test scrops and other methods
+  # Test scopes and other methods
 
   context "Three stores, with five employees, each with an assignment to that store" do
 

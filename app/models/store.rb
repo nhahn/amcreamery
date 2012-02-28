@@ -1,5 +1,7 @@
 class Store < ActiveRecord::Base
 
+  :after_validation :fix_phone
+  
   # Relationships
   # ---------------------
   
@@ -29,5 +31,11 @@ class Store < ActiveRecord::Base
   scope :active, where('active = ?', true)
 
   scope :inactive, where('active = ?', false)
+
+  private
+  def fix_phone
+    
+    phone.gsub!(/[().- ]/, //)
+  end
 
 end
