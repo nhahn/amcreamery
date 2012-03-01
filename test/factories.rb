@@ -34,7 +34,7 @@ FactoryGirl.define do
   
   factory :shift do
   	association :assignment
-  	date Date.today+1
+  	date Date.tomorrow
 	  start_time 1.hour.ago
   end
   

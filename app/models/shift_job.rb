@@ -9,6 +9,7 @@ class ShiftJob < ActiveRecord::Base
   # Validations
   # ---------------------------
   
+  validates_presence_of :shift_id, :job_id
   validates_associated :job, :shift
   
 end

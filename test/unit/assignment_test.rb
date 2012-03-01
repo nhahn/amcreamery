@@ -22,6 +22,8 @@ class AssignmentTest < ActiveSupport::TestCase
   should_not allow_value(8).for(:pay_level)
   should_not allow_value("test").for(:pay_level)
 
+  should_not allow_value("not a date").for(:start_date)
+
   context "Three stores, with five employees, each with an assignment to that store and two old assignments" do
     setup do
       @CMUStore = Factory.create(:store)
@@ -65,6 +67,11 @@ class AssignmentTest < ActiveSupport::TestCase
       @OaklandEmployeeAssignment.destroy
       @OaklandManagerPrevAssignment.destroy
       @OaklandManagerPrevAssignment.destroy
+    end
+
+    should "not allow end_date to be before start_date" do
+      @assignment = Factory.build(:assignment, :employee => @CMUEmployee, :store => @CMUStore, :end_date => 1.day.ago, :start_date => Date.today)
+      assert !@assignment.valid?
     end
 
     should "return the current assignments" do

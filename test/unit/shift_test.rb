@@ -8,7 +8,14 @@ class ShiftTest < ActiveSupport::TestCase
   # Check relationships
   should belong_to(:assignment)
   should have_many(:jobs).through(:shift_jobs)
+
+  should validate_presence_of(:start_time)
+  should validate_presence_of(:assignment_id)
+  should validate_presence_of(:date)
   
+  should_not allow_value("not a date").for(:end_time)
+  should_not allow_value("still not a date").for(:date)
+
   context "Three stores, with five employees, each with an assignment to that store and two old assignments" do
     setup do
       @CMUStore = Factory.create(:store)
@@ -35,6 +42,10 @@ class ShiftTest < ActiveSupport::TestCase
       @CMUEmployeePrevAssignment = Factory.create(:assignment, :store => @ShadyStore, :employee => @CMUEmployee, :start_date => 1.year.ago, :end_date => 5.days.ago)
 
   	  @ShadyManagerShift = Factory.create(:shift, :assignment => @ShadyManagerAssignment, :notes => "Fun shift")
+      @ShadyManagerShift2 = Factory.create(:shift, :assignment => @ShadyManagerAssignment, :date => Date.yesterday)
+      @OaklandManagerShift = Factory.create(:shift, :assignment => @OaklandManagerAssignment, :date => Date.today)
+      @OaklandManagerShift2 = Factory.create(:shift, :assignment => @OaklandManagerAssignment, :date => 5.days.ago)
+      @OaklandEmployeeShift = Factory.create(:shift, :assignment => @OaklandEmployeeAssignment, :date => 10.days.ago)
 
     end
 
@@ -55,9 +66,45 @@ class ShiftTest < ActiveSupport::TestCase
       @OaklandManagerPrevAssignment.destroy
       @OaklandManagerPrevAssignment.destroy
   	  @ShadyManagerShift.destroy
+      @OaklandManagerShift.destroy
+      @OaklandManagerShift2.destroy
     end
    
-    
+    should "find the shifts for a particular store" do
+      assert_equal 3, Shift.for_store(@OaklandStore).size
+    end
+
+    should "find shifts for a particular employee" do
+      assert_equal 2, Shift.for_employee(@OaklandManager).size
+    end
+
+    should "sort shifts by date" do
+      assert_equal "Tyler Mansfield", Shift.by_date.first.assignment.employee.proper_name
+    end
+
+    should "show upcomming shifts" do
+      assert_equal "Shady Guy", Shift.upcomming.by_date.first.assignment.employee.proper_name 
+    end
+
+    should "show today's shifts" do
+      assert_equal "Joe White", Shift.today.by_date.first.assignment.employee.proper_name 
+    end
+
+    should "not allow inactive assignment for a new shift" do
+  	  @ShadyShift = Factory.build(:shift, :assignment => @OaklandManagerPrevAssignment, :notes => "FALSE!")
+      assert !@ShadyShift.valid?
+    end
+
+    should "not allow disassociated assignment for a shift" do
+      @FakeShift = Factory.build(:assignment, :store => @CMUStore, :employee => @OaklandManager)
+  	  @ShadyShift = Factory.build(:shift, :assignment => @FakeShift, :notes => "FALSE!")
+      assert !@ShadyShift.valid?
+    end
+
+    should "not allow end time to be before the start time" do
+      @Shift = Factory.build(:shift, :assignment => @OaklandManagerAssignment, :start_time => Time.now, :end_time => 1.hour.ago)
+      assert !@Shift.valid?
+    end
 
   end
 end

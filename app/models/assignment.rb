@@ -13,8 +13,9 @@ class Assignment < ActiveRecord::Base
   # ----------------------
   # check that all required fields are there
   validates_presence_of :store_id, :employee_id, :start_date, :pay_level
-  # check if the end_date is a valid date and not in the future (unless we want this???)
-  validates_date :end_date, :on_or_before => lambda { Date.current }, :allow_nil => true, :allow_blank => true
+  validates_date :start_date 
+  # check if the end_date is a valid date
+  validates_date :end_date, :after => :start_date, :allow_nil => true, :allow_blank => true
   # we want the pay levels to be restricted to 1 through 6
   validates_inclusion_of :pay_level, :in => 1..6
   # check that store_id and employee_id are actually valid
