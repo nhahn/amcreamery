@@ -26,5 +26,23 @@ FactoryGirl.define do
     longitude 60.1
     active true
   end
+  
+  factory :job do
+  	name "Sweep"
+  	active true
+  end
+  
+  factory :shift do
+  	association :assignment
+  	date Date.today+1
+	  start_time 1.hour.ago
+  end
+  
+  factory :user do
+  	association :employee
+	  email "user@amcreamery.com"
+  	password "root99"
+	  password_confirmation "root99"
+  end
 
 end

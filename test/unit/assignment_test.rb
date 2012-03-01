@@ -84,14 +84,42 @@ class AssignmentTest < ActiveSupport::TestCase
     end
 
     should "end the previous assignment" do
-      @CMUManagerAssignment.end_previous_assignment
-      assert 1.day.ago < @CMUManagerAssignment.end_date 
+      @newAssign = Factory.create(:assignment, :store => @CMUStore, :employee => @CMUManager, :end_date => nil)
+      @newAssign.end_previous_assignment
+      @CMUManagerAssignment.reload
+      assert @CMUManagerAssignment
     end
 
     should "return the assignment ordered by store" do
       assert_equal ["CMU", "Oakland"], Assignment.for_employee(@OaklandManager).by_store.map{|a| a.store.name}
     end
+	
+  	should "not allow validation of assignment with disassociated employee" do
+	  	@employee = Factory.build(:employee, :first_name=>"Random", :last_name => "Person")
+      bad_assignment = Factory.build(:assignment, :store => @ShadyStore, :employee => @employee)
+  		assert !bad_assignment.valid?
+  	end
+	
+  	should "not allow validation of assignment with disassociated store" do
+  		@store = Factory.build(:store, :name=>"Random")
+  		bad_assignment = Factory.build(:assignment, :store => @store, :employee => @CMUEmployee)
+  		assert !bad_assignment.valid?
+  	end
 
-    
+    should "now allow an assignment to be created with an inactive store" do
+      @store = Factory.create(:store, :name => "Random", :active => false)
+      bad_assignment = Factory.build(:assignment, :store => @store, :employee => @CMUEmployee)
+      assert !bad_assignment.valid?
+      @store.destroy
+    end
+
+    should "now allow an assignment to be created with an inactive employee" do
+      @employee = Factory.create(:employee, :first_name => "Random", :active => false)
+      bad_assignment = Factory.build(:assignment, :store => @CMUStore, :employee => @employee)
+      assert !bad_assignment.valid?
+      @employee.destroy
+    end
+
+
   end
 end

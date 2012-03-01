@@ -1,6 +1,14 @@
 class ShiftJob < ActiveRecord::Base
 
-  belongs_to :jobs
+  # Relationships
+  # ---------------------------
+  
+  belongs_to :job
   belongs_to :shift
 
+  # Validations
+  # ---------------------------
+  
+  validates_associated :job, :shift
+  
 end

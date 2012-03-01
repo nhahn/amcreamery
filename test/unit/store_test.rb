@@ -13,7 +13,6 @@ class StoreTest < ActiveSupport::TestCase
   should validate_presence_of(:name)
   should validate_presence_of(:street)
   should validate_presence_of(:zip)
-
   # -------------------------------
   # Test scopes and other methods
 
@@ -22,7 +21,7 @@ class StoreTest < ActiveSupport::TestCase
     setup do
       @CMUStore = Factory.create(:store)
       @ShadyStore = Factory.create(:store, :name=> "Shadyside", :street => "300 Negley Ave", :zip => "15218")
-      @OaklandStore = Factory.create(:store, :name=> "Oakland", :street => "200 5th Ave", :zip => "15222")
+      @OaklandStore = Factory.create(:store, :name=> "Oakland", :street => "200 5th Ave", :zip => "15222", :phone => "(123) 456-7890")
       @InactiveStore = Factory.create(:store, :name=> "Inactive", :active => false)
 
       @CMUManager = Factory.create(:employee, :role => "admin")
@@ -59,7 +58,23 @@ class StoreTest < ActiveSupport::TestCase
       @OaklandManagerAssignment.destroy
       @OaklandEmployeeAssignment.destroy
     end
+  
+    #test search scope
+    should "find a store by name" do
+      assert_equal "15218", Store.search("Shadyside").first.zip
+    end
     
+    #test that phone characters are removed
+    should "tests for phone character being removed" do
+      assert_equal "1234567890", Store.search("Oakland").first.phone
+    end
+
+    #test for uniqueness validation
+    should "not allow store with the same name" do
+      @store = Factory.build(:store, :name => "Oakland")
+      assert !@store.valid?
+    end
+
     #test alphabetical scope
     should "have all stores ordered alphabetically" do
       assert_equal 4, Store.all.size

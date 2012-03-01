@@ -29,7 +29,12 @@ class EmployeeTest < ActiveSupport::TestCase
   should_not allow_value("703-22-3456").for(:phone)
   should_not allow_value("703.333!3456").for(:phone)
 
-# -------------------------
+  # Check the validates_date for date_of_birth
+  should_not allow_value(Date.current + 1).for(:date_of_birth)
+  should_not allow_value("not a date").for(:date_of_birth)
+  should  allow_value(Date.current - 1).for(:date_of_birth)
+
+  # -------------------------
   # Test scope and other methods
 
   context "Three stores, with five employees, each with an assignment to that store" do
@@ -38,8 +43,8 @@ class EmployeeTest < ActiveSupport::TestCase
       @ShadyStore = Factory.create(:store, :name=> "Shadyside", :street => "300 Negley Ave", :zip => "15218")
       @OaklandStore = Factory.create(:store, :name=> "Oakland", :street => "200 5th Ave", :zip => "15222")
 
-      @CMUManager = Factory.create(:employee, :role => "admin")
-      @CMUEmployee = Factory.create(:employee, :first_name => "Jim", :last_name => "Jones", :date_of_birth => 8.years.ago)
+      @CMUManager = Factory.create(:employee, :role => "admin", :phone => "(703)-272-8443")
+      @CMUEmployee = Factory.create(:employee, :first_name => "Jim", :last_name => "Jones", :ssn => "123456789", :date_of_birth => 8.years.ago)
 
       @ShadyManager = Factory.create(:employee, :role => "manager", :first_name => "Shady", :last_name => "Guy", :date_of_birth => 30.years.ago)
 
@@ -52,7 +57,6 @@ class EmployeeTest < ActiveSupport::TestCase
       @ShadyManagerAssignment = Factory.create(:assignment, :store => @ShadyStore, :employee => @ShadyManager, :start_date => 1.year.ago)
 
       @OaklandManagerAssignment = Factory.create(:assignment, :store => @OaklandStore, :employee => @OaklandManager, :start_date => 2.years.ago)
-      @OaklandEmployeeAssignment = Factory.create(:assignment, :store => @OaklandStore, :employee => @OaklandEmployee, :start_date => 4.months.ago)
 
     end
 
@@ -69,15 +73,44 @@ class EmployeeTest < ActiveSupport::TestCase
       @CMUEmployeeAssignment.destroy
       @ShadyManagerAssignment.destroy
       @OaklandManagerAssignment.destroy
-      @OaklandEmployeeAssignment.destroy
     end
 
+    should "find the employee with the first name Jim" do
+      assert_equal Employee.search("Jim").map{|e| e.first_name + " " + e.last_name}, ["Jim Jones"]
+    end
+  
+    should "find the employee with the last name Guy" do
+      assert_equal Employee.search("Guy").map{|e| e.first_name + " " + e.last_name}, ["Shady Guy"]
+    end
+
+    should "remove dashes from ssn" do
+      assert_equal Employee.search("Jim").first.ssn, "123456789"
+    end
+    
+    should "remove character from phone number" do
+      assert_equal Employee.search("John").first.phone, "7032728443"
+    end
+
+    should "give the proper name for an employee" do
+      assert_equal @CMUEmployee.proper_name, "Jim Jones"
+    end
+
+    should "give the name for an employee" do
+      assert_equal @CMUEmployee.name, "Jones, Jim"
+    end
+    
     should "return the age of an employee" do
       assert_equal "30", @ShadyManager.age.to_s
     end
 
     should "return the current asssignment of an employee" do
-      assert_equal 1, @CMUManager.current_assignment.size
+      assert @CMUManager.current_assignment
+    end
+
+    should "return nil if no current assignment is there for an employee" do
+      @employee = Factory.create(:employee, :first_name => "Nathan", :last_name => "Hahn", :ssn => "123456789", :date_of_birth => 20.years.ago)
+      assert !@employee.current_assignment
+      @employee.destroy
     end
 
     should "return the employees in alphabetical order" do
