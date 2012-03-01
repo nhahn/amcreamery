@@ -83,7 +83,7 @@ class ShiftTest < ActiveSupport::TestCase
     end
 
     should "show upcomming shifts" do
-      assert_equal "Shady Guy", Shift.upcomming.by_date.first.assignment.employee.proper_name 
+      assert_equal "Joe White", Shift.upcomming.by_date.first.assignment.employee.proper_name 
     end
 
     should "show today's shifts" do
