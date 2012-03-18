@@ -10,6 +10,7 @@ gem 'sqlite3'
 gem 'validates_timeliness'
 gem 'nifty-generators'
 gem 'will_paginate'
+gem 'simple_form'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -19,7 +20,7 @@ group :assets do
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer'
-
+  gem 'twitter-bootstrap-rails'
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -49,6 +50,8 @@ end
 
 # Deploy with Capistrano
 # gem 'capistrano'
+
+gem 'jquery-rails'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
