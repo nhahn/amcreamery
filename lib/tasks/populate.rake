@@ -10,7 +10,7 @@ namespace :db do
     require 'faker'
     
     # Step 0: clear any old data in the db
-    [Employee, Assignment, Store].each(&:delete_all)
+    [Employee, Assignment, Store, Shift, ShiftJob, Job].each(&:delete_all)
     
     # Step 1a: Add Alex as admin and user
     ae = Employee.new
@@ -133,5 +133,31 @@ namespace :db do
         asn2.save!
       end
     end
+
+    # Step 7: Add some shifts for employees
+    current_assignments = Assignment.current.for_role("employee").all
+    current_assignments.each do |assignment|
+      numShifts = rand(4)
+      unless numShifts.zero?
+        number = (-10..20).to_a.sample
+        shift = Shift.new
+          shift.assignment_id = assignment.id
+          shift.date = number.days.ago 
+          shift.start_time = (0..24).to_a.sample.hours.ago
+          shift.end_time = nil #Fix this 
+          shift.notes = Faker::Lorem.sentences
+        shift.save!
+      end
+    end
+    
+    # Step 8: Add some jobs..
+    Job.populate 40 do |job|
+      job.name = Faker::Lorem.words(1)
+      job.description = Faker::Lorem.sentence
+      job.active = true 
+      job.created_at = Time.now
+      job.updated_at = Time.now
+    end
+
   end
 end   

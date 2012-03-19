@@ -1,7 +1,7 @@
 class Assignment < ActiveRecord::Base
 
   # ----------------------
-  #before_create :end_previous_assignment
+  before_create :end_previous_assignment
 
   # Relationships
   # ----------------------
@@ -38,11 +38,20 @@ class Assignment < ActiveRecord::Base
   # get a sorted list of assignments by store name
   scope :by_store, lambda { joins(:store).order('stores.name') }
 
+  scope :past, where('end_date IS NOT NULL')
+  scope :by_store, joins(:store).order('name')
+  scope :chronological, order('start_date, end_date') 
+ 
+  scope :for_role, lambda {|role| joins(:employee).where("role = ?", role) }
+
+ 
   def end_previous_assignment
-  	previous_assignment = Employee.find_by_id(self.employee_id).current_assignment
-    unless previous_assignment.nil?
-      previous_assignment.update_attributes(:end_date => start_date)
-    end
+    current_assignment = Employee.find(self.employee_id).current_assignment
+    if current_assignment.nil?
+      return true 
+    else
+      current_assignment.update_attribute(:end_date, self.start_date.to_date)
+    end  
   end
   
   def employee_and_store_active

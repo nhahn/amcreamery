@@ -2,18 +2,50 @@
 <html>
   <head>
     <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
-    <%= stylesheet_link_tag "application" %>
-    <%= javascript_include_tag :defaults %>
+    <%= stylesheet_link_tag "application", :media => "all"%>
+    <%= javascript_include_tag "application"%>
     <%= csrf_meta_tag %>
     <%= yield(:head) %>
   </head>
   <body>
-    <div id="container">
-      <% flash.each do |name, msg| %>
-        <%= content_tag :div, msg, :id => "flash_#{name}" %>
-      <% end %>
-      <%= content_tag :h1, yield(:title) if show_title? %>
-      <%= yield %>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">AM Creamery</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><%= link_to "Stores", stores_path %></li>
+              <li><%= link_to "Employees", employees_path %></li>
+              <li><%= link_to "Assignments", assignments_path %></li>
+              <li><%= link_to "Shifts", shifts_path %></li>
+              <li><%= link_to "Jobs", jobs_path %></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
+    <%= yield%>
+    <div id="container">
+      <div class="row">
+        <!-- main content in the two-thirds section -->
+        <div class="span8">
+          <%= yield%>
+        </div>
+        <!-- quick links on the side in the one-third section -->
+        <div class="span4">
+          <%= render :partial => "partials/quick_links" %>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <%= render :partial => "partials/footer" %>
+      </div>
+    </footer>
   </body>
 </html>
