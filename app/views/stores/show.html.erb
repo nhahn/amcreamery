@@ -1,50 +1,52 @@
-<p id="notice"><%= notice %></p>
+<h1>/Store</h1>
 
 <p>
-  <b>Name:</b>
+  <b>Name</b><br>
   <%= @store.name %>
 </p>
 
 <p>
-  <b>Street:</b>
+  <b>Street</b><br>
   <%= @store.street %>
 </p>
 
 <p>
-  <b>City:</b>
+  <b>City</b><br>
   <%= @store.city %>
 </p>
 
 <p>
-  <b>State:</b>
+  <b>State</b><br>
   <%= @store.state %>
 </p>
 
 <p>
-  <b>Zip:</b>
+  <b>Zip</b><br>
   <%= @store.zip %>
 </p>
 
 <p>
-  <b>Phone:</b>
+  <b>Phone</b><br>
   <%= @store.phone %>
 </p>
 
 <p>
-  <b>Latitude:</b>
+  <b>Latitude</b><br>
   <%= @store.latitude %>
 </p>
 
 <p>
-  <b>Longitude:</b>
+  <b>Longitude</b><br>
   <%= @store.longitude %>
 </p>
 
 <p>
-  <b>Active:</b>
+  <b>Active</b><br>
   <%= @store.active %>
 </p>
 
-
-<%= link_to 'Edit', edit_store_path(@store) %> |
-<%= link_to 'Back', stores_path %>
+<div class="form-actions">
+  <%= link_to 'Back', stores_path, :class => 'btn'  %>
+  <%= link_to 'Edit', edit_store_path(@store), :class => 'btn' %>
+  <%= link_to 'Delete', store_path(@store), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div>

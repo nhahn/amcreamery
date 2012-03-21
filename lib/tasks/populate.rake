@@ -144,8 +144,12 @@ namespace :db do
           shift.assignment_id = assignment.id
           shift.date = number.days.ago 
           shift.start_time = (0..24).to_a.sample.hours.ago
-          shift.end_time = nil #Fix this 
-          shift.notes = Faker::Lorem.sentences
+		  if (number < 0)
+			shift.end_time = shift.start_time + 4.hours + (2..59).to_a.sample.minutes
+		  else
+			shift.end_time = nil
+		  end
+		  shift.notes = Faker::Lorem.sentences
         shift.save!
       end
     end
@@ -158,6 +162,16 @@ namespace :db do
       job.created_at = Time.now
       job.updated_at = Time.now
     end
-
+	
+	# Step 9: Assign jobs to shifts
+	prevShifts = Shift.past.all
+	prevShifts.each do |shift|
+	  rand(1..3).times do
+		shiftJob = ShiftJob.new
+		shiftJob.shift_id = shift.id
+		shiftJob.job_id = Job.offset(rand(Job.count)).first.id
+		shiftJob.save!
+      end
+	end
   end
 end   

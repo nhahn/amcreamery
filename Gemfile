@@ -11,6 +11,8 @@ gem 'validates_timeliness'
 gem 'nifty-generators'
 gem 'will_paginate'
 gem 'simple_form'
+gem 'cancan'
+gem 'chronic'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -32,6 +34,10 @@ group :test do
   gem 'factory_girl_rails'
   gem 'mocha'
   gem 'simplecov'
+  gem 'cucumber-rails'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'nokogirl'
 end
 
 group :development do

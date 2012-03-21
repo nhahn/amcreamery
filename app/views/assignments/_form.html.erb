@@ -1,29 +1,45 @@
-<%= form_for(@assignment) do |f| %>
-  <% if @assignment.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@assignment.errors.count, "error") %> prohibited this assignment from being saved:</h2>
+<%= form_for @assignment, :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend><%= controller.action_name.capitalize %> /Assignment</legend>
 
-      <ul>
-      <% @assignment.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <div class="control-group">
+      <%= f.label :store_id, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.number_field :store_id, :class => 'number_field' %>
+      </div>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :start_date %><br />
-    <%= f.date_select :start_date %>
-  </div>
-  <div class="field">
-    <%= f.label :end_date %><br />
-    <%= f.date_select :end_date %>
-  </div>
-  <div class="field">
-    <%= f.label :pay_level %><br />
-    <%= f.number_field :pay_level %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class="control-group">
+      <%= f.label :employee_id, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.number_field :employee_id, :class => 'number_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :start_date, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.date_select :start_date, :class => 'date_select' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :end_date, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.date_select :end_date, :class => 'date_select' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :pay_level, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.number_field :pay_level, :class => 'number_field' %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', assignments_path, :class => 'btn' %>
+    </div>
+  </fieldset>
 <% end %>

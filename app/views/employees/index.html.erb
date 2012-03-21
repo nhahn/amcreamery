@@ -1,35 +1,26 @@
-<h1>Listing employees</h1>
-
-<table>
-  <tr>
-    <th>First name</th>
-    <th>Last name</th>
-    <th>Ssn</th>
-    <th>Date of birth</th>
-    <th>Phone</th>
-    <th>Role</th>
-    <th>Active</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @employees.each do |employee| %>
-  <tr>
-    <td><%= employee.first_name %></td>
-    <td><%= employee.last_name %></td>
-    <td><%= employee.ssn %></td>
-    <td><%= employee.date_of_birth %></td>
-    <td><%= employee.phone %></td>
-    <td><%= employee.role %></td>
-    <td><%= employee.active %></td>
-    <td><%= link_to 'Show', employee %></td>
-    <td><%= link_to 'Edit', edit_employee_path(employee) %></td>
-    <td><%= link_to 'Destroy', employee, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+<h1>Employees</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First name</th>
+      <th>Created at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @employees.each do |employee| %>
+      <tr>
+        <td><%= employee.id %></td>
+        <td><%= link_to employee.first_name, employee_path(employee) %></td>
+        <td><%= employee.created_at %></td>
+        <td>
+          <%= link_to 'Edit', edit_employee_path(employee), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', employee_path(employee), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New Employee', new_employee_path %>
+<%= link_to 'New', new_employee_path, :class => 'btn btn-primary' %>

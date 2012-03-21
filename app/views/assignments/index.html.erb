@@ -1,27 +1,26 @@
-<h1>Listing assignments</h1>
-
-<table>
-  <tr>
-    <th>Start date</th>
-    <th>End date</th>
-    <th>Pay level</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @assignments.each do |assignment| %>
-  <tr>
-    <td><%= assignment.start_date %></td>
-    <td><%= assignment.end_date %></td>
-    <td><%= assignment.pay_level %></td>
-    <td><%= link_to 'Show', assignment %></td>
-    <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
-    <td><%= link_to 'Destroy', assignment, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+<h1>Assignments</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Store</th>
+      <th>Created at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @assignments.each do |assignment| %>
+      <tr>
+        <td><%= assignment.id %></td>
+        <td><%= link_to assignment.store_id, assignment_path(assignment) %></td>
+        <td><%= assignment.created_at %></td>
+        <td>
+          <%= link_to 'Edit', edit_assignment_path(assignment), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', assignment_path(assignment), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New Assignment', new_assignment_path %>
+<%= link_to 'New', new_assignment_path, :class => 'btn btn-primary' %>

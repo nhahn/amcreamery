@@ -1,33 +1,45 @@
-<%= form_for(@shift) do |f| %>
-  <% if @shift.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@shift.errors.count, "error") %> prohibited this shift from being saved:</h2>
+<%= form_for @shift, :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend><%= controller.action_name.capitalize %> /Shift</legend>
 
-      <ul>
-      <% @shift.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <div class="control-group">
+      <%= f.label :assignment_id, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.number_field :assignment_id, :class => 'number_field' %>
+      </div>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :date %><br />
-    <%= f.date_select :date %>
-  </div>
-  <div class="field">
-    <%= f.label :start_time %><br />
-    <%= f.time_select :start_time %>
-  </div>
-  <div class="field">
-    <%= f.label :end_time %><br />
-    <%= f.time_select :end_time %>
-  </div>
-  <div class="field">
-    <%= f.label :notes %><br />
-    <%= f.text_area :notes %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class="control-group">
+      <%= f.label :date, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.date_select :date, :class => 'date_select' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :start_time, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.time_select :start_time, :class => 'time_select' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :end_time, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.time_select :end_time, :class => 'time_select' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :notes, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :notes, :class => 'text_area' %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', shifts_path, :class => 'btn' %>
+    </div>
+  </fieldset>
 <% end %>

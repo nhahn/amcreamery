@@ -1,25 +1,32 @@
-<p id="notice"><%= notice %></p>
+<h1>/Shift</h1>
 
 <p>
-  <b>Date:</b>
+  <b>Assignment</b><br>
+  <%= @shift.assignment_id %>
+</p>
+
+<p>
+  <b>Date</b><br>
   <%= @shift.date %>
 </p>
 
 <p>
-  <b>Start time:</b>
+  <b>Start time</b><br>
   <%= @shift.start_time %>
 </p>
 
 <p>
-  <b>End time:</b>
+  <b>End time</b><br>
   <%= @shift.end_time %>
 </p>
 
 <p>
-  <b>Notes:</b>
+  <b>Notes</b><br>
   <%= @shift.notes %>
 </p>
 
-
-<%= link_to 'Edit', edit_shift_path(@shift) %> |
-<%= link_to 'Back', shifts_path %>
+<div class="form-actions">
+  <%= link_to 'Back', shifts_path, :class => 'btn'  %>
+  <%= link_to 'Edit', edit_shift_path(@shift), :class => 'btn' %>
+  <%= link_to 'Delete', shift_path(@shift), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div>

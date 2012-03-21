@@ -8,6 +8,9 @@ class ShiftTest < ActiveSupport::TestCase
   # Check relationships
   should belong_to(:assignment)
   should have_many(:jobs).through(:shift_jobs)
+  should have_one(:employee).through(:assignment)
+  should have_one(:store).through(:assignment)
+
 
   should validate_presence_of(:start_time)
   should validate_presence_of(:assignment_id)
@@ -43,10 +46,10 @@ class ShiftTest < ActiveSupport::TestCase
       
 
   	  @ShadyManagerShift = Factory.create(:shift, :assignment => @ShadyManagerAssignment, :notes => "Fun shift")
-      @ShadyManagerShift2 = Factory.create(:shift, :assignment => @ShadyManagerAssignment, :date => Date.yesterday)
+      @ShadyManagerShift2 = Factory.create(:shift, :assignment => @ShadyManagerAssignment, :date => Date.yesterday, :start_time =>Time.parse("12:30"), :end_time => Time.parse("15:45") )
       @OaklandManagerShift = Factory.create(:shift, :assignment => @OaklandManagerAssignment, :date => Date.today)
-      @OaklandManagerShift2 = Factory.create(:shift, :assignment => @OaklandManagerAssignment, :date => 5.days.ago)
-      @OaklandEmployeeShift = Factory.create(:shift, :assignment => @OaklandEmployeeAssignment, :date => 10.days.ago)
+      @OaklandManagerShift2 = Factory.create(:shift, :assignment => @OaklandManagerAssignment, :date => 5.days.ago, :start_time =>Time.parse("12:30"), :end_time => Time.parse("15:45") )
+      @OaklandEmployeeShift = Factory.create(:shift, :assignment => @OaklandEmployeeAssignment, :date => 10.days.ago, :start_time =>Time.parse("8:30"), :end_time => Time.parse("12:45"))
 
     end
 
@@ -90,6 +93,9 @@ class ShiftTest < ActiveSupport::TestCase
     should "show today's shifts" do
       assert_equal "Joe White", Shift.today.by_date.first.assignment.employee.proper_name 
     end
+	
+	should "show shifts in the pase" do
+		assert_equal ["Shady Guy","Tyler Mansfield","Joe White"], Shift.past.employee.alphabetical.proper_name
 
     should "not allow inactive assignment for a new shift" do
   	  @ShadyShift = Factory.build(:shift, :assignment => @OaklandManagerPrevAssignment, :notes => "FALSE!")

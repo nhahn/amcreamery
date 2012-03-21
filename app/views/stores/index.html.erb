@@ -1,39 +1,26 @@
-<h1>Listing stores</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Street</th>
-    <th>City</th>
-    <th>State</th>
-    <th>Zip</th>
-    <th>Phone</th>
-    <th>Latitude</th>
-    <th>Longitude</th>
-    <th>Active</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @stores.each do |store| %>
-  <tr>
-    <td><%= store.name %></td>
-    <td><%= store.street %></td>
-    <td><%= store.city %></td>
-    <td><%= store.state %></td>
-    <td><%= store.zip %></td>
-    <td><%= store.phone %></td>
-    <td><%= store.latitude %></td>
-    <td><%= store.longitude %></td>
-    <td><%= store.active %></td>
-    <td><%= link_to 'Show', store %></td>
-    <td><%= link_to 'Edit', edit_store_path(store) %></td>
-    <td><%= link_to 'Destroy', store, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+<h1>Stores</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Created at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @stores.each do |store| %>
+      <tr>
+        <td><%= store.id %></td>
+        <td><%= link_to store.name, store_path(store) %></td>
+        <td><%= store.created_at %></td>
+        <td>
+          <%= link_to 'Edit', edit_store_path(store), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', store_path(store), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New Store', new_store_path %>
+<%= link_to 'New', new_store_path, :class => 'btn btn-primary' %>
