@@ -20,6 +20,12 @@ class User < ActiveRecord::Base
   validates_length_of :password, :minimum => 4, :allow_blank => true
 
   # login can be either username or email address
+  
+  def role?(authorized_role)
+    return false if employee.role.nil?
+    employee.role.downcase.to_sym == authorized_role
+  end
+  
   def self.authenticate(login, pass)
     user = find_by_email(login)
     return user if user && user.password_hash == user.encrypt_password(pass)

@@ -5,7 +5,7 @@ gem 'nifty-generators'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
+ 
 gem 'sqlite3'
 gem 'validates_timeliness'
 gem 'nifty-generators'
