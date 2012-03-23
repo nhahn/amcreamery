@@ -73,7 +73,8 @@ class StoresController < ApplicationController
   # DELETE /stores/1.json
   def destroy
     @store = Store.find(params[:id])
-    @store.destroy
+    # We don't want to delete, just deactivate
+    @store.active = false
 
     respond_to do |format|
       format.html { redirect_to stores_url }
