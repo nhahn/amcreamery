@@ -1,26 +1,29 @@
-<h1>Employees</h1>
+<h2>Employees</h2>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>ID</th>
       <th>First name</th>
-      <th>Created at</th>
+      <th>Age</th>
+      <th>Store</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @employees.each do |employee| %>
       <tr>
-        <td><%= employee.id %></td>
-        <td><%= link_to employee.first_name, employee_path(employee) %></td>
-        <td><%= employee.created_at %></td>
+        <td><%= link_to employee.name, employee_path(employee) %></td>
+        <td><%= employee.age %>
+        <td><%= link_to employee.current_assignment.store.name, store_path(employee.current_assignment.store) unless employee.current_assignment.nil?%></td>
         <td>
-          <%= link_to 'Edit', edit_employee_path(employee), :class => 'btn btn-mini' %>
-          <%= link_to 'Destroy', employee_path(employee), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          <div class="btn-group">
+          <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_employee_path(employee), :class => 'btn btn-mini' %>
+          <%= link_to raw("<i class='icon-exclamation-sign icon-white'></i> Deactivate"), employee_path(employee), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          </div>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<%= will_paginate @employees, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
 
-<%= link_to 'New', new_employee_path, :class => 'btn btn-primary' %>
+<%= link_to raw("<i class='icon-plus icon-white'></i> Add a New Employee"), new_employee_path, :class => 'btn btn-primary' %>

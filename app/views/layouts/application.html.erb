@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
+    <title>A&M Creamery -- <%= controller.controller_name.capitalize%></title>
     <%= stylesheet_link_tag "application", :media => "all"%>
     <%= javascript_include_tag "application"%>
     <%= csrf_meta_tag %>
   </head>
   <body>
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".collapse">
@@ -19,24 +19,32 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li><%= link_to "Stores", stores_path %></li>
-              <li><%= link_to "Employees", employees_path %></li>
-              <li><%= link_to "Assignments", assignments_path %></li>
-              <li><%= link_to "Shifts", shifts_path %></li>
-              <li><%= link_to "Jobs", jobs_path %></li>
+              <%# if logged_in? %>
+                <li><%= link_to "Shifts", shifts_path %></li>
+                <li><%= link_to "Jobs", jobs_path %></li>
+                <%# if current_user.role == "owner" %>
+                  <li><%= link_to "Employees", employees_path %></li>
+                  <li><%= link_to "Assignments", assignments_path %></li>
+                <%# end %>
+              <%# end %>
             </ul>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Main Content -->
     <div id="container">
+      <% flash.each do |name, msg| %>
+        <div class="alert alert-<%= name == :notice ? "succes" : "error" %>">
+          <a class="close" data-dismiss="alert">&times;</a>
+          <%= msg %>
+        </div>
+      <% end %>
       <div class="row">
         <!-- main content in the two-thirds section -->
-        <div class="span8">
+        <div class="span12">
           <%= yield%>
-        </div>
-        <!-- quick links on the side in the one-third section -->
-        <div class="span4">
-          <%= render :partial => "partials/quick_links" %>
         </div>
       </div>
     </div>

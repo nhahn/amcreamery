@@ -2,7 +2,7 @@ class EmployeesController < ApplicationController
   # GET /employees
   # GET /employees.json
   def index
-    @employees = Employee.all
+    @employees = Employee.alphabetical.paginate(:page => params[:page]).per_page(7)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -73,7 +73,7 @@ class EmployeesController < ApplicationController
   # DELETE /employees/1.json
   def destroy
     @employee = Employee.find(params[:id])
-    @employee.destroy
+    @employee.active = false
 
     respond_to do |format|
       format.html { redirect_to employees_url }

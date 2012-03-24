@@ -22,6 +22,30 @@ footer {
   line-height: 1.5;
 }
 
+#footer a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+#footer a:hover {
+  color: #D0F7FF;
+  text-decoration: underline;
+}
+
+.navbar-inner {
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
+
+#footer {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-top: 0px;
+  background-color:#004080;
+  color: #ffffff;
+  text-align: center;
+}
+
 @import "twitter/bootstrap/responsive";
 
 // Set the correct sprite paths
@@ -38,3 +62,12 @@ footer {
 //
 // Example:
 // @linkColor: #ff0000;
+
+@navbarBackground: @grayLighter;
+@navbarBackgroundHighlight: @white;
+@navbarLinkBackgroundHover: lighten(@navbarBackground, 15%);
+@navbarHeight: 30px;
+@navbarLinkColor: @linkColor;
+@navbarLinkColorHover: lighten(@linkColor, 15%);
+@tableBackgroundAccent: #E8FFFF;
+@tableBackgroundHover: #f5f5f5;
