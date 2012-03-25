@@ -13,6 +13,7 @@ gem 'will_paginate'
 gem 'simple_form'
 gem 'cancan'
 gem 'chronic'
+gem 'nested_form'
 
 # Gems used only for assets and not required
 # in production environments by default.
