@@ -1,0 +1,35 @@
+<h1>/Store</h1>
+
+<p>
+  <b>Name</b><br>
+  <%= @store.name %>
+</p>
+
+<p>
+  <b>Address</b><br>
+  <%= @store.street %> <br>
+  <%= @store.state %>
+  <%= @store.city %>
+  <%= @store.zip %>
+</p>
+
+<p>
+  <b>Phone</b><br>
+  <%= number_to_phone(@store.phone, :area_code => true) %>
+</p>
+
+<p>
+  <b>Latitude</b><br>
+  <%= @store.latitude %>
+</p>
+
+<p>
+  <b>Longitude</b><br>
+  <%= @store.longitude %>
+</p>
+
+<p>
+  <b>Active</b><br>
+  <%= @store.active %>
+</p>
+

@@ -144,15 +144,15 @@ namespace :db do
           shift.assignment_id = assignment.id
           shift.date = number.days.ago 
           shift.start_time = (0..24).to_a.sample.hours.ago
-		  if (number < 0)
-			shift.end_time = shift.start_time + 4.hours + (2..59).to_a.sample.minutes
-		  else
-			shift.end_time = nil
-		  end
-		  shift.notes = Faker::Lorem.sentences
-        shift.save!
+       #   if (number < 0)
+       #     shift.end_time = shift.start_time + 4.hours + (2..59).to_a.sample.minutes
+       #   else
+       #     shift.end_time = nil
+       #   end
+          shift.notes = Faker::Lorem.sentences
+          shift.save!
+        end
       end
-    end
     
     # Step 8: Add some jobs..
     Job.populate 40 do |job|

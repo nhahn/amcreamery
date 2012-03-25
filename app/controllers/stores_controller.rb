@@ -14,6 +14,7 @@ class StoresController < ApplicationController
   # GET /stores/1.json
   def show
     @store = Store.find(params[:id])
+    @upcomingShifts = @store.shifts.upcomming.by_date
 
     respond_to do |format|
       format.html # show.html.erb
