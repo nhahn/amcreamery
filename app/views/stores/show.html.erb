@@ -8,7 +8,7 @@
 </div>
   <%# if current_user.role == "owner" %>
     <div class="form-actions">
-      <%= link_to raw("<i class='icon-th-list'></i> Display All Stores"), store_path, :class => 'btn'  %>&nbsp;&nbsp;
+      <%= link_to raw("<i class='icon-th-list'></i> Display All Stores"), stores_path, :class => 'btn'  %>&nbsp;&nbsp;
       <%= link_to raw("<i class='icon-pencil'></i> Edit This Store"), edit_store_path(@store), :class => 'btn' %>&nbsp;&nbsp;
       <%= link_to raw("<i class='icon-trash icon-white'></i> Deactivate Store"), store_path(@store), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %> 
     </div>
