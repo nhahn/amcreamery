@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
-  include ControllerAuthentication
-  
+  include SortIndex
+
   protect_from_forgery
 
     

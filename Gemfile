@@ -14,6 +14,7 @@ gem 'simple_form'
 gem 'cancan'
 gem 'chronic'
 gem 'nested_form'
+gem 'client_side_validations'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -26,8 +27,6 @@ group :assets do
   gem 'twitter-bootstrap-rails'
   gem 'uglifier', '>= 1.0.3'
 end
-
-gem 'jquery-rails'
 
 group :test do
   gem 'shoulda'

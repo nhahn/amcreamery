@@ -1,0 +1,27 @@
+<h2> Employee: <%= @employee.proper_name %></h2>
+
+<p>
+  <b>SSN</b><br>
+  <%= @employee.ssn.unpack("a3a2a*").join('-') %>
+</p>
+
+<p>
+  <b>Date of Birth</b><br>
+  <%= @employee.date_of_birth.strftime("%B %d %Y")%>
+</p>
+
+<p>
+  <b>Phone</b><br>
+  <%= number_to_phone(@employee.phone, :area_code => true) %>
+</p>
+
+<p>
+  <b>Role</b><br>
+  <%= @employee.role.capitalize %>
+</p>
+
+<p>
+  <b>Active</b><br>
+  <%= (@employee.active)? "Yes" : "No" %>
+</p>
+

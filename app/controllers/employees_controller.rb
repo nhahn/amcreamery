@@ -1,8 +1,18 @@
 class EmployeesController < ApplicationController
   # GET /employees
   # GET /employees.json
+  
+  INDEX_SORT = SortIndex::Config.new(
+    {'updated_at' => 'updated_at'},
+    {
+        'age' => 'date_of_birth',
+        'full_name' => 'UPPER(first_name), UPPER(last_name)',
+    }
+  )
+  
   def index
-    @employees = Employee.alphabetical.paginate(:page => params[:page]).per_page(7)
+    @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
+    @employees = Employee.paginate(:page => params[:page]).order(@sortable.order).per_page(15)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,6 +24,7 @@ class EmployeesController < ApplicationController
   # GET /employees/1.json
   def show
     @employee = Employee.find(params[:id])
+    @upcomingShifts = @employee.shifts.upcomming.by_date
 
     respond_to do |format|
       format.html # show.html.erb

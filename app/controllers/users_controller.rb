@@ -1,49 +1,46 @@
-ass UsersController < ApplicationController
-
-  def index
-    @users = User.alphabetical.paginate(:page => params[:page]).per_page(7)
-  end
-
-  def show
-    @user = User.find(params[:id])
-    @user_assignments = @user.assignments.active.by_project
-    @created_tasks = Task.for_creator(@user.id).by_name
-    @completed_tasks = Task.for_completer(@user.id).by_name
-  end
+class UsersController < ApplicationController
 
   def new
     @user = User.new
+    @employee = Employee.find_by_id(session[:employee])
   end
 
-  def edit
-    @user = User.find(params[:id])
+  def employeeSearch
+    @employee = Employee.new 
+  end
+
+  def lookupEmployee
+    employee = Employee.find_by_ssn(params[:employee][:email].gsub("-","").chomp)
+    if (!employee.nil? && employee.date_of_birth == Date.parse(params[:employee][:date_of_birth]))
+      session[:employee] = employee.id
+      redirect_to new_user_path
+    else
+      flash[:error] = "Could not find employee"
+      render :action => 'employeeSearch'
+    end
   end
 
   def create
     @user = User.new(params[:user])
+    @user.employee_id = session[:employee]
     if @user.save
       session[:user_id] = @user.id
-      redirect_to root_url, notice: "Thank you for signing up!"
+      redirect_to root_url, :notice => "Thank you for signing up! You are now logged in."
     else
-      flash[:error] = "This user could not be created."
-      render "new"
+      render :action => 'new'
     end
+  end
+
+  def edit
+    @user = current_user
   end
 
   def update
-    @user = User.find(params[:id])
+    @user = current_user
     if @user.update_attributes(params[:user])
-      flash[:notice] = "#{@user.proper_name} is updated."
-      redirect_to @user
+      redirect_to root_url, :notice => "Your profile has been updated."
     else
       render :action => 'edit'
     end
-  end
-
-  def destroy
-    @user = User.find(params[:id])
-    @user.destroy
-    flash[:notice] = "Successfully removed #{@user.proper_name} from Arbeit."
-    redirect_to users_url
   end
 end

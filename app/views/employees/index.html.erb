@@ -2,9 +2,9 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>First name</th>
-      <th>Age</th>
-      <th>Store</th>
+      <%= @sortable.header_link('full_name', 'Name').html_safe %>
+      <%= @sortable.header_link('age', 'Age').html_safe %>
+      <th> Store </th>
       <th>Actions</th>
     </tr>
   </thead>

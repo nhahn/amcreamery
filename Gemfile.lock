@@ -100,6 +100,7 @@ GEM
     mocha (0.10.3)
       metaclass (~> 0.0.1)
     multi_json (1.1.0)
+    nested_form (0.2.0)
     nifty-generators (0.4.6)
     nokogiri (1.5.2)
     nokogirl (1.0)
@@ -197,6 +198,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   mocha
+  nested_form
   nifty-generators
   nokogirl
   populator3

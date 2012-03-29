@@ -22,12 +22,12 @@ namespace :db do
     ae.role = "admin"
     ae.active = true
     ae.save!
-    # au = User.new
-    # au.email = "alex@example.com"
-    # au.password = "creamery"
-    # au.password_confirmation = "creamery"
-    # au.employee_id = ae.id
-    # au.save!
+     au = User.new
+     au.email = "alex@example.com"
+     au.password = "creamery"
+     au.password_confirmation = "creamery"
+     au.employee_id = ae.id
+     au.save!
     
     # Step 1b: Add Mark as employee and user
     me = Employee.new
@@ -39,12 +39,13 @@ namespace :db do
     me.active = true
     me.role = "admin"
     me.save!
-    # mu = User.new
-    # mu.email = "mark@example.com"
-    # mu.password = "creamery"
-    # mu.password_confirmation = "creamery"
-    # mu.employee_id = me.id
-    # mu.save!
+
+     mu = User.new
+     mu.email = "mark@example.com"
+     mu.password = "creamery"
+     mu.password_confirmation = "creamery"
+     mu.employee_id = me.id
+     mu.save!
     
     # Step 2: Add some stores
     stores = {"Carnegie Mellon" => "5000 Forbes Avenue;15213", "Convention Center" => "1000 Fort Duquesne Blvd;15222", "Point State Park" => "101 Commonwealth Place;15222"}

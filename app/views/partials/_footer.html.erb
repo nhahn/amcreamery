@@ -1,17 +1,15 @@
-<p>
-	<a href="#">Home</a>&nbsp;&nbsp;::&nbsp;&nbsp;
-	<a href="#">About Us</a>&nbsp;&nbsp;::&nbsp;&nbsp;
-	<a href="#">Contact Us</a>&nbsp;&nbsp;::&nbsp;&nbsp;
-	<a href="#">Back to top</a>
-</p>
-<div id="copyright">
-	<br />Webmaster: <script type="text/javascript">
-	<!--
-		// protected email script by Joe Maller. JavaScripts available at http://www.joemaller.com
-		// this script is free to use and distribute but please credit me and/or link to my site
-		emailE=('YOUR_ANDREW_ID_HERE' + '@andrew.cmu.edu')
-		document.write('<a href="mailto:' + emailE + '">' + 'YOUR NAME HERE' + '</a>')
-	//-->
-	</script>&nbsp;&nbsp;Copyright 2012 <a href="#">INITIALS</a>
+
+<div id="footer">
+
+	<%= link_to 'Home', home_path %>&nbsp;&nbsp;::&nbsp;&nbsp;
+  <%= link_to 'About A&M Creamery', about_path %>&nbsp;&nbsp;::&nbsp;&nbsp;
+	<%= link_to 'Contact Us', contact_path %>&nbsp;&nbsp;::&nbsp;&nbsp;
+	<%= link_to 'Privacy Policy', privacy_path %>
 	<br /><br />
+	
+	<div id="copy">
+		Webmaster: <%= mail_to("nhahn@andrew.cmu.edu", "Nathan Hahn", :encode => "javascript") %> 
+		&nbsp;&nbsp;&copy 2012
+	</div>
+
 </div>

@@ -1,15 +1,42 @@
 @import "twitter/bootstrap/bootstrap";
 
+//Good color AD9453, FFFFDA, ADDE4E, FF9D27, A62A16
 
 body {
   padding-top: 20px;
-  /*font-size: 14px;*/
-  background-color: #004080;
+  /*font-size: 14px;*
+  background-color: #FF9D27;
 }
 
 #wrapper {
   /*background-color: #004080;*/
   background-color: #ffffff;
+}
+
+#login-popover-container {
+  position: relative;
+}
+
+#login-popover-container .btn-group{
+  margin-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+
+}
+
+.navbar .brand {
+  padding: 2px 20px 2px;
+ }
+
+.navbar .btn, navbar .btn-group {
+  margin-top: 5px;
+}
+
+#container {
+  margin-top: 30px;
+  margin-left:auto;
+  margin-right:auto;
+  width: 70%;
 }
 
 .supertiny {
@@ -37,8 +64,8 @@ select.date { width: 90px; }
   margin-top: 15px;
   margin-bottom: 15px;
   padding-top: 0px;
-  background-color:#004080;
-  color: #ffffff;
+  background-color: @white;
+  color: #A62A16;
   text-align: center;
 }
 
@@ -47,7 +74,7 @@ select.date { width: 90px; }
 }
 
 #footer a { 
-  color: #ffffff;
+  color: #A62A16;
   text-decoration: none;
 }
 
@@ -95,7 +122,6 @@ select.date { width: 90px; }
 @navbarBackground: #4D9453;
 @navbarBackgroundHighlight: #ADDE4E;
 
-@linkColor: #FF9D27;
 
 @navbarLinkBackgroundHover: lighten(@navbarBackground, 15%);
 @navbarHeight: 30px;

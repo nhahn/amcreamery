@@ -1,13 +1,13 @@
 class User < ActiveRecord::Base
-  #Prepare the password to be saved  
-  before_save :prepare_password  
+  
+  has_secure_password
+
   # Relationships
   # ----------------------
   belongs_to :employee
     
   # new columns need to be added here to be writable through mass assignment
-  attr_accessible :email, :password, :password_confirmation
-  attr_accessor :password
+  attr_accessible :email, :password, :password_confirmation, :employee_id
 
   # Validations
   # ----------------------
@@ -27,21 +27,9 @@ class User < ActiveRecord::Base
   end
   
   def self.authenticate(login, pass)
-    user = find_by_email(login)
-    return user if user && user.password_hash == user.encrypt_password(pass)
+    find_by_email(login).try(:authenticate, pass)
   end
 
-  def encrypt_password(pass)
-    BCrypt::Engine.hash_secret(pass, password_salt)
-  end
-
-  private
-  def prepare_password
-    unless password.blank?
-      self.password_salt = BCrypt::Engine.generate_salt
-      self.password_hash = encrypt_password(password)
-    end
-  end
 end
 
 
