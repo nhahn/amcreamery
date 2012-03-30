@@ -18,9 +18,11 @@ class Employee < ActiveRecord::Base
   #ensure the ssn is the right length and has only dashes 
   validates_format_of :ssn, :with => /^\d{9}|\d{3}[-]\d{2}[-]\d{4}$/, :message => "should be 9 digits and delimited with dashes only"
   #ensure the phone number is the right length and formated the right way
-  validates_format_of :phone, :with => /^(\d{10}|\(?\d{3}\)?[-. ]\d{3}[-.]\d{4})$/, :message => "should be 10 digits (area code needed) and delimited with dashes only"
+  validates_format_of :phone, :with => /^(\d{10}|\(?\d{3}\)?[-. ]\d{3}[-.]\d{4})$/, :message => "should be 10 digits (area code needed) and delimited with dashes only", :allow_blank => true, :allow_nil => true
   #we want to limit possible roles to only employee, admin, and manager
   validates_format_of :role, :with => /employee|admin|manager/
+  #no one should have the same SSN....
+  validates_uniqueness_of :ssn
 
   # Scope
   # -------------------------

@@ -10,7 +10,7 @@ namespace :db do
     require 'faker'
     
     # Step 0: clear any old data in the db
-    [Employee, Assignment, Store, Shift, ShiftJob, Job].each(&:delete_all)
+    [User,Employee, Assignment, Store, Shift, ShiftJob, Job].each(&:delete_all)
     
     # Step 1a: Add Alex as admin and user
     ae = Employee.new

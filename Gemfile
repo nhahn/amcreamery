@@ -14,7 +14,6 @@ gem 'simple_form'
 gem 'cancan'
 gem 'chronic'
 gem 'nested_form'
-gem 'client_side_validations'
 
 # Gems used only for assets and not required
 # in production environments by default.
