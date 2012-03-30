@@ -9,6 +9,8 @@ class Employee < ActiveRecord::Base
   has_many :stores, :through => :assignments
   has_many :shifts, :through => :assignments
 
+  mount_uploader :photo, PhotoUploader
+
   # Validataions
   # -------------------------
   # ensure we have all required fields, first_name, last_name, date_of_birth, role, and ssn
