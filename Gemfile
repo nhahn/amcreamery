@@ -15,6 +15,7 @@ gem 'cancan'
 gem 'chronic'
 gem 'geokit'
 gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
+gem 'carrierwave'
 
 # Gems used only for assets and not required
 # in production environments by default.

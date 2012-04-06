@@ -1,8 +1,13 @@
-<%= simple_form_for @employee, :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for @employee, :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
   <fieldset>
   <legend><%= controller.action_name.capitalize %> Employee</legend>
 
     <%= f.input :first_name, :as => :string %> <%= f.input :last_name, :as => :string%>
+
+    <div class="field">
+      <%= f.label :photo %><br />
+      <%= f.file_field :photo %>
+    </div>
 
     <%= f.input :ssn %>
 

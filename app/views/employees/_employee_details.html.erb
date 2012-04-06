@@ -1,5 +1,9 @@
 <h2> Employee: <%= @employee.proper_name %></h2>
 
+<% unless @employee.photo_url.nil? %>
+  <p><%= image_tag @employee.photo_url %></p>
+<%end%>
+
 <p>
   <b>SSN</b><br>
   <%= @employee.ssn.unpack("a3a2a*").join('-') %>
