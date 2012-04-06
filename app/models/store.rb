@@ -2,7 +2,8 @@ class Store < ActiveRecord::Base
 
   # create a callback that will strip non-digits before saving to db
   before_save :reformat_phone
-  
+#  before_validation :geoCode
+
   # Relationships
   # ---------------------
   
@@ -43,6 +44,22 @@ class Store < ActiveRecord::Base
        phone = self.phone.to_s  # change to string in case input as all numbers       
        phone.gsub!(/[^0-9]/,"") # strip all non-digits
        self.phone = phone       # reset self.phone to new string
-     end   
+     end  
+
+  private
+   def geoCode 
+    coord = Geokit::Geocoders::GoogleGeocoder.geocode "#{street}, #{zip}"
+    if coord.success
+      self.state = coord.state
+      self.city = coord.city
+      self.latitude, self.longitude = coord.ll.split(',')
+    else
+      errors.add_to_base("Error with geocoding")
+    end
+   end
+
+   def create_map_link(zoom=13,width=400,height=400)
+     "http://maps.google.com/maps/api/staticmap?center=#{lat},#{lon}&zoom=#{zoom}&size=#{width}x#{height}&maptype=roadmap&markers=color:red%red7Ccolor:red%7Clabel:!%7C#{lattitude},#{longitude}&sensor=false"
+   end
 
 end

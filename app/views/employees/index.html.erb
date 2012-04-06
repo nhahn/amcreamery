@@ -11,7 +11,7 @@
   <tbody>
     <% @employees.each do |employee| %>
       <tr>
-        <td><%= link_to employee.name, employee_path(employee) %></td>
+        <td><%= link_to employee.proper_name, employee_path(employee) %></td>
         <td><%= employee.age %>
         <td><%= link_to employee.current_assignment.store.name, store_path(employee.current_assignment.store) unless employee.current_assignment.nil?%></td>
         <td>

@@ -26,6 +26,11 @@ class EmployeesController < ApplicationController
     @employee = Employee.find(params[:id])
     @upcomingShifts = @employee.shifts.upcomming.by_date
 
+    @date = Time.now
+    @date = @date - (@date.wday==0 ? 6 : @date.wday-1).days
+    @start_date = Date.new(@date.year, @date.month, @date.day)
+    @events = @employee.shifts.where('date between ? and ?', @start_date, @start_date+7).to_a
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @employee }

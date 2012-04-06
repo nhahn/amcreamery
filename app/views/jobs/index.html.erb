@@ -2,25 +2,27 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>ID</th>
       <th>Name</th>
-      <th>Created at</th>
+      <th>Active</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @jobs.each do |job| %>
       <tr>
-        <td><%= job.id %></td>
         <td><%= link_to job.name, job_path(job) %></td>
-        <td><%= job.created_at %></td>
+        <td><%= job.active ? "Yes" : "No" %></td>
         <td>
-          <%= link_to 'Edit', edit_job_path(job), :class => 'btn btn-mini' %>
-          <%= link_to 'Destroy', job_path(job), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          <div class="btn-group">
+          <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_job_path(job), :class => 'btn btn-mini' %>
+          <%= link_to raw("<i class='icon-exclamation-sign icon-white'></i> Deactivate"), job_path(job), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          </div>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to 'New', new_job_path, :class => 'btn btn-primary' %>
+<%= will_paginate @jobs, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
+
+<%= link_to raw("<i class='icon-plus icon-white'></i> Add a New Job") , new_job_path, :class => 'btn btn-primary' %>

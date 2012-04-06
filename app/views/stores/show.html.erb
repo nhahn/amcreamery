@@ -6,11 +6,23 @@
     <%= render :partial => "upcomming_shifts" %>
   </div>
 </div>
-  <%# if current_user.role == "owner" %>
+
+<div class="row">
+  <div class="span12">
+    <% weekly_calendar(@events, :date => @date, :include_24_hours => true) do |w|%>
+      <% w.week do |shift| %>
+      <%= shift.starts_at.strftime('%I:%M%p')%>
+      <%= link_to truncate(shift.employee.proper_name), shift_path(shift) %>
+      <% end %>
+    <% end %>
+
+  </div>
+</div>
+
+<% if logged_in? && current_user.employee.role == "admin" %>
     <div class="form-actions">
       <%= link_to raw("<i class='icon-th-list'></i> Display All Stores"), stores_path, :class => 'btn'  %>&nbsp;&nbsp;
       <%= link_to raw("<i class='icon-pencil'></i> Edit This Store"), edit_store_path(@store), :class => 'btn' %>&nbsp;&nbsp;
       <%= link_to raw("<i class='icon-trash icon-white'></i> Deactivate Store"), store_path(@store), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %> 
     </div>
-  <%#end %>
-</div>
+<%end %>

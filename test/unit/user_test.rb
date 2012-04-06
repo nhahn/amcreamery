@@ -36,14 +36,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_require_matching_password_confirmation
-    assert_equal ["doesn't match confirmation"], new_user(:password_confirmation => 'nonmatching').errors[:password]
-  end
-
-  def test_generate_password_hash_and_salt_on_create
-    user = new_user
-    user.save!
-    assert user.password_hash
-    assert user.password_salt
+    assert_equal ["doesn't match confirmation", "doesn't match confirmation"], new_user(:password_confirmation => 'nonmatching').errors[:password]
   end
 
   def test_authenticate_by_email
@@ -60,6 +53,6 @@ class UserTest < ActiveSupport::TestCase
   def test_authenticate_bad_password
     User.delete_all
     new_user(:email => 'foo@bar.com', :password => 'secret').save!
-    assert_nil User.authenticate('foo@bar.com', 'badpassword')
+    assert !User.authenticate('foo@bar.com', 'badpassword')
   end
 end

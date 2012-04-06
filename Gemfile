@@ -13,7 +13,8 @@ gem 'will_paginate'
 gem 'simple_form'
 gem 'cancan'
 gem 'chronic'
-gem 'nested_form'
+gem 'geokit'
+gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -36,7 +37,7 @@ group :test do
   gem 'cucumber-rails'
   gem 'capybara'
   gem 'launchy'
-  gem 'nokogirl'
+  gem 'nokogiri'
 end
 
 group :development do

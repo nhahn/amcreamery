@@ -13,9 +13,9 @@ class JobTest < ActiveSupport::TestCase
   
   context "Three stores, with five employees, each with an assignment to that store and a shift with jobs" do
     setup do
-      @SweepJob = Factory.create(:job)
-	    @DishJob = Factory.create(:job, :name => "Dishes", :description => "Do the dishes")
-	    @InactiveJob = Factory.create(:job, :name => "Inactive", :active => false)
+      @SweepJob = FactoryGirl.create(:job)
+	    @DishJob = FactoryGirl.create(:job, :name => "Dishes", :description => "Do the dishes")
+	    @InactiveJob = FactoryGirl.create(:job, :name => "Inactive", :active => false)
     end
 
     teardown do
@@ -24,7 +24,7 @@ class JobTest < ActiveSupport::TestCase
     end
 	
     should "not allow two jobs with the same name" do
-      @job = Factory.build(:job)
+      @job = FactoryGirl.build(:job)
       assert !@job.valid?
     end
 

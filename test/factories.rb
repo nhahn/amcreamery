@@ -3,7 +3,7 @@ FactoryGirl.define do
   factory :employee do
     first_name "John"
     last_name "Smith"
-    ssn "123456789"
+    ssn { rand(9 ** 9).to_s.rjust(9,'0') } 
     date_of_birth 20.years.ago
     phone "1234567890"
     role "employee"

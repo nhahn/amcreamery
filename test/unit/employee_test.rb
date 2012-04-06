@@ -39,24 +39,24 @@ class EmployeeTest < ActiveSupport::TestCase
 
   context "Three stores, with five employees, each with an assignment to that store" do
     setup do
-      @CMUStore = Factory.create(:store)
-      @ShadyStore = Factory.create(:store, :name=> "Shadyside", :street => "300 Negley Ave", :zip => "15218")
-      @OaklandStore = Factory.create(:store, :name=> "Oakland", :street => "200 5th Ave", :zip => "15222")
+      @CMUStore = FactoryGirl.create(:store)
+      @ShadyStore = FactoryGirl.create(:store, :name=> "Shadyside", :street => "300 Negley Ave", :zip => "15218")
+      @OaklandStore = FactoryGirl.create(:store, :name=> "Oakland", :street => "200 5th Ave", :zip => "15222")
 
-      @CMUManager = Factory.create(:employee, :role => "admin", :phone => "(703)-272-8443")
-      @CMUEmployee = Factory.create(:employee, :first_name => "Jim", :last_name => "Jones", :ssn => "123456789", :date_of_birth => 8.years.ago)
+      @CMUManager = FactoryGirl.create(:employee, :role => "admin", :phone => "(703)-272-8443")
+      @CMUEmployee = FactoryGirl.create(:employee, :first_name => "Jim", :last_name => "Jones", :ssn => "123456789", :date_of_birth => 8.years.ago)
 
-      @ShadyManager = Factory.create(:employee, :role => "manager", :first_name => "Shady", :last_name => "Guy", :date_of_birth => 30.years.ago)
+      @ShadyManager = FactoryGirl.create(:employee, :role => "manager", :first_name => "Shady", :last_name => "Guy", :date_of_birth => 30.years.ago)
 
-      @OaklandManager = Factory.create(:employee, :role => "admin", :first_name => "Joe", :last_name => "White", :date_of_birth => 40.years.ago)
-      @OaklandEmployee = Factory.create(:employee, :first_name => "Tyler", :last_name => "Mansfield", :date_of_birth => 14.years.ago, :active => false)
+      @OaklandManager = FactoryGirl.create(:employee, :role => "admin", :first_name => "Joe", :last_name => "White", :date_of_birth => 40.years.ago)
+      @OaklandEmployee = FactoryGirl.create(:employee, :first_name => "Tyler", :last_name => "Mansfield", :date_of_birth => 14.years.ago, :active => false)
 
-      @CMUManagerAssignment = Factory.create(:assignment, :store => @CMUStore, :employee => @CMUManager)
-      @CMUEmployeeAssignment = Factory.create(:assignment, :store => @CMUStore, :employee => @CMUEmployee, :start_date =>5.days.ago)
+      @CMUManagerAssignment = FactoryGirl.create(:assignment, :store => @CMUStore, :employee => @CMUManager)
+      @CMUEmployeeAssignment = FactoryGirl.create(:assignment, :store => @CMUStore, :employee => @CMUEmployee, :start_date =>5.days.ago)
 
-      @ShadyManagerAssignment = Factory.create(:assignment, :store => @ShadyStore, :employee => @ShadyManager, :start_date => 1.year.ago)
+      @ShadyManagerAssignment = FactoryGirl.create(:assignment, :store => @ShadyStore, :employee => @ShadyManager, :start_date => 1.year.ago)
 
-      @OaklandManagerAssignment = Factory.create(:assignment, :store => @OaklandStore, :employee => @OaklandManager, :start_date => 2.years.ago)
+      @OaklandManagerAssignment = FactoryGirl.create(:assignment, :store => @OaklandStore, :employee => @OaklandManager, :start_date => 2.years.ago)
 
     end
 
@@ -108,7 +108,7 @@ class EmployeeTest < ActiveSupport::TestCase
     end
 
     should "return nil if no current assignment is there for an employee" do
-      @employee = Factory.create(:employee, :first_name => "Nathan", :last_name => "Hahn", :ssn => "123456789", :date_of_birth => 20.years.ago)
+      @employee = FactoryGirl.build(:employee, :first_name => "Nathan", :last_name => "Hahn", :ssn => "123456789", :date_of_birth => 20.years.ago)
       assert !@employee.current_assignment
       @employee.destroy
     end

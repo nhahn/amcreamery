@@ -1,8 +1,18 @@
 class StoresController < ApplicationController
   # GET /stores
   # GET /stores.json
+
+  INDEX_SORT = SortIndex::Config.new(
+    {'name' => 'name'},
+    {
+        'name' => 'name',
+        'city' => 'city'
+    }
+  )
+
   def index
-    @stores = Store.alphabetical.paginate(:page => params[:page]).per_page(10)
+    @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
+    @stores = Store.paginate(:page => params[:page]).order(@sortable.order).per_page(10)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,6 +25,11 @@ class StoresController < ApplicationController
   def show
     @store = Store.find(params[:id])
     @upcomingShifts = @store.shifts.upcomming.by_date
+
+    @date = Time.now
+    @date = @date - (@date.wday==0 ? 6 : @date.wday-1).days
+    @start_date = Date.new(@date.year, @date.month, @date.day)
+    @events = @store.shifts.where('date between ? and ?', @start_date, @start_date+7).to_a
 
     respond_to do |format|
       format.html # show.html.erb

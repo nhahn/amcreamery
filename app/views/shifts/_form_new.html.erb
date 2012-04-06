@@ -1,0 +1,18 @@
+<%= simple_form_for @shift, :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend><%= controller.action_name.capitalize %> Shift</legend>
+
+    <%= f.association :assignment, :collection => Assignment.current.all, :label => 'Employee'%>
+
+    <%= f.input :date, :as => :string, :input_html => {:class => "datepicker"} %>
+
+    <%= f.input :start_time, :as => :time %>
+
+    <%= f.input :notes, :as => :text %>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', shifts_path, :class => 'btn' %>
+    </div>
+  </fieldset>
+<% end %>

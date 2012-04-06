@@ -21,35 +21,35 @@ class ShiftTest < ActiveSupport::TestCase
 
   context "Three stores, with five employees, each with an assignment to that store and two old assignments" do
     setup do
-      @CMUStore = Factory.create(:store)
-      @ShadyStore = Factory.create(:store, :name=> "Shadyside", :street => "300 Negley Ave", :zip => "15218")
-      @OaklandStore = Factory.create(:store, :name=> "Oakland", :street => "200 5th Ave", :zip => "15222")
+      @CMUStore = FactoryGirl.create(:store)
+      @ShadyStore = FactoryGirl.create(:store, :name=> "Shadyside", :street => "300 Negley Ave", :zip => "15218")
+      @OaklandStore = FactoryGirl.create(:store, :name=> "Oakland", :street => "200 5th Ave", :zip => "15222")
 
-      @CMUManager = Factory.create(:employee, :role => "admin")
-      @CMUEmployee = Factory.create(:employee, :first_name => "Jim", :last_name => "Jones", :date_of_birth => 8.years.ago)
+      @CMUManager = FactoryGirl.create(:employee, :role => "admin")
+      @CMUEmployee = FactoryGirl.create(:employee, :first_name => "Jim", :last_name => "Jones", :date_of_birth => 8.years.ago)
 
-      @ShadyManager = Factory.create(:employee, :role => "manager", :first_name => "Shady", :last_name => "Guy", :date_of_birth => 30.years.ago)
+      @ShadyManager = FactoryGirl.create(:employee, :role => "manager", :first_name => "Shady", :last_name => "Guy", :date_of_birth => 30.years.ago)
 
-      @OaklandManager = Factory.create(:employee, :role => "admin", :first_name => "Joe", :last_name => "White", :date_of_birth => 40.years.ago)
-      @OaklandEmployee = Factory.create(:employee, :first_name => "Tyler", :last_name => "Mansfield", :date_of_birth => 14.years.ago)
+      @OaklandManager = FactoryGirl.create(:employee, :role => "admin", :first_name => "Joe", :last_name => "White", :date_of_birth => 40.years.ago)
+      @OaklandEmployee = FactoryGirl.create(:employee, :first_name => "Tyler", :last_name => "Mansfield", :date_of_birth => 14.years.ago)
 
-      @CMUManagerAssignment = Factory.create(:assignment, :store => @CMUStore, :employee => @CMUManager)
-      @CMUEmployeeAssignment = Factory.create(:assignment, :store => @CMUStore, :employee => @CMUEmployee, :start_date =>5.days.ago, :pay_level => 3)
+      @CMUManagerAssignment = FactoryGirl.create(:assignment, :store => @CMUStore, :employee => @CMUManager)
+      @CMUEmployeeAssignment = FactoryGirl.create(:assignment, :store => @CMUStore, :employee => @CMUEmployee, :start_date =>5.days.ago, :pay_level => 3)
 
-      @OaklandManagerPrevAssignment = Factory.create(:assignment, :store => @CMUStore, :employee => @OaklandManager, :start_date => 3.years.ago, :end_date => 2.years.ago)
-      @CMUEmployeePrevAssignment = Factory.create(:assignment, :store => @ShadyStore, :employee => @CMUEmployee, :start_date => 1.year.ago, :end_date => 5.days.ago)
+      @OaklandManagerPrevAssignment = FactoryGirl.create(:assignment, :store => @CMUStore, :employee => @OaklandManager, :start_date => 3.years.ago, :end_date => 2.years.ago)
+      @CMUEmployeePrevAssignment = FactoryGirl.create(:assignment, :store => @ShadyStore, :employee => @CMUEmployee, :start_date => 1.year.ago, :end_date => 5.days.ago)
       
-      @ShadyManagerAssignment = Factory.create(:assignment, :store => @ShadyStore, :employee => @ShadyManager, :start_date => 1.year.ago)
+      @ShadyManagerAssignment = FactoryGirl.create(:assignment, :store => @ShadyStore, :employee => @ShadyManager, :start_date => 1.year.ago)
 
-      @OaklandManagerAssignment = Factory.create(:assignment, :store => @OaklandStore, :employee => @OaklandManager, :start_date => 2.years.ago, :pay_level => 4)
-      @OaklandEmployeeAssignment = Factory.create(:assignment, :store => @OaklandStore, :employee => @OaklandEmployee, :start_date => 4.months.ago)
+      @OaklandManagerAssignment = FactoryGirl.create(:assignment, :store => @OaklandStore, :employee => @OaklandManager, :start_date => 2.years.ago, :pay_level => 4)
+      @OaklandEmployeeAssignment = FactoryGirl.create(:assignment, :store => @OaklandStore, :employee => @OaklandEmployee, :start_date => 4.months.ago)
       
 
-  	  @ShadyManagerShift = Factory.create(:shift, :assignment => @ShadyManagerAssignment, :notes => "Fun shift")
-      @ShadyManagerShift2 = Factory.create(:shift, :assignment => @ShadyManagerAssignment, :date => Date.yesterday, :start_time =>Time.parse("12:30"), :end_time => Time.parse("15:45") )
-      @OaklandManagerShift = Factory.create(:shift, :assignment => @OaklandManagerAssignment, :date => Date.today)
-      @OaklandManagerShift2 = Factory.create(:shift, :assignment => @OaklandManagerAssignment, :date => 5.days.ago, :start_time =>Time.parse("12:30"), :end_time => Time.parse("15:45") )
-      @OaklandEmployeeShift = Factory.create(:shift, :assignment => @OaklandEmployeeAssignment, :date => 10.days.ago, :start_time =>Time.parse("8:30"), :end_time => Time.parse("12:45"))
+  	  @ShadyManagerShift = FactoryGirl.create(:shift, :assignment => @ShadyManagerAssignment, :notes => "Fun shift")
+      @ShadyManagerShift2 = FactoryGirl.create(:shift, :assignment => @ShadyManagerAssignment, :date => Date.yesterday, :start_time =>Time.parse("12:30"), :end_time => Time.parse("15:45") )
+      @OaklandManagerShift = FactoryGirl.create(:shift, :assignment => @OaklandManagerAssignment, :date => Date.today)
+      @OaklandManagerShift2 = FactoryGirl.create(:shift, :assignment => @OaklandManagerAssignment, :date => 5.days.ago, :start_time =>Time.parse("12:30"), :end_time => Time.parse("15:45") )
+      @OaklandEmployeeShift = FactoryGirl.create(:shift, :assignment => @OaklandEmployeeAssignment, :date => 10.days.ago, :start_time =>Time.parse("8:30"), :end_time => Time.parse("12:45"))
 
     end
 
@@ -98,20 +98,21 @@ class ShiftTest < ActiveSupport::TestCase
 		assert_equal ["Shady Guy","Tyler Mansfield","Joe White"], Shift.past.employee.alphabetical.proper_name
 
     should "not allow inactive assignment for a new shift" do
-  	  @ShadyShift = Factory.build(:shift, :assignment => @OaklandManagerPrevAssignment, :notes => "FALSE!")
+  	  @ShadyShift = FactoryGirl.build(:shift, :assignment => @OaklandManagerPrevAssignment, :notes => "FALSE!")
       assert !@ShadyShift.valid?
     end
 
     should "not allow disassociated assignment for a shift" do
-      @FakeShift = Factory.build(:assignment, :store => @CMUStore, :employee => @OaklandManager)
-  	  @ShadyShift = Factory.build(:shift, :assignment => @FakeShift, :notes => "FALSE!")
+      @FakeShift = FactoryGirl.build(:assignment, :store => @CMUStore, :employee => @OaklandManager)
+  	  @ShadyShift = FactoryGirl.build(:shift, :assignment => @FakeShift, :notes => "FALSE!")
       assert !@ShadyShift.valid?
     end
 
     should "not allow end time to be before the start time" do
-      @Shift = Factory.build(:shift, :assignment => @OaklandManagerAssignment, :start_time => Time.now, :end_time => 1.hour.ago)
+      @Shift = FactoryGirl.build(:shift, :assignment => @OaklandManagerAssignment, :start_time => Time.now, :end_time => 1.hour.ago)
       assert !@Shift.valid?
     end
 
+    end
   end
 end

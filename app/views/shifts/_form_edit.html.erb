@@ -1,0 +1,27 @@
+<%= simple_nested_form_for @shift, :html => { :class => 'form-horizontal' } do |f| -%>
+  <fieldset>
+    <legend><%= controller.action_name.capitalize %> Shift</legend>
+
+    <%= f.association :assignment %>
+
+    <%= f.input :date, :as => :string, :input_html => {:class => "datepicker"} %>
+
+    <%= f.input :start_time, :as => :time %>
+
+    <%= f.input :end_time, :as => :time %>
+
+    <%= f.input :notes, :as => :text %>
+
+    <%= f.fields_for :shift_jobs do |job| -%>
+      <%= job.association :job, :collection => Job.active.alphabetical.all %>
+      <%= job.link_to_remove 'Remove' %>
+    <% end -%>
+
+    <%= f.link_to_add 'Add new task', :shift_jobs %>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', shifts_path, :class => 'btn' %>
+    </div>
+  </fieldset>
+<% end -%>

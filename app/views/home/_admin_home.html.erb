@@ -1,0 +1,34 @@
+<h2>Welcome back, <%= current_user.name %></h2>
+
+<div class="row">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <%= @sortable.header_link('store', 'Store').html_safe %>
+      <%= @sortable.header_link('employee', 'Number of Employees').html_safe %>
+      <%= @sortable.header_link('hours', 'Hours Worked').html_safe %>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @stores.each do |store| %>
+      <tr>
+        <td><%= link_to store.name, store_path(store) %></td>
+        <td><%= Assignment.current.where(:store_id => store.id).count %>
+        <td><%= store.shifts.past.all.inject{|sum, n| sum + n.hours}%></td>
+        <td>
+          <div class="btn-group">
+          <%= link_to raw("<i class='icon-plus icon-white'></i> New Employee"), new_employee_path, :class => 'btn btn-mini'  %>&nbsp;&nbsp;
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<div class="form-actions">
+  <%= link_to raw("<i class='icon-plus icon-white'></i> New Employee"), new_employee_path, :class => 'btn btn-primary'  %>&nbsp;&nbsp;
+  <%= link_to raw("<i class='icon-plus icon-white'></i> New Job"), new_job_path, :class => 'btn btn-primary'  %>&nbsp;&nbsp;
+  <%= link_to raw("<i class='icon-plus icon-white'></i> New Shift"), new_shift_path, :class => 'btn btn-primary'  %>&nbsp;&nbsp;
+</div>

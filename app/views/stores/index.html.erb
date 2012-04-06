@@ -2,9 +2,10 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Name</th>
+      <%= @sortable.header_link('name', 'Name').html_safe %>
       <th>Active</th>
       <th>Street</th>
+      <%=@sortable.header_link('city', 'City').html_safe %>
       <th>Actions</th>
     </tr>
   </thead>
@@ -14,6 +15,7 @@
         <td><%= link_to store.name, store_path(store) %></td>
         <td><%= store.active ? "Yes" : "No" %></td>
         <td><%= store.street %></td>
+        <td><%= store.city %></td>
         <td>
          <div class="btn-group">
           <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_store_path(store), :class => 'btn btn-mini' %>
