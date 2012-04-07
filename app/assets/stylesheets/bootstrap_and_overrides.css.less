@@ -101,6 +101,49 @@ select.date { width: 90px; }
 }
 
 
+// ---------------------------------------------------------------
+
+
+  .navbar .dropdown-menu:not([data-no-collapse="true"]) a {
+    padding: 6px 15px;
+    font-weight: bold;
+    color: @navbarLinkColor;
+    .border-radius(3px);
+  }
+  .navbar .dropdown-menu:not([data-no-collapse="true"]) li + li a {
+    margin-bottom: 2px;
+  }
+  .navbar .nav > li > a:hover,
+  .navbar .dropdown-menu:not([data-no-collapse="true"]) a:hover {
+    background-color: @navbarBackground;
+  }
+  // Dropdowns in the navbar
+  .navbar .dropdown-menu:not([data-no-collapse="true"]) {
+    position: static;
+    top: auto;
+    left: auto;
+    float: none;
+    display: block;
+    max-width: none;
+    margin: 0 15px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    .border-radius(0);
+    .box-shadow(none);
+  }
+  .navbar .dropdown-menu:before,
+  .navbar .dropdown-menu:after {
+    display: none;
+  }
+  .navbar .dropdown-menu:not([data-no-collapse="true"]) .divider {
+    display: none;
+  }
+
+
+// ---------------------------------------------------------------
+
+
 @import "twitter/bootstrap/responsive";
 
 // Set the correct sprite paths

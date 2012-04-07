@@ -1,7 +1,9 @@
 class EmployeesController < ApplicationController
   # GET /employees
   # GET /employees.json
-  
+
+  authorize_resource
+
   INDEX_SORT = SortIndex::Config.new(
     {'updated_at' => 'updated_at'},
     {
@@ -24,7 +26,7 @@ class EmployeesController < ApplicationController
   # GET /employees/1.json
   def show
     @employee = Employee.find(params[:id])
-    @upcomingShifts = @employee.shifts.upcomming.by_date
+    @upcomingShifts = @employee.shifts.upcomming.chronological
 
     @date = Time.now
     @date = @date - (@date.wday==0 ? 6 : @date.wday-1).days

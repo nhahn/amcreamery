@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   # login can be either username or email address
   
   def role?(authorized_role)
-    return false if employee.role.nil?
+    return false if employee.nil?
     employee.role.downcase.to_sym == authorized_role
   end
   

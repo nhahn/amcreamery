@@ -2,18 +2,18 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Store</th>
-      <th>Created at</th>
+      <%= @sortable.header_link('employee', 'Employee').html_safe %>
+      <%= @sortable.header_link('store', 'Store').html_safe %>
+      <%= @sortable.header_link('pay', 'Pay Level').html_safe %>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @assignments.each do |assignment| %>
       <tr>
-        <td><%= assignment.id %></td>
-        <td><%= link_to assignment.store_id, assignment_path(assignment) %></td>
-        <td><%= assignment.created_at %></td>
+        <td><%= link_to assignment.employee.proper_name, employee_path(assignment.employee) %></td>
+        <td><%= link_to assignment.store.name, store_path(assignment.store) %></td>
+        <td><%= assignment.pay_level %></td>
         <td>
           <%= link_to 'Edit', edit_assignment_path(assignment), :class => 'btn btn-mini' %>
           <%= link_to 'Destroy', assignment_path(assignment), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
@@ -23,4 +23,6 @@
   </tbody>
 </table>
 
-<%= link_to 'New', new_assignment_path, :class => 'btn btn-primary' %>
+<%= will_paginate @assignments, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
+
+<%= link_to raw("<i class='icon-plus icon-white'></i> Add a new Assignment"), new_assignment_path, :class => 'btn btn-primary' %>

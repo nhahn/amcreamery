@@ -1,8 +1,21 @@
 class AssignmentsController < ApplicationController
   # GET /assignments
   # GET /assignments.json
+
+  authorize_resource
+
+  INDEX_SORT = SortIndex::Config.new(
+    {'start_date' => 'start_date'},
+    {   
+        'employee' => 'UPPER(first_name), UPPER(last_name)',
+        'store' => 'name',
+        'pay' => 'pay_level'
+    }   
+  ) 
+
   def index
-    @assignments = Assignment.all
+    @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
+    @assignments = Assignment.joins(:employee).joins(:store).paginate(:page => params[:page]).order(@sortable.order).per_page(15)
 
     respond_to do |format|
       format.html # index.html.erb

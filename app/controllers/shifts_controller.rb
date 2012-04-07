@@ -1,6 +1,9 @@
 class ShiftsController < ApplicationController
   # GET /shifts
   # GET /shifts.json
+
+  authorize_resource
+
   def index
     @shifts = Shift.all
 

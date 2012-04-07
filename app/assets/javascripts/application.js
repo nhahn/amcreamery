@@ -11,9 +11,9 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require twitter/bootstrap
 //= require jquery_ujs
 //= require jquery-ui
-//= require twitter/bootstrap
 //= require jquery_nested_form
 //= require_tree .
 

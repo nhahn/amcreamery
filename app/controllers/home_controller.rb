@@ -1,15 +1,29 @@
 class HomeController < ApplicationController
+
+  INDEX_SORT = SortIndex::Config.new(
+    {'store' => 'name'},
+    {   
+        'store' => 'name', 
+    }   
+  )
+
   def home
     if logged_in?
-      # # get my projects
-      # @projects = current_user.projects.all
-      # project_ids = @projects.map{|p| p.id}
-      # 
-      # # get my incomplete tasks
-      # @incomplete_tasks = Task.by_priority.incomplete.map{|task| task if project_ids.include?(task.project_id)}
-      # 
-      # # get my completed tasks
-      # @completed_tasks = Task.by_name.completed.map {|task| task if project_ids.include?(task.project_id) }
+      if  current_user.employee.role == "admin"
+        @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
+        @stores = Store.paginate(:page => params[:page]).order(@sortable.order).per_page(10)
+         
+        @date = Time.now
+        @date = @date - (@date.wday==0 ? 6 : @date.wday-1).days
+        @start_date = Date.new(@date.year, @date.month, @date.day)
+        @events = Shift.where('date between ? and ?', @start_date, @start_date+7).to_a
+
+
+      elsif current_user.employee.role == "manager"
+
+      elsif current_user.employee.role == "employee"
+
+      end
     end
   end
 

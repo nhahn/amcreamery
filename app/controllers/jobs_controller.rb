@@ -1,6 +1,9 @@
 class JobsController < ApplicationController
   # GET /jobs
   # GET /jobs.json
+
+  authorize_resource
+
   def index
     @jobs = Job.alphabetical.paginate(:page => params[:page]).per_page(15)
 

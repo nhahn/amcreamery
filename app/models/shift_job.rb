@@ -14,7 +14,7 @@ class ShiftJob < ActiveRecord::Base
   
   validates_presence_of :shift_id, :job_id
   validates_associated :job, :shift
-  validates :valid_shift
+  validate :valid_shift
 
   def valid_shift
     return shift.date < Date.current || (shift.date.to_s == Date.current.to_s && shift.end_time <= Time.now)

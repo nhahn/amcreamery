@@ -24,7 +24,7 @@ class StoresController < ApplicationController
   # GET /stores/1.json
   def show
     @store = Store.find(params[:id])
-    @upcomingShifts = @store.shifts.upcomming.by_date
+    @upcomingShifts = @store.shifts.upcomming.chronological
 
     @date = Time.now
     @date = @date - (@date.wday==0 ? 6 : @date.wday-1).days

@@ -138,7 +138,7 @@ namespace :db do
     # Step 7: Add some shifts for employees
     current_assignments = Assignment.current.for_role("employee").all
     current_assignments.each do |assignment|
-      numShifts = rand(4)
+      numShifts = rand(8)
       unless numShifts.zero?
         number = (-10..20).to_a.sample
         shift = Shift.new
@@ -171,7 +171,7 @@ namespace :db do
   		shiftJob = ShiftJob.new
   		shiftJob.shift_id = shift.id
   		shiftJob.job_id = Job.all.sample
-  		shiftJob.save!
+  		shiftJob.save! if shiftJob.valid?
     end
 	end
  end
