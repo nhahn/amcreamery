@@ -11,27 +11,29 @@ class Employee < ActiveRecord::Base
 
   mount_uploader :photo, PhotoUploader
 
+  ROLES_LIST = [['Employee', 'employee'],['Manager', 'manager'],['Administrator', 'admin']]
+
   # Validataions
   # -------------------------
   # ensure we have all required fields, first_name, last_name, date_of_birth, role, and ssn
   validates_presence_of :first_name, :last_name, :date_of_birth, :role, :ssn
   # make sure the date_of_birth is valid aka before today
-  validates_date :date_of_birth, :on_or_before => lambda { Date.current }
+  validates_date :date_of_birth, :on_or_before => lambda { 14.years.ago }
   #ensure the ssn is the right length and has only dashes 
-  validates_format_of :ssn, :with => /^\d{9}|\d{3}[-]\d{2}[-]\d{4}$/, :message => "should be 9 digits and delimited with dashes only"
+  validates_format_of :ssn, :with => /^\d{3}[- ]?\d{2}[- ]?\d{4}$/, :message => "should be 9 digits and delimited with dashes only"
   #ensure the phone number is the right length and formated the right way
   validates_format_of :phone, :with => /^(\d{10}|\(?\d{3}\)?[-. ]\d{3}[-.]\d{4})$/, :message => "should be 10 digits (area code needed) and delimited with dashes only", :allow_blank => true, :allow_nil => true
   #we want to limit possible roles to only employee, admin, and manager
-  validates_format_of :role, :with => /employee|admin|manager/
+  validates_inclusion_of :role, :in => %w[admin manager employee], :message => "is not an option" 
   #no one should have the same SSN....
   validates_uniqueness_of :ssn
 
   # Scope
   # -------------------------
   #list all employees that are under 18
-  scope :younger_than_18, lambda { where('date_of_birth > ?', 18.years.ago.strftime("%Y-%m-%d"))}
+  scope :younger_than_18, lambda { where('date_of_birth > ?', 18.years.ago.to_date)}
   #lists all employees that are 18 or older
-  scope :is_18_or_older, lambda { where('date_of_birth <= ?', 18.years.ago.strftime("%Y-%m-%d"))}
+  scope :is_18_or_older, lambda { where('date_of_birth <= ?', 18.years.ago.to_date)}
   #returns active employees in the system
   scope :active, where('active = ?', true)
   #returns incative employees in the system
@@ -64,7 +66,7 @@ class Employee < ActiveRecord::Base
 
   #true if employee is over 18
   def over_18?
-    date_of_birth <= 18.years.ago.strftime("%Y-%m-%d") 
+    date_of_birth <= 18.years.ago.to_date 
   end
    
   #get the age of an employe

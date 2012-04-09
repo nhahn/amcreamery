@@ -4,6 +4,8 @@ class Store < ActiveRecord::Base
   before_save :reformat_phone
 #  before_validation :geoCode
 
+STATES_LIST = [['Ohio', 'OH'],['Pennsylvania', 'PA'],['West Virginia', 'WV']]
+
   # Relationships
   # ---------------------
   
@@ -14,7 +16,7 @@ class Store < ActiveRecord::Base
   # Validations
   # ---------------------
   # Check to see if all the required fields are present
-  validates_presence_of :name, :street, :zip
+  validates_presence_of :name, :street, :city
   # Makre sure we are only in the state of PA, OH, and WV
   validates_inclusion_of :state, :in => %w[PA OH WV], :message => "is not an option", :allow_nil =>true, :allow_blank=>true
   #Check zipcode length
