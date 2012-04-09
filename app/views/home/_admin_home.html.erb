@@ -18,7 +18,7 @@
         <td><%= store.shifts.for_past_days(14).inject(0){|sum, n| sum + n.hours}%></td>
         <td>
           <div class="btn-group">
-          <%= link_to raw("<i class='icon-plus'></i> New Employee"), new_employee_path, :class => 'btn btn-mini'  %>&nbsp;&nbsp;
+          <%= link_to raw("<i class='icon-plus'></i> New Employee"), new_assignment_path(:id => store.id, :source => 'store'), :class => 'btn btn-mini'  %>&nbsp;&nbsp;
           </div>
         </td>
       </tr>

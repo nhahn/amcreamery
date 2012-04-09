@@ -21,6 +21,7 @@
 
     <div class="form-actions">
       <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to raw("<i class='icon-plus icon-white'></i> New Shift"), new_shift_path(:id => f.assignments.current.first), :class => 'btn btn-primary' %>
       <%= link_to 'Cancel', employees_path, :class => 'btn' %>
     </div>
   </fieldset>

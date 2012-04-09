@@ -10,6 +10,8 @@ class StoresController < ApplicationController
     }
   )
 
+  authorize_resource
+
   def index
     @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
     @stores = Store.paginate(:page => params[:page]).order(@sortable.order).per_page(10)

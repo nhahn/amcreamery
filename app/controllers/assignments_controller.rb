@@ -38,7 +38,7 @@ class AssignmentsController < ApplicationController
   # GET /assignments/new.json
   def new
     @assignment = Assignment.new
-
+    @assignment.store_id = params[:id] unless params[:id].nil?
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @assignment }

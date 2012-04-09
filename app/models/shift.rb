@@ -18,7 +18,7 @@ class Shift < ActiveRecord::Base
 
   # Validations
   # ----------------------
-  validates_presence_of :start_time, :date, :assignment_id
+  validates_presence_of :start_time, :date
   # Checks that date is infact a valid data
   validates_date :date
   # Checks that start time is a valid time

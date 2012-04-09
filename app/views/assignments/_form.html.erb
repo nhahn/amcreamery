@@ -1,41 +1,16 @@
-<%= form_for @assignment, :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for @assignment, :html => { :class => 'form-horizontal' } do |f| %>
   <fieldset>
-    <legend><%= controller.action_name.capitalize %> /Assignment</legend>
+    <legend><%= controller.action_name.capitalize %> Assignment</legend>
 
-    <div class="control-group">
-      <%= f.label :store_id, :class => 'control-label' %>
-      <div class="controls">
-        <%= f.number_field :store_id, :class => 'number_field' %>
-      </div>
-    </div>
+    <%= f.association :store, :collection => Store.alphabetical.active.all%>
 
-    <div class="control-group">
-      <%= f.label :employee_id, :class => 'control-label' %>
-      <div class="controls">
-        <%= f.number_field :employee_id, :class => 'number_field' %>
-      </div>
-    </div>
+    <%= f.association :employee, :collection => Employee.alphabetical.active.all%>
 
-    <div class="control-group">
-      <%= f.label :start_date, :class => 'control-label' %>
-      <div class="controls">
-        <%= f.date_select :start_date, :class => 'date_select' %>
-      </div>
-    </div>
+    <%= f.input :start_date, :as => :string, :input_html => {:class => "datepicker"} %>
 
-    <div class="control-group">
-      <%= f.label :end_date, :class => 'control-label' %>
-      <div class="controls">
-        <%= f.date_select :end_date, :class => 'date_select' %>
-      </div>
-    </div>
+    <%= f.input :end_date, :as => :string, :input_html => {:class => "datepicker"} %>
 
-    <div class="control-group">
-      <%= f.label :pay_level, :class => 'control-label' %>
-      <div class="controls">
-        <%= f.number_field :pay_level, :class => 'number_field' %>
-      </div>
-    </div>
+    <%= f.input :pay_level, :collection => (1..6) %>
 
     <div class="form-actions">
       <%= f.submit nil, :class => 'btn btn-primary' %>

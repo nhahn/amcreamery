@@ -2,7 +2,7 @@
   <fieldset>
     <legend><%= controller.action_name.capitalize %> Shift</legend>
 
-    <%= f.association :assignment, :collection => Assignment.current.all, :label => 'Employee'%>
+    <%= f.input :employee, :collection => Employee.active, :label => 'Employee'%>
 
     <%= f.input :date, :as => :string, :input_html => {:class => "datepicker"} %>
 
