@@ -20,6 +20,7 @@ FactoryGirl.define do
   factory :store do
     name "CMU"
     street "5000 Forbes Ave"
+    city "Pittsburgh"
     zip "15213"
     phone "4125555555"
     latitude 40.5

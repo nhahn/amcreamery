@@ -12,7 +12,7 @@ class StoreTest < ActiveSupport::TestCase
   # Validation macros
   should validate_presence_of(:name)
   should validate_presence_of(:street)
-  should validate_presence_of(:zip)
+  should validate_presence_of(:city)
   # -------------------------------
   # Test scopes and other methods
 
@@ -25,12 +25,12 @@ class StoreTest < ActiveSupport::TestCase
       @InactiveStore = FactoryGirl.create(:store, :name=> "Inactive", :active => false)
 
       @CMUManager = FactoryGirl.create(:employee, :role => "admin")
-      @CMUEmployee = FactoryGirl.create(:employee, :first_name => "Jim", :last_name => "Jones", :date_of_birth => 8.years.ago)
+      @CMUEmployee = FactoryGirl.create(:employee, :first_name => "Jim", :last_name => "Jones", :date_of_birth => 15.years.ago)
 
       @ShadyManager = FactoryGirl.create(:employee, :role => "manager", :first_name => "Shady", :last_name => "Guy", :date_of_birth => 30.years.ago)
 
       @OaklandManager = FactoryGirl.create(:employee, :role => "admin", :first_name => "Joe", :last_name => "White", :date_of_birth => 40.years.ago)
-      @OaklandEmployee = FactoryGirl.create(:employee, :first_name => "Tyler", :last_name => "Mansfield", :date_of_birth => 14.years.ago)
+      @OaklandEmployee = FactoryGirl.create(:employee, :first_name => "Tyler", :last_name => "Mansfield", :date_of_birth => 17.years.ago)
 
       @CMUManagerAssignment = FactoryGirl.create(:assignment, :store => @CMUStore, :employee => @CMUManager)
       @CMUEmployeeAssignment = FactoryGirl.create(:assignment, :store => @CMUStore, :employee => @CMUEmployee, :start_date =>5.days.ago)

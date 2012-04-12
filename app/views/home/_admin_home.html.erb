@@ -28,15 +28,7 @@
 </div>
 
 <div class="row">
-  <div class="span12">
-    <% weekly_calendar(@events, :date => @date, :include_24_hours => true) do |w|%>
-      <% w.week do |shift| %>
-      <%= shift.starts_at.strftime('%I:%M%p')%>
-      <%= link_to truncate(shift.employee.proper_name), shift_path(shift) %>
-      <% end %>
-    <% end %>
-
-  </div>
+  <%= render :partial => 'shared/calendar' %>
 </div>
 
 <div class="form-actions">

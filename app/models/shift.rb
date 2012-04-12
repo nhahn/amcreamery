@@ -8,7 +8,7 @@ class Shift < ActiveRecord::Base
   # ----------------------
 
   belongs_to :assignment
-  has_many :shift_jobs
+  has_many :shift_jobs, :dependent => :destroy
   has_many :jobs, :through => :shift_jobs
   has_one :employee, :through => :assignment
   has_one :store, :through => :assignment
@@ -18,7 +18,7 @@ class Shift < ActiveRecord::Base
 
   # Validations
   # ----------------------
-  validates_presence_of :start_time, :date
+  validates_presence_of :start_time, :date, :assignment_id
   # Checks that date is infact a valid data
   validates_date :date
   # Checks that start time is a valid time
@@ -54,7 +54,7 @@ class Shift < ActiveRecord::Base
 
   scope :for_past_days, lambda {|num| where('date between ? and ?', Date.current, Date.current - num.days)}
   
-  scope :chronological, order('date')
+  scope :chronological, order('date').order('start_time ASC')
   
   scope :by_store, joins{:store}.order('name')
   

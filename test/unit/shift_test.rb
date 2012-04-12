@@ -26,12 +26,12 @@ class ShiftTest < ActiveSupport::TestCase
       @OaklandStore = FactoryGirl.create(:store, :name=> "Oakland", :street => "200 5th Ave", :zip => "15222")
 
       @CMUManager = FactoryGirl.create(:employee, :role => "admin")
-      @CMUEmployee = FactoryGirl.create(:employee, :first_name => "Jim", :last_name => "Jones", :date_of_birth => 8.years.ago)
+      @CMUEmployee = FactoryGirl.create(:employee, :first_name => "Jim", :last_name => "Jones", :date_of_birth => 15.years.ago)
 
       @ShadyManager = FactoryGirl.create(:employee, :role => "manager", :first_name => "Shady", :last_name => "Guy", :date_of_birth => 30.years.ago)
 
       @OaklandManager = FactoryGirl.create(:employee, :role => "admin", :first_name => "Joe", :last_name => "White", :date_of_birth => 40.years.ago)
-      @OaklandEmployee = FactoryGirl.create(:employee, :first_name => "Tyler", :last_name => "Mansfield", :date_of_birth => 14.years.ago)
+      @OaklandEmployee = FactoryGirl.create(:employee, :first_name => "Tyler", :last_name => "Mansfield", :date_of_birth => 16.years.ago)
 
       @CMUManagerAssignment = FactoryGirl.create(:assignment, :store => @CMUStore, :employee => @CMUManager)
       @CMUEmployeeAssignment = FactoryGirl.create(:assignment, :store => @CMUStore, :employee => @CMUEmployee, :start_date =>5.days.ago, :pay_level => 3)
@@ -83,19 +83,20 @@ class ShiftTest < ActiveSupport::TestCase
     end
 
     should "sort shifts by date" do
-      assert_equal "Tyler Mansfield", Shift.by_date.first.assignment.employee.proper_name
+      assert_equal "Tyler Mansfield", Shift.chronological.first.assignment.employee.proper_name
     end
 
     should "show upcomming shifts" do
-      assert_equal "Joe White", Shift.upcomming.by_date.first.assignment.employee.proper_name 
+      assert_equal "Joe White", Shift.upcomming.chronological.first.assignment.employee.proper_name 
     end
 
     should "show today's shifts" do
-      assert_equal "Joe White", Shift.today.by_date.first.assignment.employee.proper_name 
+      assert_equal "Joe White", Shift.today.chronological.first.assignment.employee.proper_name 
     end
 	
-	should "show shifts in the pase" do
-		assert_equal ["Shady Guy","Tyler Mansfield","Joe White"], Shift.past.employee.alphabetical.proper_name
+    should "show shifts in the past" do
+      assert_equal ["Joe White", "Shady Guy","Tyler Mansfield"], Shift.past.map{ |s| s.employee.proper_name}.sort
+    end
 
     should "not allow inactive assignment for a new shift" do
   	  @ShadyShift = FactoryGirl.build(:shift, :assignment => @OaklandManagerPrevAssignment, :notes => "FALSE!")
@@ -115,4 +116,3 @@ class ShiftTest < ActiveSupport::TestCase
 
     end
   end
-end

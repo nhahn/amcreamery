@@ -2,7 +2,7 @@ class Store < ActiveRecord::Base
 
   # create a callback that will strip non-digits before saving to db
   before_save :reformat_phone
-#  before_validation :geoCode
+  before_validation :geoCode
 
 STATES_LIST = [['Ohio', 'OH'],['Pennsylvania', 'PA'],['West Virginia', 'WV']]
 
@@ -47,21 +47,21 @@ STATES_LIST = [['Ohio', 'OH'],['Pennsylvania', 'PA'],['West Virginia', 'WV']]
        phone.gsub!(/[^0-9]/,"") # strip all non-digits
        self.phone = phone       # reset self.phone to new string
      end  
+public
+   def create_map_link(zoom=13,width=400,height=400)
+     "http://maps.google.com/maps/api/staticmap?center=#{latitude},#{longitude}&zoom=#{zoom}&size=#{width}x#{height}&maptype=roadmap&markers=color:red%red7Ccolor:red%7Clabel:!%7C#{latitude},#{longitude}&sensor=false"
+   end
 
   private
    def geoCode 
-    coord = Geokit::Geocoders::GoogleGeocoder.geocode "#{street}, #{zip}"
+    coord = Geokit::Geocoders::GoogleGeocoder.geocode "#{street}, #{city}"
     if coord.success
       self.state = coord.state
-      self.city = coord.city
+      self.zip = coord.zip
       self.latitude, self.longitude = coord.ll.split(',')
     else
       errors.add_to_base("Error with geocoding")
     end
-   end
-
-   def create_map_link(zoom=13,width=400,height=400)
-     "http://maps.google.com/maps/api/staticmap?center=#{lat},#{lon}&zoom=#{zoom}&size=#{width}x#{height}&maptype=roadmap&markers=color:red%red7Ccolor:red%7Clabel:!%7C#{lattitude},#{longitude}&sensor=false"
    end
 
 end

@@ -144,7 +144,7 @@ namespace :db do
         shift = Shift.new
           shift.assignment_id = assignment.id
           shift.date = number.days.ago 
-          shift.start_time = (0..24).to_a.sample.hours.ago
+          shift.start_time = DateTime.now.beginning_of_day + (7..18).to_a.sample.hours
 #          if (number < 0)
 #            shift.end_time = shift.start_time + 4.hours + (2..59).to_a.sample.minutes
 #          else

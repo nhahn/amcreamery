@@ -54,7 +54,7 @@ class ShiftsController < ApplicationController
   # POST /shifts
   # POST /shifts.json
   def create
-    assignment =  Assignment.current.for_employee(Employee.find(params[:shift][:employee]))
+    assignment =  Assignment.current.where('employee_id = ?', params[:shift][:employee])
     params[:shift].delete(:employee)
     @shift = Shift.new(params[:shift])
     @shift.assignment_id = assignment

@@ -31,8 +31,9 @@ class EmployeeTest < ActiveSupport::TestCase
 
   # Check the validates_date for date_of_birth
   should_not allow_value(Date.current + 1).for(:date_of_birth)
+  should_not allow_value(12.years.ago).for(:date_of_birth)
   should_not allow_value("not a date").for(:date_of_birth)
-  should  allow_value(Date.current - 1).for(:date_of_birth)
+  should  allow_value(15.years.ago).for(:date_of_birth)
 
   # -------------------------
   # Test scope and other methods
@@ -44,12 +45,12 @@ class EmployeeTest < ActiveSupport::TestCase
       @OaklandStore = FactoryGirl.create(:store, :name=> "Oakland", :street => "200 5th Ave", :zip => "15222")
 
       @CMUManager = FactoryGirl.create(:employee, :role => "admin", :phone => "(703)-272-8443")
-      @CMUEmployee = FactoryGirl.create(:employee, :first_name => "Jim", :last_name => "Jones", :ssn => "123456789", :date_of_birth => 8.years.ago)
+      @CMUEmployee = FactoryGirl.create(:employee, :first_name => "Jim", :last_name => "Jones", :ssn => "123456789", :date_of_birth => 15.years.ago)
 
       @ShadyManager = FactoryGirl.create(:employee, :role => "manager", :first_name => "Shady", :last_name => "Guy", :date_of_birth => 30.years.ago)
 
       @OaklandManager = FactoryGirl.create(:employee, :role => "admin", :first_name => "Joe", :last_name => "White", :date_of_birth => 40.years.ago)
-      @OaklandEmployee = FactoryGirl.create(:employee, :first_name => "Tyler", :last_name => "Mansfield", :date_of_birth => 14.years.ago, :active => false)
+      @OaklandEmployee = FactoryGirl.create(:employee, :first_name => "Tyler", :last_name => "Mansfield", :date_of_birth => 16.years.ago, :active => false)
 
       @CMUManagerAssignment = FactoryGirl.create(:assignment, :store => @CMUStore, :employee => @CMUManager)
       @CMUEmployeeAssignment = FactoryGirl.create(:assignment, :store => @CMUStore, :employee => @CMUEmployee, :start_date =>5.days.ago)

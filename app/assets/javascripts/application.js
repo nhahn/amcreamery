@@ -38,4 +38,56 @@
     }); 
   }); 
 
+//Autocomplete Stuff
+$(function() {
+  $("#new_shift, #edit_shift").autocompleteEmployeeName();  
+});
 
+$.fn.autocompleteEmplyeeName = function(){
+  return this.each(function(){
+    var input = $("#employee_name", this);
+    var dataContainer = $('.data_container',this);
+    
+    var loadData = function(item){
+      if(item){
+        var user_id = item.value;
+        $.get("/employeess/load_employee", {id:employee_id}, function(data){
+          if(data){ dataContainer.html(data); }
+        });
+      }
+    }
+    
+    input.initAutocomplete(loadData, "/employees/autocomplete");
+    
+    // remove links
+    dataContainer.delegate('.remove_employee','click',function(){
+      $(this).closest('.employee_details').remove();
+      return false;
+    });
+  });
+};
+
+
+$.fn.initAutocomplete = function(callback, source){
+  return this.each(function(){
+    var input = $(this);
+    input.autocomplete({
+      source: source,
+      minLength: 2, //user must type at least 2 characters
+      select: function(event, ui) {
+        if(ui.item){ 
+          input.val(ui.item.label); 
+          callback(ui.item);
+        }
+        return false;
+      },
+      focus: function(event, ui) { // triggered by keyboard selection
+        if(ui.item){ input.val(ui.item.label); }
+        return false;
+      },
+      change: function(event, ui) { // called after the menu closes
+        if(callback){ input.val(""); }
+      } 
+    });
+  });
+}

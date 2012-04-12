@@ -98,4 +98,13 @@ class EmployeesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def load_employee
+    render :partial => "/employees/details", :locals => {:employee => Employee.find(params[:id])}
+  end
+
+  def autocomplete
+    render :json => Employee.search(params[:term]).collect{|employee| {:value => employee.id, :label => "#{employee.proper_name}"}}
+  end
+
 end
