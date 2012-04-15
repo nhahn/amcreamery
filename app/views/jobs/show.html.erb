@@ -1,4 +1,4 @@
-<h1>/Job</h1>
+<h1>Job</h1>
 
 <p>
   <b>Name</b><br>
@@ -15,8 +15,10 @@
   <%= @job.active %>
 </p>
 
+
 <div class="form-actions">
-  <%= link_to 'Back', jobs_path, :class => 'btn'  %>
-  <%= link_to 'Edit', edit_job_path(@job), :class => 'btn' %>
-  <%= link_to 'Delete', job_path(@job), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+  <%= link_to raw("<i class='icon-th-list'></i> Display All Jobs"), jobs_path, :class => 'btn'  %>&nbsp;&nbsp;
+  <%= link_to raw("<i class='icon-pencil'></i> Edit Job"), edit_job_path(@job), :class => 'btn' %>&nbsp;&nbsp;
+<%= link_to raw("<i class='icon-trash icon-white'></i> Delete Job"), job_path(@job), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
 </div>
+

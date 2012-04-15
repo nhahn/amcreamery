@@ -138,13 +138,13 @@ namespace :db do
     # Step 7: Add some shifts for employees
     current_assignments = Assignment.current.for_role("employee").all
     current_assignments.each do |assignment|
-      numShifts = rand(8)
-      unless numShifts.zero?
-        number = (-10..20).to_a.sample
+      numShifts = rand(2)
+      while !numShifts.zero?
+        number = (-20..20).to_a.sample
         shift = Shift.new
           shift.assignment_id = assignment.id
           shift.date = number.days.ago 
-          shift.start_time = DateTime.now.beginning_of_day + (7..18).to_a.sample.hours
+          shift.start_time = DateTime.now.beginning_of_day + (11..20).to_a.sample.hours - 4.hours
 #          if (number < 0)
 #            shift.end_time = shift.start_time + 4.hours + (2..59).to_a.sample.minutes
 #          else
@@ -152,6 +152,7 @@ namespace :db do
 #          end
           shift.notes = Faker::Lorem.sentences
           shift.save!
+        numShifts = rand(2)
         end
       end
     
@@ -170,8 +171,8 @@ namespace :db do
 	  rand(1..3).times do
   		shiftJob = ShiftJob.new
   		shiftJob.shift_id = shift.id
-  		shiftJob.job_id = Job.all.sample
-  		shiftJob.save! if shiftJob.valid?
+  		shiftJob.job_id = Job.first(:offset => rand(Job.count)-1)
+  		shiftJob.save!
     end
 	end
  end

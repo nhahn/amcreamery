@@ -8,6 +8,9 @@ AMCreamery::Application.routes.draw do
   resources :sessions
   resources :users
 
+  match 'employees/autocompleteEmp' => 'employees#autocompleteEmp', :via => :get
+  match 'employees/autocompleteAsn' => 'employees#autocompleteAsn', :via => :get
+
   #Generated
   resources :jobs
   resources :shifts

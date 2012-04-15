@@ -11,6 +11,9 @@ class Employee < ActiveRecord::Base
 
   mount_uploader :photo, PhotoUploader
 
+  accepts_nested_attributes_for :assignments, :reject_if => lambda {|assignment| assignment[:store_id].blank?}
+  attr_accessor :assignments_attributes
+
   ROLES_LIST = [['Employee', 'employee'],['Manager', 'manager'],['Administrator', 'admin']]
 
   # Validataions

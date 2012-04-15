@@ -1,4 +1,4 @@
-<%= simple_form_for @employee, :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
+<%= simple_nested_form_for @employee, :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
   <fieldset>
   <legend><%= controller.action_name.capitalize %> Employee</legend>
 
@@ -9,9 +9,9 @@
       <%= f.file_field :photo %>
     </div>
 
-    <%= f.input :ssn %>
+    <%= f.input :ssn, :as => :string, :label => "SSN"%>
 
-    <%= f.input :date_of_birth, :as => :string, :input_html => {:class => "datepicker"}%>
+    <%= f.input :date_of_birth, :as => :string, :input_html => {:class => "datepicker", :value => (@employee.date_of_birth.strftime("%m/%d/%Y") unless @employee.date_of_birth.nil?)}%>
 
     <%= f.input :phone, :as => :tel %>
 
@@ -19,9 +19,15 @@
 
     <%= f.input :active, :as => :radio_buttons %>
 
+    <%= f.fields_for :assignments do |assign| %>
+      <%= assign.input :store, :collection => Store.all %>
+      <%= assign.input :start_date, :as => :string, :input_html => {:class => "datepicker"} %>
+      <%= assign.input :pay_level, :collection => (1..6) %>
+    <% end %>
+    <p><%= f.link_to_add "Add an assignment", :assignments %></p>
+
     <div class="form-actions">
       <%= f.submit nil, :class => 'btn btn-primary' %>
-      <%= link_to raw("<i class='icon-plus icon-white'></i> New Shift"), new_shift_path(:id => f.assignments.current.first), :class => 'btn btn-primary' %>
       <%= link_to 'Cancel', employees_path, :class => 'btn' %>
     </div>
   </fieldset>

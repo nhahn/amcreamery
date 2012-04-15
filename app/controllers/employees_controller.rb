@@ -43,6 +43,7 @@ class EmployeesController < ApplicationController
   # GET /employees/new.json
   def new
     @employee = Employee.new
+    @assignment = Assignment.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -103,8 +104,18 @@ class EmployeesController < ApplicationController
     render :partial => "/employees/details", :locals => {:employee => Employee.find(params[:id])}
   end
 
-  def autocomplete
-    render :json => Employee.search(params[:term]).collect{|employee| {:value => employee.id, :label => "#{employee.proper_name}"}}
+  def autocompleteAsn
+    employees = Employee.search(params[:term])
+    hash = Hash.new
+    employees.each do |employee|
+      hash[employee.proper_name] = employee.current_assignment.id unless employee.current_assignment.nil?
+    end
+
+    render :json => hash.collect{|key, value| {:value => value, :label => "#{key}"}}
+  end
+
+  def autocompleteEmp
+    render :json => Employee.search(params[:term]).collect{|value| {:value => value.id, :label => "#{value.proper_name}"}}
   end
 
 end

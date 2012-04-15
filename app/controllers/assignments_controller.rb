@@ -53,6 +53,7 @@ class AssignmentsController < ApplicationController
   # POST /assignments
   # POST /assignments.json
   def create
+    params[:shift].delete(:employee)
     @assignment = Assignment.new(params[:assignment])
 
     respond_to do |format|
@@ -69,6 +70,7 @@ class AssignmentsController < ApplicationController
   # PUT /assignments/1
   # PUT /assignments/1.json
   def update
+    params[:shift].delete(:employee)
     @assignment = Assignment.find(params[:id])
 
     respond_to do |format|

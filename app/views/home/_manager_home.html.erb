@@ -1,0 +1,53 @@
+<h2>Welcome back, <%= current_user.employee.proper_name %></h2>
+
+<div class="row">
+<div class="span8">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <%= @sortable.header_link('full_name', 'Employee').html_safe %>
+        <th>Hours Worked</th>
+        <th>Last Shift</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @employee.each do |emp| %>
+        <tr>
+          <td><%= link_to emp.employee.proper_name, employee_path(emp.employee) %></td>
+          <td><%= @employeeHours[emp.id] %></td>
+          <td><%= temp = emp.shifts.compact.sort_by{|shift| shift.date}.reverse.first;temp.date unless temp.nil?%></td>
+          <td>
+            <div class="btn-group">
+            <%= link_to raw("<i class='icon-plus'></i> New Shift"), new_shift_path(:id => emp.id), :class => 'btn btn-mini'  %>&nbsp;&nbsp;
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @employee, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
+</div>
+<div class="span4">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Hours Worked</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<div class="row">
+  <%= render :partial => 'shared/calendar' %>
+</div>
+
+<div class="form-actions">
+  <%= link_to raw("<i class='icon-plus icon-white'></i> New Employee"), new_employee_path, :class => 'btn btn-primary'  %>&nbsp;&nbsp;
+  <%= link_to raw("<i class='icon-plus icon-white'></i> New Job"), new_job_path, :class => 'btn btn-primary'  %>&nbsp;&nbsp;
+  <%= link_to raw("<i class='icon-plus icon-white'></i> New Shift"), new_shift_path, :class => 'btn btn-primary'  %>&nbsp;&nbsp;
+</div>

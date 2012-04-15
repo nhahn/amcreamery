@@ -1,8 +1,10 @@
 class Store < ActiveRecord::Base
 
   # create a callback that will strip non-digits before saving to db
-  before_save :reformat_phone
-  before_validation :geoCode
+  before_save do 
+    reformat_phone()
+    geoCode()
+  end
 
 STATES_LIST = [['Ohio', 'OH'],['Pennsylvania', 'PA'],['West Virginia', 'WV']]
 

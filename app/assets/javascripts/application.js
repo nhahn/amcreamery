@@ -40,24 +40,29 @@
 
 //Autocomplete Stuff
 $(function() {
-  $("#new_shift, #edit_shift").autocompleteEmployeeName();  
+  $("#new_shift, #edit_shift").autocompleteEmployeeName("/employees/autocompleteAsn");  
+  $("#new_assignment, #edit_assignment").autocompleteEmployeeName("/employees/autocompleteEmp");  
 });
 
-$.fn.autocompleteEmplyeeName = function(){
+$.fn.autocompleteEmployeeName = function(url){
   return this.each(function(){
     var input = $("#employee_name", this);
     var dataContainer = $('.data_container',this);
     
     var loadData = function(item){
-      if(item){
+/*      if(item){
         var user_id = item.value;
-        $.get("/employeess/load_employee", {id:employee_id}, function(data){
+        $.get("/employees/load_employee", {id:employee_id}, function(data){
           if(data){ dataContainer.html(data); }
         });
+*/
+        if(item)
+        {
+          $("#assignment_id").val(item.value);
+        }
       }
-    }
     
-    input.initAutocomplete(loadData, "/employees/autocomplete");
+    input.initAutocomplete(loadData, url);
     
     // remove links
     dataContainer.delegate('.remove_employee','click',function(){
@@ -80,14 +85,7 @@ $.fn.initAutocomplete = function(callback, source){
           callback(ui.item);
         }
         return false;
-      },
-      focus: function(event, ui) { // triggered by keyboard selection
-        if(ui.item){ input.val(ui.item.label); }
-        return false;
-      },
-      change: function(event, ui) { // called after the menu closes
-        if(callback){ input.val(""); }
-      } 
+      }
     });
   });
 }

@@ -10,11 +10,25 @@ class StoresController < ApplicationController
     }
   )
 
+  EMPLOYEE_SORT = SortIndex::Config.new(
+    {'updated_at' => 'updated_at'},
+    {   
+        'age' => 'date_of_birth',
+        'full_name' => 'UPPER(first_name), UPPER(last_name)',
+    }   
+  )
+  
   authorize_resource
 
   def index
     @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
     @stores = Store.paginate(:page => params[:page]).order(@sortable.order).per_page(10)
+    markers, i = "", 1
+    Store.order(@sortable.order).each do |str|
+      markers += "&markers=color:red%red7Ccolor:red%7Clabel:#{i}%7C#{str.latitude},#{str.longitude}"
+      i += 1
+    end 
+    @image = "http://maps.google.com/maps/api/staticmap?center=&size=400x400&maptype=roadmap#{markers}&sensor=false"
 
     respond_to do |format|
       format.html # index.html.erb
@@ -28,10 +42,8 @@ class StoresController < ApplicationController
     @store = Store.find(params[:id])
     @upcomingShifts = @store.shifts.upcomming.chronological
 
-    @date = Time.now
-    @date = @date - (@date.wday==0 ? 6 : @date.wday-1).days
-    @start_date = Date.new(@date.year, @date.month, @date.day)
-    @events = @store.shifts.where('date between ? and ?', @start_date, @start_date+7).to_a
+    @employeeSort = SortIndex::Sortable.new(params, EMPLOYEE_SORT)
+    @employees = Employee.joins(:stores).where('store_id = ?', @store.id).paginate(:page => params[:page]).order(@employeeSort.order).per_page(7)
 
     respond_to do |format|
       format.html # show.html.erb

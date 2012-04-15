@@ -50,9 +50,9 @@ class Shift < ActiveRecord::Base
   # return shifts that were in the past (shifts that have an end time listed)
   scope :past, lambda {where('date < ?', Date.current)}
  
-  scope :for_next_days, lambda {|num| where('date between ? and ?', Date.current, Date.current + num.days)}
+  scope :for_next_days, lambda {|num| where('date > ? and date <= ?', Date.current, Date.current + num.days)}
 
-  scope :for_past_days, lambda {|num| where('date between ? and ?', Date.current, Date.current - num.days)}
+  scope :for_past_days, lambda {|num| where('date < ? and date >= ?', Date.current, Date.current - num.days)}
   
   scope :chronological, order('date').order('start_time ASC')
   

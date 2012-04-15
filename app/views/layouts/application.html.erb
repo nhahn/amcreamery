@@ -26,7 +26,7 @@
                 <%= link_to raw("<i class='icon-user'></i> Login"), new_session_path, :class => 'btn' %>
                 <%= link_to raw("<i class='icon-pencil'></i> Signup"), signup_path, :class => 'btn' %>
               <% else %>
-                <%= link_to raw("<i class='icon-user'></i> "+current_user.employee.proper_name), home_path, :class => 'btn' %>
+                <%= link_to raw("<i class='icon-user'></i> "+current_user.employee.proper_name), employee_path(current_user.employee), :class => 'btn' %>
                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                 <span class="caret"></span>
                 </a>

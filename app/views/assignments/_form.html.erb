@@ -4,11 +4,13 @@
 
     <%= f.association :store, :collection => Store.alphabetical.active.all%>
 
-    <%= f.association :employee, :collection => Employee.alphabetical.active.all%>
+    <%= f.input :employee, :as => :string, :label => 'Employee', :input_html => {:id => "employee_name", :value => (@assignment.employee_id.nil?)? "" : @assignment.employee.proper_name}%>
 
-    <%= f.input :start_date, :as => :string, :input_html => {:class => "datepicker"} %>
+    <%= f.input :employee_id, :as => :hidden, :input_html => {:id => "assignment_id"}%>
 
-    <%= f.input :end_date, :as => :string, :input_html => {:class => "datepicker"} %>
+    <%= f.input :start_date, :as => :string, :input_html => {:class => "datepicker", :value => (@assignment.start_date.strftime("%m/%d/%Y") unless @assignment.start_date.nil?)} %>
+
+    <%= f.input :end_date, :as => :string, :input_html => {:class => "datepicker", :value => (@assignment.end_date.strftime("%m/%d/%Y") unless @assignment.end_date.nil?)} %>
 
     <%= f.input :pay_level, :collection => (1..6) %>
 

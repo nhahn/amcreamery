@@ -12,17 +12,18 @@ class Ability
         store.id == current_user.employee.assignment.store_id
       end
       can :manage, Shift do |shift|
-        shift.assignment.store_id == current_user.employee.assignment.store_id
+        shift.assignment.store_id == current_user.employee.current_assignment.store_id
       end
-      can :read, Employee do |employee|
-        employee.assignment.store_id = current_user.employee.assingment.store_id
+      can :show, Employee do |emp|
+        emp.current_assignment.store_id == current_user.employee.current_assingment.store_id
       end
       can :update, Employee do |employee|
-        employee.assignment.store_id = current_user.employee.assingment.store_id
+        employee.current_assignment.store_id == current_user.employee.current_assingment.store_id
       end
       can :create, Job 
       can :read, Job
       can :update, Job
+      can :read, Store
     elsif user.role? :employee
       can :update, User do |user|
         user.id == current_user.id

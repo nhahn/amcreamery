@@ -1,31 +1,37 @@
-<h2> Employee: <%= @employee.proper_name %></h2>
+<div class="span2">
+  <% unless @employee.photo_url.nil? %>
+    <p><%= image_tag @employee.photo_url, :size => "160x100"%></p>
+  <%end%>
+</div>
+<div class="span3">
+  <h2><%=@employee.proper_name%> </h2>
+  <p>
+    <b>SSN</b><br>
+    <%= @employee.ssn.unpack("a3a2a*").join('-') %>
+  </p>
 
-<% unless @employee.photo_url.nil? %>
-  <p><%= image_tag @employee.photo_url %></p>
-<%end%>
+  <p>
+    <b>Date of Birth</b><br>
+    <%= @employee.date_of_birth.strftime("%B %d %Y")%>
+  </p>
 
-<p>
-  <b>SSN</b><br>
-  <%= @employee.ssn.unpack("a3a2a*").join('-') %>
-</p>
-
-<p>
-  <b>Date of Birth</b><br>
-  <%= @employee.date_of_birth.strftime("%B %d %Y")%>
-</p>
-
-<p>
-  <b>Phone</b><br>
-  <%= number_to_phone(@employee.phone, :area_code => true) %>
-</p>
-
-<p>
-  <b>Role</b><br>
-  <%= @employee.role.capitalize %>
-</p>
-
-<p>
-  <b>Active</b><br>
-  <%= (@employee.active)? "Yes" : "No" %>
-</p>
-
+  <p>
+    <b>Phone</b><br>
+    <%= number_to_phone(@employee.phone, :area_code => true) %>
+  </p>
+</div>
+<div class="span3">
+  <br><br>
+  <p>
+    <b>Role</b><br>
+    <%= @employee.role.capitalize %>
+  </p>
+  <p>
+    <b>Store</b><br>
+    <%= link_to @employee.current_assignment.store.name, store_path(@employee.current_assignment.store) unless @employee.current_assignment.nil? %>
+  </p>
+  <p>
+    <b>Active</b><br>
+    <%= (@employee.active)? "Yes" : "No" %>
+  </p>
+</div>
