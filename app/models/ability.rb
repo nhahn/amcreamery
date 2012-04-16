@@ -31,6 +31,10 @@ class Ability
       can :read, Employee do |employee|
         employee.id == current_user.employee_id
       end
+      can :read, Shift do |shift|
+        shift.employee.id == current_user.employee_id
+      end
+      can :read, Store
     else
       can :read, Store
       can :create, User

@@ -61,7 +61,7 @@ class StoreTest < ActiveSupport::TestCase
   
     #test search scope
     should "find a store by name" do
-      assert_equal "15218", Store.search("Shadyside").first.zip
+      assert_equal "15232", Store.search("Shadyside").first.zip
     end
     
     #test that phone characters are removed
@@ -94,6 +94,10 @@ class StoreTest < ActiveSupport::TestCase
     #test employee relationships
     should "have all employees for a partcular store" do
       assert_equal ["John", "Jim"], @CMUStore.employees.map{ |e| e.first_name}
+    end
+
+    should "return a map" do
+      assert !@CMUStore.create_map_link.nil?
     end
 
   end

@@ -68,15 +68,15 @@ class Shift < ActiveRecord::Base
     return true
   end
 
-  def end_time_is_valid
-    return true if self.end_time.nil?
-
-    if (Date.current > self.date || (Date.current == self.date && self.end_time <= Time.now))
-      return true
-    end
-
-    return false
-  end
+#  def end_time_is_valid
+#    return true if self.end_time.nil?
+#
+#    if (Date.current > self.date || (Date.current == self.date && self.end_time <= Time.now))
+#      return true
+#    end
+#
+#    return false
+#  end
 
   def completed?
     !self.shift_jobs.empty?

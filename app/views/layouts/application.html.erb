@@ -41,7 +41,7 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li><%= link_to "Stores", stores_path %></li>
-              <% if logged_in? %>
+              <% if logged_in? && (current_user.employee.role == "admin" || current_user.employee.role == "manager") %>
                 <li><%= link_to "Shifts", shifts_path %></li>
                 <li><%= link_to "Jobs", jobs_path %></li>
                 <% if current_user.employee.role == "admin" %>
@@ -50,9 +50,11 @@
                 <% end %>
               <% end %>
             </ul>
+            <% if logged_in? && (current_user.employee.role == "admin" || current_user.employee.role == "manager") %>
             <form action="/search/" class="navbar-search pull-right" method="get">
               <input id="search" class="search-query" name="query" placeholder="Search" type="text" value>
             </form>
+            <% end %>
           </div>
         </div>
       </div>

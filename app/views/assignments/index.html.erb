@@ -5,6 +5,7 @@
       <%= @sortable.header_link('employee', 'Employee').html_safe %>
       <%= @sortable.header_link('store', 'Store').html_safe %>
       <%= @sortable.header_link('pay', 'Pay Level').html_safe %>
+      <th>Current</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -14,6 +15,7 @@
         <td><%= link_to assignment.employee.proper_name, employee_path(assignment.employee) %></td>
         <td><%= link_to assignment.store.name, store_path(assignment.store) %></td>
         <td><%= assignment.pay_level %></td>
+        <td><%= (assignment.end_date.nil?)?"Yes":"No" %></td>
         <td>
           <div class="btn-group">
           <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_assignment_path(assignment), :class => 'btn btn-mini' %>

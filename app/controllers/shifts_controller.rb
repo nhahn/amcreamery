@@ -56,6 +56,7 @@ class ShiftsController < ApplicationController
   def create
     params[:shift].delete(:employee)
     @shift = Shift.new(params[:shift])
+    @shift.date = Chronic.parse(params[:shift][:date])
 
     respond_to do |format|
       if @shift.save
@@ -73,6 +74,7 @@ class ShiftsController < ApplicationController
   def update
     params[:shift].delete(:employee)
     @shift = Shift.find(params[:id])
+    @shift.date = Chronic.parse(params[:shift][:date])
 
     respond_to do |format|
       if @shift.update_attributes(params[:shift])

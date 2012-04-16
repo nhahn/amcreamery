@@ -104,7 +104,12 @@ class StoresController < ApplicationController
   def destroy
     @store = Store.find(params[:id])
     # We don't want to delete, just deactivate
-    @store.active = false
+    if (@store.shifts.empty?)
+      @store.destroy
+    else
+      @store.update_attributes("active" => false)
+      @store.save!
+    end 
 
     respond_to do |format|
       format.html { redirect_to stores_url }

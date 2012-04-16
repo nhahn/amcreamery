@@ -1,5 +1,5 @@
 <div class="row">
-  <%= render :partial => "employee_details" %>
+  <%= render :partial => "employee_details", :locals => {:employee => @employee}%>
   <div class="span4">
     <%= render :partial => "upcoming_shifts" unless @upcomingShifts.empty? %>
   </div>

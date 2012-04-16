@@ -82,12 +82,20 @@ class ShiftTest < ActiveSupport::TestCase
       assert_equal 2, Shift.for_employee(@OaklandManager).size
     end
 
+    should "return hours for a shift" do
+      assert_equal -21, @ShadyManagerShift.hours
+    end
+    
+    should "return return false for incomplete shift" do
+      assert !@ShadyManagerShift.completed?
+    end
+
     should "sort shifts by date" do
       assert_equal "Tyler Mansfield", Shift.chronological.first.assignment.employee.proper_name
     end
 
     should "show upcomming shifts" do
-      assert_equal "Joe White", Shift.upcomming.chronological.first.assignment.employee.proper_name 
+      assert_equal "Shady Guy", Shift.upcomming.chronological.first.assignment.employee.proper_name 
     end
 
     should "show today's shifts" do

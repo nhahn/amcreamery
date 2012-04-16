@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
   def lookupEmployee
     employee = Employee.find_by_ssn(params[:employee][:email].gsub("-","").chomp)
-    if (!employee.nil? && employee.date_of_birth == Date.parse(params[:employee][:date_of_birth]))
+    if (!employee.nil? && employee.date_of_birth == Chronic.parse(params[:employee][:date_of_birth]).to_date)
       session[:employee] = employee.id
       redirect_to new_user_path
     else

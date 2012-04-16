@@ -53,8 +53,10 @@ class AssignmentsController < ApplicationController
   # POST /assignments
   # POST /assignments.json
   def create
-    params[:shift].delete(:employee)
+    params[:assignment].delete(:employee)
     @assignment = Assignment.new(params[:assignment])
+    @assignment.start_date = Chronic.parse(params[:assignment][:start_date])
+    @assignment.end_date = Chronic.parse(params[:assignment][:end_date])
 
     respond_to do |format|
       if @assignment.save
@@ -72,6 +74,8 @@ class AssignmentsController < ApplicationController
   def update
     params[:shift].delete(:employee)
     @assignment = Assignment.find(params[:id])
+    @assignment.start_date = Chronic.parse(params[:assignment][:start_date])
+    @assignment.end_date = Chronic.parse(params[:assignment][:end_date])
 
     respond_to do |format|
       if @assignment.update_attributes(params[:assignment])
