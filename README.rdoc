@@ -1,4 +1,4 @@
-This is my A&M Creamery project for 67-272, Application Design and Development. It is a theoretical appliation, where Prof H's sons own a chain of creameries and are trying to find a way to allow for better management. It is building using Ruby on Rails with twitter bootstrap for the look.
+This is my A&M Creamery project for 67-272, Application Design and Development. It is a theoretical appliation, where Prof H's sons own a chain of creameries and are trying to find a way to allow for better management. It is built using Ruby on Rails with twitter bootstrap for the look.
 
 
 It does have its own populate file, so after migrating the database, you can simply run 'rake db:populate' to add fake (but somewhat realistic) data.
