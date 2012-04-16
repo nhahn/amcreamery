@@ -1,29 +1,22 @@
-<%= form_for(@assignment) do |f| %>
-  <% if @assignment.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@assignment.errors.count, "error") %> prohibited this assignment from being saved:</h2>
+<%= simple_form_for @assignment, :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend><%= controller.action_name.capitalize %> Assignment</legend>
 
-      <ul>
-      <% @assignment.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <%= f.association :store, :collection => Store.alphabetical.active.all%>
+
+    <%= f.input :employee, :as => :string, :label => 'Employee', :input_html => {:id => "employee_name", :value => (@assignment.employee_id.nil?)? "" : @assignment.employee.proper_name}%>
+
+    <%= f.input :employee_id, :as => :hidden, :input_html => {:id => "assignment_id"}%>
+
+    <%= f.input :start_date, :as => :string, :input_html => {:class => "datepicker", :value => (@assignment.start_date.strftime("%m/%d/%Y") unless @assignment.start_date.nil?)} %>
+
+    <%= f.input :end_date, :as => :string, :input_html => {:class => "datepicker", :value => (@assignment.end_date.strftime("%m/%d/%Y") unless @assignment.end_date.nil?)} %>
+
+    <%= f.input :pay_level, :collection => (1..6) %>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', assignments_path, :class => 'btn' %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :start_date %><br />
-    <%= f.date_select :start_date %>
-  </div>
-  <div class="field">
-    <%= f.label :end_date %><br />
-    <%= f.date_select :end_date %>
-  </div>
-  <div class="field">
-    <%= f.label :pay_level %><br />
-    <%= f.number_field :pay_level %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  </fieldset>
 <% end %>

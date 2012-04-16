@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120219055020) do
+ActiveRecord::Schema.define(:version => 20120330013344) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "store_id"
@@ -30,17 +30,25 @@ ActiveRecord::Schema.define(:version => 20120219055020) do
     t.date     "date_of_birth"
     t.string   "phone"
     t.string   "role"
-    t.boolean  "active"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.boolean  "active",        :default => true
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.string   "photo"
   end
 
   create_table "jobs", :force => true do |t|
     t.string   "name"
     t.text     "description"
-    t.boolean  "active"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.boolean  "active",      :default => true
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  create_table "shift_jobs", :force => true do |t|
+    t.integer  "job_id"
+    t.integer  "shift_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "shifts", :force => true do |t|
@@ -53,13 +61,6 @@ ActiveRecord::Schema.define(:version => 20120219055020) do
     t.datetime "updated_at",    :null => false
   end
 
-  create_table "shifts_jobs", :force => true do |t|
-    t.integer  "job_id"
-    t.integer  "shift_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "stores", :force => true do |t|
     t.string   "name"
     t.string   "street"
@@ -69,18 +70,17 @@ ActiveRecord::Schema.define(:version => 20120219055020) do
     t.string   "phone"
     t.float    "latitude"
     t.float    "longitude"
-    t.boolean  "active"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.boolean  "active",     :default => true
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   create_table "users", :force => true do |t|
     t.string   "email"
-    t.string   "password_hash"
-    t.string   "password_salt"
+    t.string   "password_digest"
     t.integer  "employee_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
 end

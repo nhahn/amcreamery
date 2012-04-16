@@ -1,35 +1,29 @@
-<h1>Listing employees</h1>
-
-<table>
-  <tr>
-    <th>First name</th>
-    <th>Last name</th>
-    <th>Ssn</th>
-    <th>Date of birth</th>
-    <th>Phone</th>
-    <th>Role</th>
-    <th>Active</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @employees.each do |employee| %>
-  <tr>
-    <td><%= employee.first_name %></td>
-    <td><%= employee.last_name %></td>
-    <td><%= employee.ssn %></td>
-    <td><%= employee.date_of_birth %></td>
-    <td><%= employee.phone %></td>
-    <td><%= employee.role %></td>
-    <td><%= employee.active %></td>
-    <td><%= link_to 'Show', employee %></td>
-    <td><%= link_to 'Edit', edit_employee_path(employee) %></td>
-    <td><%= link_to 'Destroy', employee, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+<h2>Employees</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <%= @sortable.header_link('full_name', 'Name').html_safe %>
+      <%= @sortable.header_link('age', 'Age').html_safe %>
+      <th> Store </th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @employees.each do |employee| %>
+      <tr>
+        <td><%= link_to employee.proper_name, employee_path(employee) %></td>
+        <td><%= employee.age %>
+        <td><%= link_to employee.current_assignment.store.name, store_path(employee.current_assignment.store) unless employee.current_assignment.nil?%></td>
+        <td>
+          <div class="btn-group">
+          <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_employee_path(employee), :class => 'btn btn-mini' %>
+          <%= link_to raw("<i class='icon-exclamation-sign icon-white'></i> Deactivate"), employee_path(employee), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
+<%= will_paginate @employees, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
 
-<br />
-
-<%= link_to 'New Employee', new_employee_path %>
+<%= link_to raw("<i class='icon-plus icon-white'></i> Add a New Employee"), new_employee_path, :class => 'btn btn-primary' %>

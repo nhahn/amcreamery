@@ -1,29 +1,30 @@
-<h1>Listing shifts</h1>
-
-<table>
-  <tr>
-    <th>Date</th>
-    <th>Start time</th>
-    <th>End time</th>
-    <th>Notes</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @shifts.each do |shift| %>
-  <tr>
-    <td><%= shift.date %></td>
-    <td><%= shift.start_time %></td>
-    <td><%= shift.end_time %></td>
-    <td><%= shift.notes %></td>
-    <td><%= link_to 'Show', shift %></td>
-    <td><%= link_to 'Edit', edit_shift_path(shift) %></td>
-    <td><%= link_to 'Destroy', shift, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+<h1>Shifts</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <%= @sortable.header_link('name', 'Employee').html_safe %>
+      <%= @sortable.header_link('date', 'Date').html_safe %>
+      <%= @sortable.header_link('time', 'Start Time').html_safe %>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @shifts.each do |shift| %>
+      <tr>
+        <td><%= link_to shift.assignment.employee.name, employee_path(shift.assignment.employee)%></td>
+        <td><%= shift.date.strftime("%d %b %Y") %></td>
+        <td><%= shift.start_time.strftime("%I:%M %p") %></td>
+        <td>
+        <div class="btn-group">
+          <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_shift_path(shift), :class => 'btn btn-mini' %>
+          <%= link_to raw("<i class='icon-exclamation-sign icon-white'></i> Delete"), shift_path(shift), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          </div> 
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
+<%= will_paginate @shifts, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
 
-<%= link_to 'New Shift', new_shift_path %>
+<%= link_to 'New', new_shift_path, :class => 'btn btn-primary' %>

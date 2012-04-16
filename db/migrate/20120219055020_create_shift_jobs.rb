@@ -1,6 +1,6 @@
 class CreateShiftJobs < ActiveRecord::Migration
   def change
-    create_table :shifts_jobs do |t|
+    create_table :shift_jobs do |t|
       t.integer :id
       t.integer :job_id
       t.integer :shift_id

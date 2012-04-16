@@ -1,27 +1,30 @@
-<h1>Listing assignments</h1>
-
-<table>
-  <tr>
-    <th>Start date</th>
-    <th>End date</th>
-    <th>Pay level</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @assignments.each do |assignment| %>
-  <tr>
-    <td><%= assignment.start_date %></td>
-    <td><%= assignment.end_date %></td>
-    <td><%= assignment.pay_level %></td>
-    <td><%= link_to 'Show', assignment %></td>
-    <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
-    <td><%= link_to 'Destroy', assignment, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+<h1>Assignments</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <%= @sortable.header_link('employee', 'Employee').html_safe %>
+      <%= @sortable.header_link('store', 'Store').html_safe %>
+      <%= @sortable.header_link('pay', 'Pay Level').html_safe %>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @assignments.each do |assignment| %>
+      <tr>
+        <td><%= link_to assignment.employee.proper_name, employee_path(assignment.employee) %></td>
+        <td><%= link_to assignment.store.name, store_path(assignment.store) %></td>
+        <td><%= assignment.pay_level %></td>
+        <td>
+          <div class="btn-group">
+          <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_assignment_path(assignment), :class => 'btn btn-mini' %>
+          <%= link_to raw("<i class='icon-exclamation-sign icon-white'></i> Deactivate"), assignment_path(assignment), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
+<%= will_paginate @assignments, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
 
-<%= link_to 'New Assignment', new_assignment_path %>
+<%= link_to raw("<i class='icon-plus icon-white'></i> Add a new Assignment"), new_assignment_path, :class => 'btn btn-primary' %>

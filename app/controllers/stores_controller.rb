@@ -1,8 +1,34 @@
 class StoresController < ApplicationController
   # GET /stores
   # GET /stores.json
+
+  INDEX_SORT = SortIndex::Config.new(
+    {'name' => 'name'},
+    {
+        'name' => 'name',
+        'city' => 'city'
+    }
+  )
+
+  EMPLOYEE_SORT = SortIndex::Config.new(
+    {'updated_at' => 'updated_at'},
+    {   
+        'age' => 'date_of_birth',
+        'full_name' => 'UPPER(first_name), UPPER(last_name)',
+    }   
+  )
+  
+  authorize_resource
+
   def index
-    @stores = Store.all
+    @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
+    @stores = Store.paginate(:page => params[:page]).order(@sortable.order).per_page(10)
+    markers, i = "", 1
+    Store.order(@sortable.order).each do |str|
+      markers += "&markers=color:red%red7Ccolor:red%7Clabel:#{i}%7C#{str.latitude},#{str.longitude}"
+      i += 1
+    end 
+    @image = "http://maps.google.com/maps/api/staticmap?center=&size=400x400&maptype=roadmap#{markers}&sensor=false"
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,6 +40,10 @@ class StoresController < ApplicationController
   # GET /stores/1.json
   def show
     @store = Store.find(params[:id])
+    @upcomingShifts = @store.shifts.upcomming.chronological
+
+    @employeeSort = SortIndex::Sortable.new(params, EMPLOYEE_SORT)
+    @employees = Employee.joins(:stores).where('store_id = ?', @store.id).paginate(:page => params[:page]).order(@employeeSort.order).per_page(7)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -73,7 +103,8 @@ class StoresController < ApplicationController
   # DELETE /stores/1.json
   def destroy
     @store = Store.find(params[:id])
-    @store.destroy
+    # We don't want to delete, just deactivate
+    @store.active = false
 
     respond_to do |format|
       format.html { redirect_to stores_url }

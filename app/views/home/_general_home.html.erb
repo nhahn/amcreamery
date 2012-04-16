@@ -1,0 +1,34 @@
+<br />
+<div class="row">
+	<div class="span6">
+<h1>Welcome To Alex and Mark's Creamery</h1>
+		<p>
+			A&M Creamery is the creation of Alex and Mark Heimann with the intention of starting a successful Pittsburgh business. Starting with just one store, the CMU branch, they have expanded their business and currently have 5 stores in the Pittsburg area. They are looking for additional opportunities in Pennsylvania, West Virginia, and Ohio. If you would like to contact them about purchasing your own franchise, please use the link at the bottom of the page to send them an email.
+		</p>
+ <table class="table table-striped">
+    <thead>
+      <tr>
+        <%= @sortable.header_link('store', 'Name').html_safe %>
+        <th>Street</th>
+        <%=@sortable.header_link('city', 'City').html_safe %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @stores.each do |store| %>
+        <tr>
+          <td><%= link_to store.name, store_path(store) %></td>
+          <td><%= store.street %></td>
+          <td><%= store.city %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= will_paginate @stores, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
+  </div>
+  <div class="span6">
+    <%= image_tag @image %>
+  </div>
+</div>
+
+

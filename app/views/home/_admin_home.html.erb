@@ -1,0 +1,58 @@
+<h2>Welcome back, <%= current_user.employee.proper_name %></h2>
+
+<div class="row">
+<div class="span8">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <%= @sortable.header_link('store', 'Store').html_safe %>
+        <th>Number of Employees </th>
+        <th>Hours Worked</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @stores.each do |store| %>
+        <tr>
+          <td><%= link_to store.name, store_path(store) %></td>
+          <td><%= Assignment.current.where(:store_id => store.id).count %></td>
+          <td><%= store.shifts.for_past_days(14).inject(0){|sum, n| sum + n.hours}%></td>
+          <td>
+            <div class="btn-group">
+            <%= link_to raw("<i class='icon-plus'></i> New Employee"), new_assignment_path(:id => store.id, :source => 'store'), :class => 'btn btn-mini'  %>&nbsp;&nbsp;
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="span4">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Hours Worked</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @hours.each do |item| %>
+      <tr>
+        <td><%= link_to item[:emp].proper_name, employee_path(item[:emp]) %></td>
+        <td><%= item[:hours] %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<div class="row">
+  <%= render :partial => 'shared/calendar' %>
+</div>
+
+<div class="form-actions">
+  <%= link_to raw("<i class='icon-plus icon-white'></i> New Employee"), new_employee_path, :class => 'btn btn-primary'  %>&nbsp;&nbsp;
+  <%= link_to raw("<i class='icon-plus icon-white'></i> New Job"), new_job_path, :class => 'btn btn-primary'  %>&nbsp;&nbsp;
+  <%= link_to raw("<i class='icon-plus icon-white'></i> New Shift"), new_shift_path, :class => 'btn btn-primary'  %>&nbsp;&nbsp;
+</div>

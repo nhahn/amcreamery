@@ -1,14 +1,83 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>AMCreamery</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <title>A&M Creamery -- <%= controller.controller_name.capitalize%></title>
+    <%= stylesheet_link_tag "application", :media => "all"%>
+    <%= stylesheet_link_tag 'weekly'%>
+    <%= javascript_include_tag "application"%>
+    <%= csrf_meta_tag %>
+  </head>
+  <body>
+  <div id="wrapper">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="icon-bar"></i>
+            <i class="icon-bar"></i>
+            <i class="icon-bar"></i>
+          </a>
+          <a class="brand" href="<%=home_path%>">
+          <%= image_tag('icecreamcone.png', :size => "27x40") %> A&M Creamery</a>
+          <div class="pull-right" id="user-button">
+            <div id="login-popover-container" data-original-title>
+              <div class="btn-group">
+              <% if !logged_in?%>
+                <%= link_to raw("<i class='icon-user'></i> Login"), new_session_path, :class => 'btn' %>
+                <%= link_to raw("<i class='icon-pencil'></i> Signup"), signup_path, :class => 'btn' %>
+              <% else %>
+                <%= link_to raw("<i class='icon-user'></i> "+current_user.employee.proper_name), employee_path(current_user.employee), :class => 'btn' %>
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" data-no-collapse="true">
+                  <li><%= link_to raw("<i class='icon-cog'></i> Update Info"), edit_user_path(current_user)%> </li>
+                  <li><%= link_to raw("<i class='icon-off'></i> Logout"), logout_path%> </li>
+                </ul>
+              <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><%= link_to "Stores", stores_path %></li>
+              <% if logged_in? %>
+                <li><%= link_to "Shifts", shifts_path %></li>
+                <li><%= link_to "Jobs", jobs_path %></li>
+                <% if current_user.employee.role == "admin" %>
+                  <li><%= link_to "Employees", employees_path %></li>
+                  <li><%= link_to "Assignments", assignments_path %></li>
+                <% end %>
+              <% end %>
+            </ul>
+            <form action="/search/" class="navbar-search pull-right" method="get">
+              <input id="search" class="search-query" name="query" placeholder="Search" type="text" value>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<%= yield %>
-
-</body>
+    <!-- Main Content -->
+    <div id="container" class="container">
+      <% flash.each do |name, msg| %>
+        <div class="alert alert-<%= name == :notice ? "succes" : "error" %>">
+          <a class="close" data-dismiss="alert">&times;</a>
+          <%= msg %>
+        </div>
+      <% end %>
+      <div class="row">
+        <!-- main content in the two-thirds section -->
+        <div class="span12">
+          <%= yield%>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <%= render :partial => "partials/footer" %>
+      </div>
+    </footer>
+  </div>
+  </body>
 </html>

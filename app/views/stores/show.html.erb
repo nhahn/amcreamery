@@ -1,50 +1,22 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="span6">
+    <%= render :partial => "store_details" %>
+  </div>
+  <div class="span6">
+    <%= render :partial => "upcomming_shifts" %>
+  </div>
+</div>
 
-<p>
-  <b>Name:</b>
-  <%= @store.name %>
-</p>
+<div class="row">
+<% if logged_in? && current_user.employee.role == "admin" %>
+  <%= render :partial => "employees" %>
+<%end %>
+</div>
 
-<p>
-  <b>Street:</b>
-  <%= @store.street %>
-</p>
-
-<p>
-  <b>City:</b>
-  <%= @store.city %>
-</p>
-
-<p>
-  <b>State:</b>
-  <%= @store.state %>
-</p>
-
-<p>
-  <b>Zip:</b>
-  <%= @store.zip %>
-</p>
-
-<p>
-  <b>Phone:</b>
-  <%= @store.phone %>
-</p>
-
-<p>
-  <b>Latitude:</b>
-  <%= @store.latitude %>
-</p>
-
-<p>
-  <b>Longitude:</b>
-  <%= @store.longitude %>
-</p>
-
-<p>
-  <b>Active:</b>
-  <%= @store.active %>
-</p>
-
-
-<%= link_to 'Edit', edit_store_path(@store) %> |
-<%= link_to 'Back', stores_path %>
+<% if logged_in? && current_user.employee.role == "admin" %>
+    <div class="form-actions">
+      <%= link_to raw("<i class='icon-th-list'></i> Display All Stores"), stores_path, :class => 'btn'  %>&nbsp;&nbsp;
+      <%= link_to raw("<i class='icon-pencil'></i> Edit This Store"), edit_store_path(@store), :class => 'btn' %>&nbsp;&nbsp;
+      <%= link_to raw("<i class='icon-trash icon-white'></i> Deactivate Store"), store_path(@store), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %> 
+    </div>
+<%end %>

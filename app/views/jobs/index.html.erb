@@ -1,27 +1,30 @@
-<h1>Listing jobs</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Active</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @jobs.each do |job| %>
-  <tr>
-    <td><%= job.name %></td>
-    <td><%= job.description %></td>
-    <td><%= job.active %></td>
-    <td><%= link_to 'Show', job %></td>
-    <td><%= link_to 'Edit', edit_job_path(job) %></td>
-    <td><%= link_to 'Destroy', job, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+<h1>Jobs</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Active</th>
+      <th>Time Performed</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @jobs.each do |job| %>
+      <tr>
+        <td><%= link_to job.name, job_path(job) %></td>
+        <td><%= job.active ? "Yes" : "No" %></td>
+        <td><%= job.shifts.length %></td>
+        <td>
+          <div class="btn-group">
+          <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_job_path(job), :class => 'btn btn-mini' %>
+          <%= link_to raw("<i class='icon-exclamation-sign icon-white'></i> Deactivate"), job_path(job), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
+<%= will_paginate @jobs, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
 
-<%= link_to 'New Job', new_job_path %>
+<%= link_to raw("<i class='icon-plus icon-white'></i> Add a New Job") , new_job_path, :class => 'btn btn-primary' %>

@@ -1,8 +1,21 @@
 class AssignmentsController < ApplicationController
   # GET /assignments
   # GET /assignments.json
+
+  authorize_resource
+
+  INDEX_SORT = SortIndex::Config.new(
+    {'start_date' => 'start_date'},
+    {   
+        'employee' => 'UPPER(first_name), UPPER(last_name)',
+        'store' => 'name',
+        'pay' => 'pay_level'
+    }   
+  ) 
+
   def index
-    @assignments = Assignment.all
+    @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
+    @assignments = Assignment.joins(:employee).joins(:store).paginate(:page => params[:page]).order(@sortable.order).per_page(15)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,7 +38,7 @@ class AssignmentsController < ApplicationController
   # GET /assignments/new.json
   def new
     @assignment = Assignment.new
-
+    @assignment.store_id = params[:id] unless params[:id].nil?
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @assignment }
@@ -40,6 +53,7 @@ class AssignmentsController < ApplicationController
   # POST /assignments
   # POST /assignments.json
   def create
+    params[:shift].delete(:employee)
     @assignment = Assignment.new(params[:assignment])
 
     respond_to do |format|
@@ -56,6 +70,7 @@ class AssignmentsController < ApplicationController
   # PUT /assignments/1
   # PUT /assignments/1.json
   def update
+    params[:shift].delete(:employee)
     @assignment = Assignment.find(params[:id])
 
     respond_to do |format|

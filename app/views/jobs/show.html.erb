@@ -1,20 +1,24 @@
-<p id="notice"><%= notice %></p>
+<h1>Job</h1>
 
 <p>
-  <b>Name:</b>
+  <b>Name</b><br>
   <%= @job.name %>
 </p>
 
 <p>
-  <b>Description:</b>
+  <b>Description</b><br>
   <%= @job.description %>
 </p>
 
 <p>
-  <b>Active:</b>
+  <b>Active</b><br>
   <%= @job.active %>
 </p>
 
 
-<%= link_to 'Edit', edit_job_path(@job) %> |
-<%= link_to 'Back', jobs_path %>
+<div class="form-actions">
+  <%= link_to raw("<i class='icon-th-list'></i> Display All Jobs"), jobs_path, :class => 'btn'  %>&nbsp;&nbsp;
+  <%= link_to raw("<i class='icon-pencil'></i> Edit Job"), edit_job_path(@job), :class => 'btn' %>&nbsp;&nbsp;
+<%= link_to raw("<i class='icon-trash icon-white'></i> Delete Job"), job_path(@job), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div>
+

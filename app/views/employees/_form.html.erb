@@ -1,45 +1,34 @@
-<%= form_for(@employee) do |f| %>
-  <% if @employee.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@employee.errors.count, "error") %> prohibited this employee from being saved:</h2>
+<%= simple_nested_form_for @employee, :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+  <legend><%= controller.action_name.capitalize %> Employee</legend>
 
-      <ul>
-      <% @employee.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <%= f.input :first_name, :as => :string %> <%= f.input :last_name, :as => :string%>
+
+    <div class="field">
+      <%= f.label :photo %><br />
+      <%= f.file_field :photo %>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :first_name %><br />
-    <%= f.text_field :first_name %>
-  </div>
-  <div class="field">
-    <%= f.label :last_name %><br />
-    <%= f.text_field :last_name %>
-  </div>
-  <div class="field">
-    <%= f.label :ssn %><br />
-    <%= f.text_field :ssn %>
-  </div>
-  <div class="field">
-    <%= f.label :date_of_birth %><br />
-    <%= f.date_select :date_of_birth %>
-  </div>
-  <div class="field">
-    <%= f.label :phone %><br />
-    <%= f.text_field :phone %>
-  </div>
-  <div class="field">
-    <%= f.label :role %><br />
-    <%= f.text_field :role %>
-  </div>
-  <div class="field">
-    <%= f.label :active %><br />
-    <%= f.check_box :active %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <%= f.input :ssn, :as => :string, :label => "SSN"%>
+
+    <%= f.input :date_of_birth, :as => :string, :input_html => {:class => "datepicker", :value => (@employee.date_of_birth.strftime("%m/%d/%Y") unless @employee.date_of_birth.nil?)}%>
+
+    <%= f.input :phone, :as => :tel %>
+
+    <%= f.input :role, :collection => %w(admin manager employee) %>
+
+    <%= f.input :active, :as => :radio_buttons %>
+
+    <%= f.fields_for :assignments do |assign| %>
+      <%= assign.input :store, :collection => Store.all %>
+      <%= assign.input :start_date, :as => :string, :input_html => {:class => "datepicker"} %>
+      <%= assign.input :pay_level, :collection => (1..6) %>
+    <% end %>
+    <p><%= f.link_to_add "Add an assignment", :assignments %></p>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', employees_path, :class => 'btn' %>
+    </div>
+  </fieldset>
 <% end %>

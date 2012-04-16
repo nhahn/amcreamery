@@ -1,8 +1,11 @@
 class JobsController < ApplicationController
   # GET /jobs
   # GET /jobs.json
+
+  authorize_resource
+
   def index
-    @jobs = Job.all
+    @jobs = Job.alphabetical.paginate(:page => params[:page]).per_page(15)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -73,7 +76,12 @@ class JobsController < ApplicationController
   # DELETE /jobs/1.json
   def destroy
     @job = Job.find(params[:id])
-    @job.destroy
+    if (@job.shift_jobs.empty?)
+      @job.destroy
+    else
+      @job.update_attributes("active" => false)
+      @job.save!
+    end
 
     respond_to do |format|
       format.html { redirect_to jobs_url }

@@ -1,0 +1,12 @@
+<%= form_for :employee, :url => 'users/lookupEmployee' do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :ssn, "SSN" %><br />
+    <%= f.password_field :email %>
+  </p>
+  <p>
+    <%= f.label :date_of_birth, "Date of Birth" %><br />
+    <%= f.text_field :date_of_birth%>
+  </p>
+  <p><%= f.submit ("Submit") %></p>
+<% end %>

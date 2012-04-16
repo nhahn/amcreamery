@@ -1,8 +1,21 @@
 class ShiftsController < ApplicationController
   # GET /shifts
   # GET /shifts.json
+
+  authorize_resource
+
+
+  INDEX_SORT = SortIndex::Config.new(
+    {'date' => 'date'},
+    {   
+        'time' => 'start_time',
+        'name' => 'UPPER(first_name), UPPER(last_name)',
+    }   
+  )
+  
   def index
-    @shifts = Shift.all
+    @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
+    @shifts = Shift.joins(:assignment).joins(:employee).paginate(:page => params[:page]).order(@sortable.order).per_page(15)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,6 +38,7 @@ class ShiftsController < ApplicationController
   # GET /shifts/new.json
   def new
     @shift = Shift.new
+    @shift.assignment_id = params[:id] unless params[:id].nil?
 
     respond_to do |format|
       format.html # new.html.erb
@@ -40,6 +54,7 @@ class ShiftsController < ApplicationController
   # POST /shifts
   # POST /shifts.json
   def create
+    params[:shift].delete(:employee)
     @shift = Shift.new(params[:shift])
 
     respond_to do |format|
@@ -56,6 +71,7 @@ class ShiftsController < ApplicationController
   # PUT /shifts/1
   # PUT /shifts/1.json
   def update
+    params[:shift].delete(:employee)
     @shift = Shift.find(params[:id])
 
     respond_to do |format|

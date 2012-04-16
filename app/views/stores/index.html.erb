@@ -1,39 +1,43 @@
-<h1>Listing stores</h1>
+<h1>Stores</h1>
+<div class="row">
+  <div class="span6">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <%= @sortable.header_link('name', 'Name').html_safe %>
+        <th>Active</th>
+        <th>Street</th>
+        <%=@sortable.header_link('city', 'City').html_safe %>
+        <% if logged_in? %>
+          <th>Actions</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @stores.each do |store| %>
+        <tr>
+          <td><%= link_to store.name, store_path(store) %></td>
+          <td><%= store.active ? "Yes" : "No" %></td>
+          <td><%= store.street %></td>
+          <td><%= store.city %></td>
+          <% if logged_in? %>
+          <td>
+            <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_store_path(store), :class => 'btn btn-mini' %>
+            <%= link_to raw("<i class='icon-exclamation-sign icon-white'></i> Deactivate"), store_path(store), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Street</th>
-    <th>City</th>
-    <th>State</th>
-    <th>Zip</th>
-    <th>Phone</th>
-    <th>Latitude</th>
-    <th>Longitude</th>
-    <th>Active</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+  <%= will_paginate @stores, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
 
-<% @stores.each do |store| %>
-  <tr>
-    <td><%= store.name %></td>
-    <td><%= store.street %></td>
-    <td><%= store.city %></td>
-    <td><%= store.state %></td>
-    <td><%= store.zip %></td>
-    <td><%= store.phone %></td>
-    <td><%= store.latitude %></td>
-    <td><%= store.longitude %></td>
-    <td><%= store.active %></td>
-    <td><%= link_to 'Show', store %></td>
-    <td><%= link_to 'Edit', edit_store_path(store) %></td>
-    <td><%= link_to 'Destroy', store, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Store', new_store_path %>
+  <% if logged_in? %>
+    <%= link_to raw("<i class='icon-plus icon-white'></i> Add a New Store"), new_store_path, :class => 'btn btn-primary' %>
+  <% end %>
+  </div>
+  <div class="span6">
+    <%= image_tag @image %>
+  </div>
+</div>

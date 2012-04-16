@@ -1,6 +1,8 @@
-<h1>Editing shift</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @shift %> |
-<%= link_to 'Back', shifts_path %>
+<div class="row">
+  <div class="span8">
+    <%= render :partial => 'form', :locals => {:edit => true} %>
+  </div>
+  <div class="span4">
+    <%= render :partial => 'form_jobs' %>
+  </div>
+</div>

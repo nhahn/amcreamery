@@ -9,7 +9,7 @@ class CreateEmployees < ActiveRecord::Migration
       t.date :date_of_birth
       t.string :phone
       t.string :role
-      t.boolean :active
+      t.boolean :active, :default => true
 
       t.timestamps
     end

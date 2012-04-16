@@ -5,7 +5,7 @@ class CreateJobs < ActiveRecord::Migration
       
       t.string :name
       t.text :description
-      t.boolean :active
+      t.boolean :active, :default => true
 
       t.timestamps
     end

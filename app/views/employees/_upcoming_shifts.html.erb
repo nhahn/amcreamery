@@ -1,0 +1,9 @@
+<div class="well">
+  <h3>Upcomming Shifts:</h3>
+  <ul>
+    <% @upcomingShifts.each do |shift| %>
+      <li><%= link_to shift.store.name, store_path(shift.store) %>&nbsp;&nbsp;<%= shift.date.strftime("%m/%d") %> (<%= shift.start_time.strftime("%I:%M %p")%>) </li>
+
+    <% end %>
+  </ul>
+</div>

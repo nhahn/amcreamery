@@ -1,33 +1,29 @@
-<%= form_for(@shift) do |f| %>
-  <% if @shift.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@shift.errors.count, "error") %> prohibited this shift from being saved:</h2>
+<%= simple_nested_form_for @shift, :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend><%= controller.action_name.capitalize %> Shift</legend>
 
-      <ul>
-      <% @shift.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <%= f.input :employee, :as => :string, :label => 'Employee', :input_html => {:id => "employee_name", :value => (@shift.employee.nil?)? "" : @shift.employee.proper_name}%>
+
+    <%= f.input :assignment_id, :as => :hidden, :input_html => {:id => "assignment_id"}%>
+    
+    <%= f.input :date, :as => :string, :input_html => {:class => "datepicker", :value => (@shift.date.strftime("%m/%d/%Y") unless @shift.date.nil?)} %>
+
+    <%= f.input :start_time, :as => :time %>
+
+    <%= f.input :notes, :as => :text %>
+
+    <% if edit %>
+      <%= f.fields_for :shift_jobs do |job| -%> 
+        <%= job.association :job, :collection => Job.active.alphabetical.all %>
+        <%= job.link_to_remove 'Remove' %>
+      <% end -%> 
+
+      <%= f.link_to_add 'Add new task', :shift_jobs %>
+    <% end %>
+      
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', shifts_path, :class => 'btn' %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :date %><br />
-    <%= f.date_select :date %>
-  </div>
-  <div class="field">
-    <%= f.label :start_time %><br />
-    <%= f.time_select :start_time %>
-  </div>
-  <div class="field">
-    <%= f.label :end_time %><br />
-    <%= f.time_select :end_time %>
-  </div>
-  <div class="field">
-    <%= f.label :notes %><br />
-    <%= f.text_area :notes %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  </fieldset>
 <% end %>
