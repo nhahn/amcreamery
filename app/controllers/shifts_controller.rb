@@ -10,12 +10,19 @@ class ShiftsController < ApplicationController
     {   
         'time' => 'start_time',
         'name' => 'UPPER(first_name), UPPER(last_name)',
+        'end' => 'end_time'
     }   
   )
   
   def index
+    @completed = params[:completed]
+    logger.info @completed  
     @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
-    @shifts = Shift.joins(:assignment).joins(:employee).paginate(:page => params[:page]).order(@sortable.order).per_page(15)
+    if @completed == "true" 
+      @shifts = Shift.joins(:employee).past.paginate(:page => params[:page]).order(@sortable.order).per_page(15)
+    else
+      @shifts = Shift.joins(:employee).upcomming.paginate(:page => params[:page]).order(@sortable.order).per_page(15)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -62,6 +69,7 @@ class ShiftsController < ApplicationController
       if @shift.save
         format.html { redirect_to @shift, notice: 'Shift was successfully created.' }
         format.json { render json: @shift, status: :created, location: @shift }
+        EmployeeMailer.shift_msg(@shift.employee, @shift).deliver
       else
         format.html { render action: "new" }
         format.json { render json: @shift.errors, status: :unprocessable_entity }

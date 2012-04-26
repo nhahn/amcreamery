@@ -1,10 +1,23 @@
-<h1>Shifts</h1>
+<div class="row">
+  <div class="span8">
+    <h1>Shifts</h1>
+  </div>
+  <div class="span4">
+    &nbsp;&nbsp;
+    <% if @completed == "true" %>
+      <%= link_to "Upcomming", shifts_path(:completed => false), :class => 'btn'%>
+    <% else %>
+      <%= link_to "Past", shifts_path(:completed => true), :class => 'btn'%>
+    <% end %>
+  </div>
+</div>
 <table class="table table-striped">
   <thead>
     <tr>
       <%= @sortable.header_link('name', 'Employee').html_safe %>
       <%= @sortable.header_link('date', 'Date').html_safe %>
       <%= @sortable.header_link('time', 'Start Time').html_safe %>
+      <%= @sortable.header_link('end', 'End Time').html_safe if @completed == "true" %>
       <th>Actions</th>
     </tr>
   </thead>
@@ -14,6 +27,9 @@
         <td><%= link_to shift.assignment.employee.name, employee_path(shift.assignment.employee)%></td>
         <td><%= shift.date.strftime("%d %b %Y") %></td>
         <td><%= shift.start_time.strftime("%I:%M %p") %></td>
+        <% if @completed == "true" %>
+          <td><%= shift.end_time.strftime("%I:%M %p")%></td>
+        <% end %>
         <td>
         <div class="btn-group">
           <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_shift_path(shift), :class => 'btn btn-mini' %>

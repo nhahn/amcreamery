@@ -60,7 +60,7 @@ class EmployeesController < ApplicationController
   # POST /employees.json
   def create
     @employee = Employee.new(params[:employee])
-
+    @employee.date_of_birth = Chronic.parse(params[:employee][:date_of_birth])
     respond_to do |format|
       if @employee.save
         format.html { redirect_to @employee, notice: 'Employee was successfully created.' }
@@ -76,6 +76,7 @@ class EmployeesController < ApplicationController
   # PUT /employees/1.json
   def update
     @employee = Employee.find(params[:id])
+    @employee.date_of_birth = Chronic.parse(params[:employee][:date_of_birth])
 
     respond_to do |format|
       if @employee.update_attributes(params[:employee])
@@ -116,6 +117,36 @@ class EmployeesController < ApplicationController
 
   def autocompleteEmp
     render :json => Employee.search(params[:term]).collect{|value| {:value => value.id, :label => "#{value.proper_name}"}}
+  end
+
+  def import
+  end
+
+  def parseCSV
+    n = 0
+    FasterCSV.parse(params[:file], :headers => true) do |row|
+      row.to_hash.each do |key, value|
+        emp = Employee.new
+        case key.downcase.gsub(/\s+/,"")
+        when "firstname"
+          emp.first_name = value.chomp
+        when "lastname"
+          emp.last_name = value.chomp
+        when "role"
+          emp.role = value.downcase.chomp
+        when "ssn"
+          emp.ssn = value.chomp
+        when "dateofbirth" || "birthday" || "dob"
+          emp.date_of_birth = Chronic.parse(value)
+        when "phone"
+          emp.phone = value.chomp
+        end
+      end
+      if emp.save
+        n += 1
+      end
+    end
+    flash.now[:message] = "CVS Import Sucessful, #{n} new records added"
   end
 
 end

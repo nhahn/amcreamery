@@ -42,6 +42,7 @@
 $(function() {
   $("#new_shift, #edit_shift").autocompleteEmployeeName("/employees/autocompleteAsn");  
   $("#new_assignment, #edit_assignment").autocompleteEmployeeName("/employees/autocompleteEmp");  
+  $("#search").autocompleteEmployeeName("/employees/autocompleteEmp");  
 });
 
 $.fn.autocompleteEmployeeName = function(url){
@@ -56,9 +57,13 @@ $.fn.autocompleteEmployeeName = function(url){
           if(data){ dataContainer.html(data); }
         });
 */
-        if(item)
-        {
-          $("#assignment_id").val(item.value);
+        if(item){
+          if ($(this).id == 'search'){
+            window.location.href = "/employees/"+item.value
+          }
+          else{
+            $("#assignment_id").val(item.value);
+          }
         }
       }
     

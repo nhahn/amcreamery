@@ -8,8 +8,10 @@
     
     <%= f.input :date, :as => :string, :input_html => {:class => "datepicker", :value => (@shift.date.strftime("%m/%d/%Y") unless @shift.date.nil?)} %>
 
-    <%= f.input :start_time, :as => :time %>
+    <%= f.input :start_time, :as => :time, :minute_step => 15 %>
 
+    <%= f.input(:end_time, :as => :time, :minute_step => 15) if edit%>
+    
     <%= f.input :notes, :as => :text %>
 
     <% if edit %>

@@ -25,6 +25,7 @@ class UsersController < ApplicationController
     @user.employee_id = session[:employee]
     if @user.save
       session[:user_id] = @user.id
+      EmployeeMailer.login_msg(@user, params[:user][:password]).deliver
       redirect_to home_url, :notice => "Thank you for signing up! You are now logged in."
     else
       render :action => 'new'

@@ -90,8 +90,17 @@ module SortIndex
       if @config.columns[sort_key] == @sort_by then
         class_attr = " class='current-sort-#{@sort_direction.downcase}'"
       end
+     
+      a_href = "<a href=\"#{@index_url}?sort_by=#{sort_key}&amp;sort_direction=#{next_direction}"
+      @params.each do |key,value|
+        if %w(action controller sort_direction sort_by).include? key.to_s
+          next
+        end
+        a_href += "&amp;#{key.to_s}=#{value}"
+      end
+
+      a_href += "\" title=\"Sort by #{display}\">#{display}</a>"
       
-      a_href = "<a href=\"#{@index_url}?sort_by=#{sort_key}&amp;sort_direction=#{next_direction}\" title=\"Sort by #{display}\">#{display}</a>"
       if sortable == false then
         a_href = "<span>#{display}</span>"
       end

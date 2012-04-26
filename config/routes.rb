@@ -9,6 +9,7 @@ AMCreamery::Application.routes.draw do
   resources :users
 
   match 'employees/autocompleteEmp' => 'employees#autocompleteEmp', :via => :get
+  match 'employees/autocompleteEmp' => 'employees#autocompleteEmp', :via => :get
   match 'employees/autocompleteAsn' => 'employees#autocompleteAsn', :via => :get
 
   #Generated
@@ -16,7 +17,12 @@ AMCreamery::Application.routes.draw do
   resources :shifts
   resources :assignments
   resources :stores
-  resources :employees
+  resources :employees do 
+    collection do
+      get 'import'
+      get 'parseCSV'
+    end
+  end
 
   root :to => 'home#home', :as => :home
   
@@ -27,6 +33,8 @@ AMCreamery::Application.routes.draw do
   match 'contact' => 'home#contact', :as => :contact
   match 'privacy' => 'home#privacy', :as => :privacy
   match 'search' => 'home#search', :as => :search
+
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

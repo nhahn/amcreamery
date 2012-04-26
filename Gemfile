@@ -16,6 +16,7 @@ gem 'chronic'
 gem 'geokit'
 gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
 gem 'carrierwave'
+gem 'fastercsv'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -44,6 +45,7 @@ end
 group :development do
   gem 'populator3'
   gem 'faker'
+  gem 'quiet_assets'
 end
 
 # To use ActiveModel has_secure_password
