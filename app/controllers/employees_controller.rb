@@ -13,8 +13,13 @@ class EmployeesController < ApplicationController
   )
   
   def index
+    @inactive = (params[:inactive] == "true")?true:false
     @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
-    @employees = Employee.paginate(:page => params[:page]).order(@sortable.order).per_page(15)
+    if @inactive
+      @employees = Employee.inactive.paginate(:page => params[:page]).order(@sortable.order).per_page(15)
+    else
+      @employees = Employee.active.paginate(:page => params[:page]).order(@sortable.order).per_page(15)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -27,11 +32,7 @@ class EmployeesController < ApplicationController
   def show
     @employee = Employee.find(params[:id])
     @upcomingShifts = @employee.shifts.upcomming.chronological
-
-    @date = Time.now
-    @date = @date - (@date.wday==0 ? 6 : @date.wday-1).days
-    @start_date = Date.new(@date.year, @date.month, @date.day)
-    @events = @employee.shifts.where('date between ? and ?', @start_date, @start_date+7).to_a
+    @assignments = @employee.assignments.sort{|x,y| y.start_date <=> x.start_date}
 
     respond_to do |format|
       format.html # show.html.erb
@@ -76,10 +77,11 @@ class EmployeesController < ApplicationController
   # PUT /employees/1.json
   def update
     @employee = Employee.find(params[:id])
+    @employee.attributes = params[:id]
     @employee.date_of_birth = Chronic.parse(params[:employee][:date_of_birth])
-
+    
     respond_to do |format|
-      if @employee.update_attributes(params[:employee])
+      if @employee.save
         format.html { redirect_to @employee, notice: 'Employee was successfully updated.' }
         format.json { head :no_content }
       else
@@ -94,7 +96,7 @@ class EmployeesController < ApplicationController
   def destroy
     @employee = Employee.find(params[:id])
     @employee.active = false
-
+    @employee.save
     respond_to do |format|
       format.html { redirect_to employees_url }
       format.json { head :no_content }

@@ -49,10 +49,6 @@ STATES_LIST = [['Ohio', 'OH'],['Pennsylvania', 'PA'],['West Virginia', 'WV']]
        phone.gsub!(/[^0-9]/,"") # strip all non-digits
        self.phone = phone       # reset self.phone to new string
      end  
-public
-   def create_map_link(zoom=13,width=400,height=400)
-     "http://maps.google.com/maps/api/staticmap?center=#{latitude},#{longitude}&zoom=#{zoom}&size=#{width}x#{height}&maptype=roadmap&markers=color:red%red7Ccolor:red%7Clabel:!%7C#{latitude},#{longitude}&sensor=false"
-   end
 
   private
    def geoCode 

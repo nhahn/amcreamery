@@ -18,6 +18,7 @@
       <%= @sortable.header_link('date', 'Date').html_safe %>
       <%= @sortable.header_link('time', 'Start Time').html_safe %>
       <%= @sortable.header_link('end', 'End Time').html_safe if @completed == "true" %>
+      <th>Details</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -30,6 +31,7 @@
         <% if @completed == "true" %>
           <td><%= shift.end_time.strftime("%I:%M %p")%></td>
         <% end %>
+        <td><%= link_to raw("<i class='icon-search icon-white'></i>"), shift_path(shift), :class => 'btn btn-mini btn-info'%></td>
         <td>
         <div class="btn-group">
           <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_shift_path(shift), :class => 'btn btn-mini' %>

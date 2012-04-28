@@ -20,6 +20,25 @@
 
 <p>
   <b>Active</b><br>
-  <%= @store.active %>
+  <%= (@store.active == true)? "Yes":"No" %>
 </p>
+
+  <% if logged_in? && current_user.employee.role == "admin" %>
+  <table class="table table-condensed" style="margin-left: -5px">
+    <thead>
+      <tr>
+        <td><b>Managers</b></td>
+        <td>Email</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% Employee.managers.joins(:assignments).where('end_date IS NULL').where('store_id = ?',@store.id).all.each do |emp| %>
+      <tr>
+        <td><%= emp.proper_name %></td>
+        <td><%= mail_to(emp.user.email) unless emp.user.nil? %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% end %> 
 

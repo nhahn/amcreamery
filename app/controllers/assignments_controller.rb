@@ -5,7 +5,7 @@ class AssignmentsController < ApplicationController
   authorize_resource
 
   INDEX_SORT = SortIndex::Config.new(
-    {'start_date' => 'start_date'},
+    {'name' => 'UPPER(first_name), UPPER(last_name)'},
     {   
         'employee' => 'UPPER(first_name), UPPER(last_name)',
         'store' => 'name',
@@ -14,8 +14,14 @@ class AssignmentsController < ApplicationController
   ) 
 
   def index
+    @past = (params[:past] == "true")?true:false
     @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
-    @assignments = Assignment.joins(:employee).joins(:store).paginate(:page => params[:page]).order(@sortable.order).per_page(15)
+    
+    if @past
+      @assignments = Assignment.joins(:employee).joins(:store).past.paginate(:page => params[:page]).order(@sortable.order).per_page(15)
+    else
+      @assignments = Assignment.joins(:employee).joins(:store).current.paginate(:page => params[:page]).order(@sortable.order).per_page(15)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -74,11 +80,12 @@ class AssignmentsController < ApplicationController
   def update
     params[:shift].delete(:employee)
     @assignment = Assignment.find(params[:id])
+    @assignment.attributes = params[:assignment]
     @assignment.start_date = Chronic.parse(params[:assignment][:start_date])
     @assignment.end_date = Chronic.parse(params[:assignment][:end_date])
 
     respond_to do |format|
-      if @assignment.update_attributes(params[:assignment])
+      if @assignment.save
         format.html { redirect_to @assignment, notice: 'Assignment was successfully updated.' }
         format.json { head :no_content }
       else

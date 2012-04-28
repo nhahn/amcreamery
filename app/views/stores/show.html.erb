@@ -1,9 +1,11 @@
 <div class="row">
-  <div class="span6">
+  <div class="span4">
     <%= render :partial => "store_details" %>
   </div>
-  <div class="span6">
-    <%= render :partial => "upcomming_shifts" %>
+  <div class="span8">
+    <div id="map_canvas" style="height:300px"></div>
+    <div id="warnings_panel"></div>
+    <%= render :partial => "shared/maps_view", :locals => { :stores => Array[@store] } %>
   </div>
 </div>
 

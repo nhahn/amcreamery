@@ -1,35 +1,48 @@
 <h1>Shift</h1>
+<br>
+<div class="row">
+  <div class="span8">
+    <p>
+      <b>Employee</b><br>
+      <%= @shift.employee.proper_name %>
+    </p>
 
-<p>
-  <b>Employee</b><br>
-  <%= @shift.employee.proper_name %>
-</p>
+    <p>
+      <b>Store</b><br>
+      <%= @shift.store.name %>
+    </p>
 
-<p>
-  <b>Store</b><br>
-  <%= @shift.store.name %>
-</p>
+    <p>
+      <b>Date</b><br>
+      <%= @shift.date.strftime("%B, %d %y")%>
+    </p>
 
-<p>
-  <b>Date</b><br>
-  <%= @shift.date.strftime("%B, %d %y")%>
-</p>
+    <p>
+      <b>Start Time</b><br>
+      <%= @shift.start_time.strftime("%I:%M %p") %>
+    </p>
 
-<p>
-  <b>Start Time</b><br>
-  <%= @shift.start_time.strftime("%I:%M %p") %>
-</p>
+    <p>
+      <b>End time</b><br>
+      <%= @shift.end_time.strftime("%I:%M %p")%>
+    </p>
 
-<p>
-  <b>End time</b><br>
-  <%= @shift.end_time.strftime("%I:%M %p")%>
-</p>
-
-<p>
-  <b>Notes</b><br>
-  <%= @shift.notes %>
-</p>
-
+    <p>
+      <b>Notes</b><br>
+      <%= @shift.notes %>
+    </p>
+  </div>
+  <div class="span4">
+    <div class="well">
+    <h4>Jobs Performed</h4>
+    <ul>
+    <% @shift.jobs.each do |job| %>
+      <li><%= job.name %></li>
+    <% end %>
+    </ul>
+    </div>
+  </div>
+</div>
 <div class="form-actions">
   <%= link_to raw("<i class='icon-th-list'></i> Display All Shifts"), shifts_path, :class => 'btn'  %>&nbsp;&nbsp;
   <%= link_to raw("<i class='icon-pencil'></i> Edit Shift"), edit_shift_path(@shift), :class => 'btn' %>&nbsp;&nbsp;

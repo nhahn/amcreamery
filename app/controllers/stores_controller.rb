@@ -28,7 +28,6 @@ class StoresController < ApplicationController
       markers += "&markers=color:red%red7Ccolor:red%7Clabel:#{i}%7C#{str.latitude},#{str.longitude}"
       i += 1
     end 
-    @image = "http://maps.google.com/maps/api/staticmap?center=&size=400x400&maptype=roadmap#{markers}&sensor=false"
 
     respond_to do |format|
       format.html # index.html.erb

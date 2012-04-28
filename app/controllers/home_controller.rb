@@ -44,7 +44,8 @@ class HomeController < ApplicationController
         @pastShift = Shift.past.map{|shift| shift unless shift.completed?}.compact
 
         @events = Shift.joins(:assignment).where('end_date is NULL').where('store_id = ?', store.id).where('date > ? and date <= ?', @start_date, @start_date+7).chronological.to_a
-
+        @incomplete = Shift.past.chronological.map{|shift| shift if shift.shift_jobs.empty?}.compact.first(9)
+      
       elsif current_user.employee.role == "employee"
 
         @employee = current_user.employee

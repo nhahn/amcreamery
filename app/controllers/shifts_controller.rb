@@ -82,10 +82,11 @@ class ShiftsController < ApplicationController
   def update
     params[:shift].delete(:employee)
     @shift = Shift.find(params[:id])
+    @shift.attributes = params[:shift]
     @shift.date = Chronic.parse(params[:shift][:date])
 
     respond_to do |format|
-      if @shift.update_attributes(params[:shift])
+      if @shift.save
         format.html { redirect_to @shift, notice: 'Shift was successfully updated.' }
         format.json { head :no_content }
       else

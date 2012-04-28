@@ -1,10 +1,21 @@
-<h1>Jobs</h1>
+<div class="row">
+  <div class="span8">
+    <h1>Jobs</h1>
+  </div>
+  <div class="span4">
+    <% if @inactive %>
+      <%= link_to "Active", jobs_path(:inactive => false), :class => 'btn'%>
+    <% else %>
+      <%= link_to "Inactive", jobs_path(:inactive => true), :class => 'btn'%>
+    <% end %>
+  </div>
+</div>
 <table class="table table-striped">
   <thead>
     <tr>
       <th>Name</th>
-      <th>Active</th>
-      <th>Time Performed</th>
+      <th>Times Performed</th>
+      <th>Last Time Performed</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -12,12 +23,12 @@
     <% @jobs.each do |job| %>
       <tr>
         <td><%= link_to job.name, job_path(job) %></td>
-        <td><%= job.active ? "Yes" : "No" %></td>
         <td><%= job.shifts.length %></td>
+        <td><%= job.shifts.sort{|a,b| b.date <=> a.date}.first.date.strftime("%b %d, %Y") unless job.shifts.empty?%></td>
         <td>
           <div class="btn-group">
           <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_job_path(job), :class => 'btn btn-mini' %>
-          <%= link_to raw("<i class='icon-exclamation-sign icon-white'></i> Deactivate"), job_path(job), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          <%= link_to raw("<i class='icon-exclamation-sign icon-white'></i> #{(job.shift_jobs.empty?)?"Delete":"Deactivate"}"), job_path(job), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
           </div>
         </td>
       </tr>

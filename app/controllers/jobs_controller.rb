@@ -5,7 +5,12 @@ class JobsController < ApplicationController
   authorize_resource
 
   def index
-    @jobs = Job.alphabetical.paginate(:page => params[:page]).per_page(15)
+    @inactive = (params[:inactive] == "true")?true:false
+    if @inactive
+      @jobs = Job.alphabetical.inactive.paginate(:page => params[:page]).per_page(15)
+    else
+      @jobs = Job.alphabetical.active.paginate(:page => params[:page]).per_page(15)
+    end
 
     respond_to do |format|
       format.html # index.html.erb

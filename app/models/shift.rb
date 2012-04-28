@@ -31,7 +31,7 @@ class Shift < ActiveRecord::Base
   validate :assignment_is_current
 #  validate :end_time_is_valid
   #checks to make sure there are no jobs if the shift has not been completed
-  validate :job_times
+  #validate :job_times
   
   # Scopes
   # ---------------------
@@ -62,7 +62,7 @@ class Shift < ActiveRecord::Base
   
   def job_times
     if (!self.shift_jobs.empty?)
-      return date < Date.current || (date.to_s == Date.current.to_s && end_time <= Time.now)
+      return self.date < Date.current || (self.date.to_s == Date.current.to_s && self.end_time <= Time.now)
     end
 
     return true

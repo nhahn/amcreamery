@@ -27,7 +27,9 @@
   <%= will_paginate @stores, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
   </div>
   <div class="span6">
-    <%= image_tag @image %>
+    <div id="map_canvas" style="height:400px"></div>
+    <div id="warnings_panel"></div>
+    <%= render :partial => "shared/maps_view", :locals => { :stores =>@stores } %> 
   </div>
 </div>
 

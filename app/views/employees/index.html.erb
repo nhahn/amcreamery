@@ -1,4 +1,15 @@
-<h2>Employees</h2>
+<div class="row">
+  <div class="span8">
+    <h1>Employees</h1>
+  </div>
+  <div class="span4">
+    <% if @inactive %>
+      <%= link_to "Active", employees_path(:inactive => false), :class => 'btn'%>
+    <% else %>
+      <%= link_to "Inactive", employees_path(:inactive => true), :class => 'btn'%>
+    <% end %>
+  </div>
+</div>
 <table class="table table-striped">
   <thead>
     <tr>
