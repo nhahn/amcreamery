@@ -20,7 +20,7 @@ AMCreamery::Application.routes.draw do
   resources :employees do 
     collection do
       get 'import'
-      get 'parseCSV'
+      post 'parseCSV'
     end
   end
 

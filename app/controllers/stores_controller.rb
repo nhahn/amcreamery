@@ -23,11 +23,6 @@ class StoresController < ApplicationController
   def index
     @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
     @stores = Store.paginate(:page => params[:page]).order(@sortable.order).per_page(10)
-    markers, i = "", 1
-    Store.order(@sortable.order).each do |str|
-      markers += "&markers=color:red%red7Ccolor:red%7Clabel:#{i}%7C#{str.latitude},#{str.longitude}"
-      i += 1
-    end 
 
     respond_to do |format|
       format.html # index.html.erb

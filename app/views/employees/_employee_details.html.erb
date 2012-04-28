@@ -19,6 +19,15 @@
     <b>Phone</b><br>
     <%= number_to_phone(employee.phone, :area_code => true) %>
   </p>
+  <p>
+    <b>Email</b><br>
+    <% if employee.user.nil? %>
+      <% session[:employee] = employee.id %>
+      <%= link_to 'Create User', new_user_path, :class => 'btn btn-mini btn-success' %>
+    <% else %>
+      <%= mail_to employee.user.email %>
+    <% end %>
+  </p>
 </div>
 <div class="span3">
   <br><br>
@@ -32,6 +41,6 @@
   </p>
   <p>
     <b>Active</b><br>
-    <%= (employee.active == "true")? "Yes" : "No" %>
+    <%= (employee.active == true)? "Yes" : "No" %>
   </p>
 </div>

@@ -1,4 +1,4 @@
-<% form_tag :url=>{:controller=>"employees", :action=>"parseCSV"}, :html => { :multipart => true } do %>
+<%= form_tag '/employees/parseCSV', :multipart => true  %>
  <table>
    <tr>
      <td>
@@ -12,8 +12,8 @@
    </tr>
    <tr>
      <td colspan='2'>
-       <%= submit_tag 'Submit' %>
+       <%= submit_tag 'Import', :class => 'btn btn-success' %>
      </td>
    </tr>
  </table>
-<% end %>
+ </form>

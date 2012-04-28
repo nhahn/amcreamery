@@ -16,6 +16,7 @@
       <th>Name</th>
       <th>Times Performed</th>
       <th>Last Time Performed</th>
+      <th>Details</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -25,6 +26,7 @@
         <td><%= link_to job.name, job_path(job) %></td>
         <td><%= job.shifts.length %></td>
         <td><%= job.shifts.sort{|a,b| b.date <=> a.date}.first.date.strftime("%b %d, %Y") unless job.shifts.empty?%></td>
+        <td><%= link_to raw("<i class='icon-search icon-white'></i>"), job_path(job), :class => 'btn btn-mini btn-info'%></td>
         <td>
           <div class="btn-group">
           <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_job_path(job), :class => 'btn btn-mini' %>

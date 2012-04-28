@@ -37,7 +37,7 @@
     <h4>Jobs Performed</h4>
     <ul>
     <% @shift.jobs.each do |job| %>
-      <li><%= job.name %></li>
+      <li><%= link_to job.name, job_path(job), :class => 'job-popover', :data => {:content => job.description}%></li>
     <% end %>
     </ul>
     </div>

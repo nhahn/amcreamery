@@ -31,15 +31,21 @@
     }); 
   }); 
 
+$(function() {
+    $('.job-popover').popover({
+      placement: 'left',
+      title: 'Description'
+    });
+  }); 
+
 //Autocomplete Stuff
 $(function() {
   $("#new_shift, #edit_shift").autocompleteEmployeeName("/employees/autocompleteAsn");  
   $("#new_assignment, #edit_assignment").autocompleteEmployeeName("/employees/autocompleteEmp");  
-  $("#search").autocompleteEmployeeName("/employees/autocompleteEmp");  
 });
 
 $.fn.autocompleteEmployeeName = function(url){
-  return this.each(function(){
+  return this.each(function(index,value){
     var input = $("#employee_name", this);
     var dataContainer = $('.data_container',this);
     
@@ -51,7 +57,7 @@ $.fn.autocompleteEmployeeName = function(url){
         });
 */
         if(item){
-          if ($(this).id == 'search'){
+          if (value.id == 'search'){
             window.location.href = "/employees/"+item.value
           }
           else{

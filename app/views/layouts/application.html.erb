@@ -25,7 +25,6 @@
               <div class="btn-group">
               <% if !logged_in?%>
                 <%= link_to raw("<i class='icon-user'></i> Login"), new_session_path, :class => 'btn' %>
-                <%= link_to raw("<i class='icon-pencil'></i> Signup"), signup_path, :class => 'btn' %>
               <% else %>
                 <%= link_to raw("<i class='icon-user'></i> "+current_user.employee.proper_name), employee_path(current_user.employee), :class => 'btn' %>
                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -52,9 +51,14 @@
               <% end %>
             </ul>
             <% if logged_in? && (current_user.employee.role == "admin" || current_user.employee.role == "manager") %>
-            <form action="/search/" class="navbar-search pull-right" method="get">
-              <input id="search" class="search-query" name="query" placeholder="Search" type="text" value>
+            <form action="/search/" id="search" class="navbar-search pull-right" method="get">
+              <input id="employee_name" class="search-query" style="margin-bottom: 0px" name="query" placeholder="Search" type="text" value>
             </form>
+            <script type="text/javascript">
+              $("#search").ready(function(){
+                $("#search").autocompleteEmployeeName("/employees/autocompleteEmp");
+              });
+            </script>
             <% end %>
           </div>
         </div>

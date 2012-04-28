@@ -1,30 +1,41 @@
 <h1>Assignment</h1>
+<div class="row">
+  <div class="span6">
+    <p>
+      <b>Store</b><br>
+      <%= link_to @assignment.store.name, store_path(@assignment.store) %>
+    </p>
 
-<p>
-  <b>Store</b><br>
-  <%= link_to @assignment.store.name, store_path(@assignment.store) %>
-</p>
+    <p>
+      <b>Employee</b><br>
+      <%= link_to @assignment.employee.proper_name, employee_path(@assignment.employee) %>
+    </p>
+    <p>
+      <b>Start date</b><br>
+      <%= @assignment.start_date.strftime("%B, %d %y")%>
+    </p>
 
-<p>
-  <b>Employee</b><br>
-  <%= link_to @assignment.employee.proper_name, employee_path(@assignment.employee) %>
-</p>
 
-<p>
-  <b>Start date</b><br>
-  <%= @assignment.start_date.strftime("%B, %d %y")%>
-</p>
+  </div>
+  <div class="span6">
+    <p>
+      <b>End date</b><br>
+      <% unless @assignment.end_date.nil?%>
+        <%= @assignment.end_date.strftime("%B, %d %y") %> 
+      <%else%>
+        <span class="label label-success">Current Assignment</span>
+      <%end%>
+    </p>
 
-<p>
-  <b>End date</b><br>
-  <%= @assignment.end_date.strftime("%B, %d %y") unless @assignment.end_date.nil?%>
-</p>
-
-<p>
-  <b>Pay level</b><br>
-  <%= @assignment.pay_level %>
-</p>
-
+    <p>
+      <b>Pay level</b><br>
+      <%= @assignment.pay_level %>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <%= render :partial=>'shared/calendar' %>
+</div>
 <div class="form-actions">
   <%= link_to raw("<i class='icon-th-list'></i> Display All Assignments"), assignments_path, :class => 'btn'  %>&nbsp;&nbsp;
   <%= link_to raw("<i class='icon-pencil'></i> Edit Assignment"), edit_assignment_path(@assignment), :class => 'btn' %>&nbsp;&nbsp;

@@ -124,11 +124,12 @@ class EmployeesController < ApplicationController
   def import
   end
 
+  require 'csv'
   def parseCSV
     n = 0
-    FasterCSV.parse(params[:file], :headers => true) do |row|
+    CSV.foreach(params[:file][:csv].tempfile, :headers => true) do |row|
+      emp = Employee.new
       row.to_hash.each do |key, value|
-        emp = Employee.new
         case key.downcase.gsub(/\s+/,"")
         when "firstname"
           emp.first_name = value.chomp
@@ -138,17 +139,21 @@ class EmployeesController < ApplicationController
           emp.role = value.downcase.chomp
         when "ssn"
           emp.ssn = value.chomp
-        when "dateofbirth" || "birthday" || "dob"
+        when "dateofbirth", "birthday", "dob"
           emp.date_of_birth = Chronic.parse(value)
         when "phone"
           emp.phone = value.chomp
         end
       end
+      logger.info emp.inspect
       if emp.save
         n += 1
       end
     end
-    flash.now[:message] = "CVS Import Sucessful, #{n} new records added"
+    respond_to do |format|
+      format.html { redirect_to employees_url, notice: "CVS Import Sucessful, #{n} new records added." }
+      format.json { head :no_content }
+    end
   end
 
 end

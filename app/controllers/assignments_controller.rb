@@ -33,6 +33,15 @@ class AssignmentsController < ApplicationController
   # GET /assignments/1.json
   def show
     @assignment = Assignment.find(params[:id])
+    if params[:start_date].nil?
+      @date = Time.now
+    else
+      @date = Date.parse(params[:start_date])
+    end 
+    @date = @date - (@date.wday==0 ? 6 : @date.wday-1).days
+    @start_date = Date.new(@date.year, @date.month, @date.day)
+    @events = Shift.joins{:assignment}.where('assignment_id = ?',@assignment.id).where('date between ? and ?', @start_date, @start_date+7).chronological.to_a    
+
 
     respond_to do |format|
       format.html # show.html.erb

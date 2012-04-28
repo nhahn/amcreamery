@@ -45,4 +45,4 @@
 
 <%= will_paginate @shifts, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
 
-<%= link_to 'New', new_shift_path, :class => 'btn btn-primary' %>
+<%= link_to raw("<i class='icon-plus icon-white'></i> Add a New Shift"), new_shift_path, :class => 'btn btn-primary' %>
