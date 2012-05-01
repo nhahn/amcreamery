@@ -96,10 +96,6 @@ class StoreTest < ActiveSupport::TestCase
       assert_equal ["John", "Jim"], @CMUStore.employees.map{ |e| e.first_name}
     end
 
-    should "return a map" do
-      assert !@CMUStore.create_map_link.nil?
-    end
-
   end
 
 end

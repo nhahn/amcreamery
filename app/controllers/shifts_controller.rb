@@ -2,7 +2,7 @@ class ShiftsController < ApplicationController
   # GET /shifts
   # GET /shifts.json
 
-  authorize_resource
+  load_and_authorize_resource
 
 
   INDEX_SORT = SortIndex::Config.new(
@@ -16,12 +16,18 @@ class ShiftsController < ApplicationController
   
   def index
     @completed = params[:completed]
-    logger.info @completed  
     @sortable = SortIndex::Sortable.new(params, INDEX_SORT)
+    relation = Shift.joins(:employee)
+    if current_user.role? :manager
+      relation = relation.where('store_id = ?', current_user.employee.current_assignment.store_id)
+    elsif current_user.role? :employee
+      relation = relation.where('employee_id = ?', current_user.employee_id)
+    end
+
     if @completed == "true" 
-      @shifts = Shift.joins(:employee).past.paginate(:page => params[:page]).order(@sortable.order).per_page(15)
+      @shifts = relation.past.paginate(:page => params[:page]).order(@sortable.order).per_page(15)
     else
-      @shifts = Shift.joins(:employee).upcomming.paginate(:page => params[:page]).order(@sortable.order).per_page(15)
+      @shifts = relation.upcomming.paginate(:page => params[:page]).order(@sortable.order).per_page(15)
     end
 
     respond_to do |format|

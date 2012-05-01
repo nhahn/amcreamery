@@ -83,7 +83,7 @@ class ShiftTest < ActiveSupport::TestCase
     end
 
     should "return hours for a shift" do
-      assert_equal -21, @ShadyManagerShift.hours
+      assert_equal 3, @ShadyManagerShift.hours
     end
     
     should "return return false for incomplete shift" do
@@ -95,7 +95,7 @@ class ShiftTest < ActiveSupport::TestCase
     end
 
     should "show upcomming shifts" do
-      assert_equal "Shady Guy", Shift.upcomming.chronological.first.assignment.employee.proper_name 
+      assert ["Shady Guy", "Joe White"].include? Shift.upcomming.chronological.first.assignment.employee.proper_name 
     end
 
     should "show today's shifts" do

@@ -32,8 +32,10 @@
 </div>
 
 <div class="form-actions">
+<% if can? :update, @employee %>
   <%= link_to raw("<i class='icon-plus icon-white'></i> Add a Shift"), new_shift_path(:id => @employee.current_assignment.id), :class => 'btn btn-primary' unless @employee.current_assignment.nil? %>&nbsp;
   <%= link_to raw("<i class='icon-th-list'></i> Display All Employees"), employees_path, :class => 'btn'  %>&nbsp;&nbsp;
   <%= link_to raw("<i class='icon-pencil'></i> Edit #{@employee.proper_name}"), edit_employee_path(@employee), :class => 'btn' %>&nbsp;&nbsp;
-<%= link_to raw("<i class='icon-trash icon-white'></i> Delete #{@employee.proper_name}"), user_path(@empoyee), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+  <%= link_to raw("<i class='icon-trash icon-white'></i> Delete #{@employee.proper_name}"), user_path(@empoyee), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+<% end %> 
 </div>

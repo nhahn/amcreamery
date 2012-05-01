@@ -8,32 +8,24 @@ class Ability
     if user.role? :admin
       can :manage, :all
     elsif user.role? :manager
-      can :update, Store do |store|
-        store.id == current_user.employee.assignment.store_id
-      end
-      can :manage, Shift do |shift|
-        shift.assignment.store_id == current_user.employee.current_assignment.store_id
-      end
+      store = user.employee.current_assignment.store_id
+      can :read, Store
+      can :update, Store, :id => store
+      can :manage, Shift, { :assignment => { :store_id => store } } 
       can :show, Employee do |emp|
-        emp.current_assignment.store_id == current_user.employee.current_assingment.store_id
+        emp.current_assignment.store_id == user.employee.current_assingment.store_id
       end
       can :update, Employee do |employee|
-        employee.current_assignment.store_id == current_user.employee.current_assingment.store_id
+        employee.current_assignment.store_id == user.employee.current_assingment.store_id
       end
       can :create, Job 
       can :read, Job
       can :update, Job
       can :read, Store
     elsif user.role? :employee
-      can :update, User do |user|
-        user.id == current_user.id
-      end
-      can :read, Employee do |employee|
-        employee.id == current_user.employee_id
-      end
-      can :read, Shift do |shift|
-        shift.employee.id == current_user.employee_id
-      end
+      can :update, User, :id => user.id
+      can :read, Employee, :id => user.employee_id
+      can :read, Shift, { :assignment => {:employee_id => user.employee_id}}
       can :read, Store
     else
       can :read, Store

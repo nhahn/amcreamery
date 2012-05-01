@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'cancan/matchers'
 
 class AbilityTest < ActiveSupport::TestCase
   # test "the truth" do
@@ -45,7 +44,7 @@ class AbilityTest < ActiveSupport::TestCase
       @adminAbility = Ability.new(@adminUser)
       @managerAbility = Ability.new(@managerUser)
       @employeeAbility = Ability.new(@employeeUser)
- 
+      @anyoneAbility = Ability.new(nil) 
     end
 
     teardown do
@@ -64,6 +63,26 @@ class AbilityTest < ActiveSupport::TestCase
  
    end
    
-   @adminAbility.should be_able_to(:manage, :all)
+   should "allow admins to do whatever they want" do
+      assert @adminAbility.can?(:manage, :all)
+   end
+   should "allow manager certain powers" do
+      assert @managerAbility.can(:create, Job)
+      assert @managerAbility.can(:read, Job)
+      assert @managerAbility.can(:update, Job)
+      assert @managerAbility.can(:read, Store)
+      assert @managerAbility.can(:update, @ShadyManager.current_assignment.store)
+      assert @managerAbility.can(:show, @ShadyManager)
+      assert @managerAbility.can(:update, @ShadyManager)
+   end
+   should "allow employees certain powers" do
+      assert @employeeAbility.can(:update, @employeeUser)
+      assert @employeeAbility.can(:read, @OaklandEmployee)
+      assert @employeeAbility.can(:read, Store)
+   end  
+   should "allow anyone to make an account and view stores" do
+      assert @anyoneAbility.can?(:read, Store)
+      assert @anyoneAbility.can?(:create, User)
+   end
   end
 end
