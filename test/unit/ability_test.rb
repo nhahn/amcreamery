@@ -67,18 +67,18 @@ class AbilityTest < ActiveSupport::TestCase
       assert @adminAbility.can?(:manage, :all)
    end
    should "allow manager certain powers" do
-      assert @managerAbility.can(:create, Job)
-      assert @managerAbility.can(:read, Job)
-      assert @managerAbility.can(:update, Job)
-      assert @managerAbility.can(:read, Store)
-      assert @managerAbility.can(:update, @ShadyManager.current_assignment.store)
-      assert @managerAbility.can(:show, @ShadyManager)
-      assert @managerAbility.can(:update, @ShadyManager)
+      assert @managerAbility.can?(:create, Job)
+      assert @managerAbility.can?(:read, Job)
+      assert @managerAbility.can?(:update, Job)
+      assert @managerAbility.can?(:read, Store)
+      assert @managerAbility.can?(:update, @ShadyManager.current_assignment.store)
+      assert @managerAbility.can?(:show, @ShadyManager)
+      assert @managerAbility.can?(:update, @ShadyManager)
    end
    should "allow employees certain powers" do
-      assert @employeeAbility.can(:update, @employeeUser)
-      assert @employeeAbility.can(:read, @OaklandEmployee)
-      assert @employeeAbility.can(:read, Store)
+      assert @employeeAbility.can?(:update, @employeeUser)
+      assert @employeeAbility.can?(:read, @OaklandEmployee)
+      assert @employeeAbility.can?(:read, Store)
    end  
    should "allow anyone to make an account and view stores" do
       assert @anyoneAbility.can?(:read, Store)

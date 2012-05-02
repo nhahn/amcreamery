@@ -29,9 +29,6 @@ class Shift < ActiveRecord::Base
   validates_associated :assignment  
   # Checks that the assignment is current for an employee before creating a new shift
   validate :assignment_is_current
-#  validate :end_time_is_valid
-  #checks to make sure there are no jobs if the shift has not been completed
-  #validate :job_times
   
   # Scopes
   # ---------------------
@@ -60,14 +57,6 @@ class Shift < ActiveRecord::Base
   
   scope :by_employee, joins{:employee}.order('last_name', 'first_name')
   
-  def job_times
-    if (!self.shift_jobs.empty?)
-      return self.date < Date.current || (self.date.to_s == Date.current.to_s && self.end_time <= Time.now)
-    end
-
-    return true
-  end
-
 #  def end_time_is_valid
 #    return true if self.end_time.nil?
 #

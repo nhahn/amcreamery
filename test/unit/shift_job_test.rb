@@ -17,6 +17,10 @@ class ShiftJobTest < ActiveSupport::TestCase
     @CMUEmployeeAssignment = FactoryGirl.create(:assignment, :store => @CMUStore, :employee => @CMUEmployee, :start_date =>5.days.ago, :pay_level => 3)
 
     @EmployeeShift = FactoryGirl.create(:shift, :assignment => @CMUEmployeeAssignment, :notes => "Fun shift")
-    
+    @job = FactoryGirl.create(:job)
+  
+    item = ShiftJob.new(:shift_id => @EmployeeShift.id, :job_id => @job.id)
+    assert !item.valid?
+
   end
 end

@@ -13,10 +13,10 @@ class Ability
       can :update, Store, :id => store
       can :manage, Shift, { :assignment => { :store_id => store } } 
       can :show, Employee do |emp|
-        emp.current_assignment.store_id == user.employee.current_assingment.store_id
+        emp.current_assignment.store_id == user.employee.current_assignment.store_id
       end
       can :update, Employee do |employee|
-        employee.current_assignment.store_id == user.employee.current_assingment.store_id
+        employee.current_assignment.store_id == user.employee.current_assignment.store_id
       end
       can :create, Job 
       can :read, Job

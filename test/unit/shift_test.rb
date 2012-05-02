@@ -122,5 +122,15 @@ class ShiftTest < ActiveSupport::TestCase
       assert !@Shift.valid?
     end
 
+    should "return a DateTime object for a specific start time" do
+      assert @ShadyManagerShift.starts_at.is_a? DateTime
+      assert_equal @ShadyManagerShift.starts_at.hour, @ShadyManagerShift.start_time.hour
+    end
+
+    should "return a DateTime object for a specific end time" do
+      assert @ShadyManagerShift.ends_at.is_a? DateTime
+      assert_equal @ShadyManagerShift.ends_at.hour, @ShadyManagerShift.end_time.hour
+    end
+
     end
   end
