@@ -1,8 +1,8 @@
-<% if logged_in? && current_user.employee.role == "admin"  %>
+<% if current_user.role? :admin  %>
 	<%= render :partial => 'admin_home' %>
-<% elsif logged_in? && current_user.employee.role == "manager" %>
+<% elsif current_user.role? :manager %>
   <%= render :partial => 'manager_home' %>
-<% elsif logged_in? && current_user.employee.role == "employee" %>
+<% elsif current_user.role? :employee %>
   <%= render :partial => 'employee_home' %>
 <% else %>
 	<%= render :partial => 'general_home' %>

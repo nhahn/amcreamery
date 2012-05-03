@@ -8,7 +8,7 @@
         <th>Active</th>
         <th>Street</th>
         <%=@sortable.header_link('city', 'City').html_safe %>
-        <% if logged_in? && current_user.employee.role == "admin"%>
+        <% if current_user.role? :admin %>
           <th>Actions</th>
         <% end %>
       </tr>
@@ -20,7 +20,7 @@
           <td><%= store.active ? "Yes" : "No" %></td>
           <td><%= store.street %></td>
           <td><%= store.city %></td>
-          <% if logged_in? && current_user.employee.role == "admin"%>
+          <% if current_user.role? :admin %>
           <td>
             <%= link_to raw("<i class='icon-pencil'></i> Edit"), edit_store_path(store), :class => 'btn btn-mini' %>
             <%= link_to raw("<i class='icon-exclamation-sign icon-white'></i> Deactivate"), store_path(store), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
@@ -33,7 +33,7 @@
 
   <%= will_paginate @stores, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
 
-  <% if logged_in? && current_user.employee.role == "admin" %>
+  <% if current_user.role? :admin %>
     <%= link_to raw("<i class='icon-plus icon-white'></i> Add a New Store"), new_store_path, :class => 'btn btn-primary' %>
   <% end %>
   </div>

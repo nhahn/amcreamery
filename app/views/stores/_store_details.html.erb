@@ -23,7 +23,7 @@
   <%= (@store.active == true)? "Yes":"No" %>
 </p>
 
-  <% if logged_in? && current_user.employee.role == "admin" %>
+  <% if current_user.role? :admin %>
   <table class="table table-condensed" style="margin-left: -5px">
     <thead>
       <tr>

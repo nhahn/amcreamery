@@ -10,12 +10,12 @@
 </div>
 
 <div class="row">
-<% if logged_in? && current_user.employee.role == "admin" %>
+<% if current_user.role? :admin %>
   <%= render :partial => "employees" %>
 <%end %>
 </div>
 
-<% if logged_in? && current_user.employee.role == "admin" %>
+<% if current_user.role? :admin %>
     <div class="form-actions">
       <%= link_to raw("<i class='icon-th-list'></i> Display All Stores"), stores_path, :class => 'btn'  %>&nbsp;&nbsp;
       <%= link_to raw("<i class='icon-pencil'></i> Edit This Store"), edit_store_path(@store), :class => 'btn' %>&nbsp;&nbsp;
