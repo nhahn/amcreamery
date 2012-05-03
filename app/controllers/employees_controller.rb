@@ -129,25 +129,46 @@ class EmployeesController < ApplicationController
     n = 0
     CSV.foreach(params[:file][:csv].tempfile, :headers => true) do |row|
       emp = Employee.new
+      user = nil
       row.to_hash.each do |key, value|
         case key.downcase.gsub(/\s+/,"")
-        when "firstname"
+        when "name", "fullname"
+          if value.include? ','
+            split = value.chomp.split(',')
+            emp.first_name = split[1].chomp
+            emp.last_name = split[0].chomp
+          else
+            split = value.chomp.split(' ')
+            emp.first_name = split[0].chomp
+            emp.last_name = split[1].chomp
+          end
+        when "firstname", "first"
           emp.first_name = value.chomp
-        when "lastname"
+        when "lastname", "last"
           emp.last_name = value.chomp
-        when "role"
+        when "role", "position", "type"
           emp.role = value.downcase.chomp
-        when "ssn"
+        when "ssn", "socialsecuritynumber"
           emp.ssn = value.chomp
         when "dateofbirth", "birthday", "dob"
           emp.date_of_birth = Chronic.parse(value)
-        when "phone"
+        when "phone", "phonenumber", "phone#"
           emp.phone = value.chomp
+        when "email", "emailaddress"
+          user = User.new
+          user.email = value.chomp
+          user.password = SecureRandom.hex(10)
+          user.password_confirmation = user.password
         end
       end
-      logger.info emp.inspect
       if emp.save
         n += 1
+      end
+      if user
+        user.employee_id = emp.id
+        if user.save
+          EmployeeMailer.login_msg(user, user.password).deliver
+        end
       end
     end
     respond_to do |format|
