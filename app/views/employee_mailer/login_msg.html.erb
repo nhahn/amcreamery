@@ -4,10 +4,8 @@ A new account has been generated for you at this email address<br/>
 Your temporary password is <em><%= @password%></em><br/>
 Please login to the system and change your password at the first possible convenience
 
-<% unless @employee.current_assignment.nil? %>
-  If you have any questions, contact you manager:
-  <% Employee.managers.joins(:assignments).where('end_date IS NULL').where('store_id = ?', @employee.current_assignment.store_id).each do |manager| %>
-    <%= manager.proper_name %>
-    <%= manager.user.email unless manager.user.nil?%><br/>
-  <% end %>
+If you have any questions, contact you manager:
+<% Employee.managers.joins(:assignments).where('end_date IS NULL').where('store_id = ?', @employee.current_assignment.store_id).each do |manager| %>
+  <%= manager.proper_name %>
+  <%= manager.user.email unless manager.user.nil?%><br/>
 <% end %>
