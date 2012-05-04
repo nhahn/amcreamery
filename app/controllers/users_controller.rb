@@ -25,6 +25,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     @user.employee_id = session[:employee]
+    if !session[:user_id].nil?
+      @user.password = SecureRandom.hex(10)
+      @user.password_confirmation = @user.password
+      params[:user][:password] = @user.password
+    end
     if @user.save
       EmployeeMailer.login_msg(@user, params[:user][:password]).deliver
       if session[:user_id].nil?
