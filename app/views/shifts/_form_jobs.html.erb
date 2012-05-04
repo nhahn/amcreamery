@@ -1,1 +1,8 @@
-
+<% if edit %>
+  <ul class="unstyled">
+    <% Job.active.alphabetical.all.each do |job| %>
+      <li><%= check_box_tag "shift[job_ids][]",job.id,@shift.jobs.include?(job) %>
+      <%= job.name %></li>
+    <% end %>
+  </ul>
+<% end %>

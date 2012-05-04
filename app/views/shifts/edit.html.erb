@@ -1,8 +1,10 @@
 <div class="row">
+<%= simple_nested_form_for @shift, :html => { :class => 'form-horizontal' } do |form| %>
   <div class="span8">
-    <%= render :partial => 'form', :locals => {:edit => true} %>
+    <%= render :partial => 'form', :locals => {:edit => true, :f => form} %>
   </div>
   <div class="span4">
-    <%= render :partial => 'form_jobs' %>
+    <%= render :partial => 'form_jobs', :locals => {:f => form, :edit => true}%>
   </div>
+<%end%>
 </div>
