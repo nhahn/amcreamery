@@ -157,8 +157,8 @@ namespace :db do
       end
     
     # Step 8: Add some jobs..
-    Job.populate 40 do |job|
-      job.name = Faker::Lorem.words(1)
+    Job.populate 20 do |job|
+      job.name = Faker::Lorem.words(2)
       job.description = Faker::Lorem.sentence
       job.active = true 
       job.created_at = Time.now
@@ -171,7 +171,7 @@ namespace :db do
 	  rand(1..3).times do
   		shiftJob = ShiftJob.new
   		shiftJob.shift_id = shift.id
-  		shiftJob.job_id = Job.first(:offset => rand(Job.count)-1)
+  		shiftJob.job_id = Job.first(:offset => (1..Job.count).to_a.sample - 1)
   		shiftJob.save!
     end
 	end
