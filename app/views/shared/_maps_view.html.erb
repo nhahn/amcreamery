@@ -35,11 +35,12 @@
               title:"<%=store.name%>"
           });
           latlngbounds.extend(tempLatLng);
-          var contentString = '<b><%=store.name%></b><br/><%=store.street%><br/><%="#{store.city}, #{store.state}"%><br/><br/>' +
+          var contentString = '<div style="overflow: hidden; height: 130px"><b><%=store.name%></b><br/><%=store.street%><br/>' + 
+          '<%="#{store.city}, #{store.state}"%><br/><br/>' +
           '<p>Find direction from:</p>'+
           '<form action="<%=request.url%>" onsubmit="calcRoute(\'<%="#{store.latitude}, #{store.longitude}"%>\');return false;">'+
           '<input type="text" id="start">'+
-          '&nbsp;<input class="btn btn-primary" type="submit" style="margin-top: -10px" value="Get directions"></form>';
+          '&nbsp;<input class="btn btn-primary" type="submit" style="margin-top: -10px" value="Get directions"></form></div>';
           attachInstructionText(marker,contentString);  
         <% end %>
         map.setCenter(latlngbounds.getCenter());

@@ -156,13 +156,36 @@ namespace :db do
         end
       end
     
-    # Step 8: Add some jobs..
-    Job.populate 20 do |job|
-      job.name = Faker::Lorem.words(2)
+    employee =  Employee.managers.first
+    user = User.new
+      user.email = "manager@example.com"
+      user.password = "creamery"
+      user.password_confirmation = "creamery"
+      user.employee_id = employee.id
+      user.save!
+
+    employee =  Employee.regulars.first
+    user = User.new
+      user.email = "employee@example.com"
+      user.password = "creamery"
+      user.password_confirmation = "creamery"
+      user.employee_id = employee.id
+      user.save!
+
+   # Step 8: Add some jobs..
+    jobs = %w(Sweep Register Counter Kitchen Server Mop Clean Dust)
+    
+    (1 .. 20).each do
+      word = Faker::Lorem.words(1).last
+      jobs.push(word) unless jobs.include?(word)
+    end
+    
+    jobs.each do |name|
+      job = Job.new
+      job.name = name
       job.description = Faker::Lorem.sentence
       job.active = true 
-      job.created_at = Time.now
-      job.updated_at = Time.now
+      job.save!
     end
 	
 	# Step 9: Assign jobs to shifts
@@ -171,7 +194,7 @@ namespace :db do
 	  rand(1..3).times do
   		shiftJob = ShiftJob.new
   		shiftJob.shift_id = shift.id
-  		shiftJob.job_id = Job.first(:offset => (1..Job.count).to_a.sample - 1)
+  		shiftJob.job_id = Job.all.sample.id
   		shiftJob.save!
     end
 	end
