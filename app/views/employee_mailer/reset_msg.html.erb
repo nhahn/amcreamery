@@ -1,8 +1,8 @@
 Dear <%= @employee.proper_name %>,<br/><br/>
 
-A new account has been generated for you at this email address<br/>
-Your temporary password is <em><%= @password%></em><br/><br/>
-Please login to the system and change your password at the first possible convenience.
+Your temporary password is <em><%= @password%></em><br/>
+<%=link_to("Click here to reset your password", reset_password_users_url(:reset_code => @password))%><br/>
+<br/>Please login to the system and change your password at the first possible convenience.
 
 <% unless @employee.current_assignment.nil? %>
   If you have any questions, contact you manager(s):<br/>

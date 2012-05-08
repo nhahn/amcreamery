@@ -5,8 +5,17 @@ AMCreamery::Application.routes.draw do
   match 'signup' => 'users#employeeSearch', :as => :signup
   match 'logout' => 'sessions#destroy', :as => :logout
   match 'login' => 'sessions#new', :as => :login
-  resources :sessions
-  resources :users
+  resources :sessions do
+    collection do
+      get 'temp_password'
+      post 'forgot_password'
+    end
+  end
+  resources :users do
+    collection do
+      get 'reset_password'
+    end
+  end
 
   match 'employees/autocompleteEmp' => 'employees#autocompleteEmp', :via => :get
   match 'employees/autocompleteEmp' => 'employees#autocompleteEmp', :via => :get

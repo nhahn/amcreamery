@@ -51,6 +51,17 @@ class UsersController < ApplicationController
     @user = current_user
   end
 
+  def reset_password
+    user = User.find_by_reset_password_code(params[:reset_code])
+    if user && user.reset_password_code_until && Time.now < user.reset_password_code_until
+      user.reset_password_code_until = nil
+      user.reset_password_code = nil
+      user.save!
+      session[:user_id] = user.id
+      redirect_to edit_user_path(user), :notice => "Please update your password"
+    end
+  end
+
   def update
     @user = current_user
     if @user.update_attributes(params[:user])

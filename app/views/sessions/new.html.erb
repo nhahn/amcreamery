@@ -2,6 +2,8 @@
 
 <p>Are you a current employee without an account?<br>
    <%= link_to "Sign Up", signup_path %></p>
+<br/><p>Did you forget your password?<br/>
+  <%= link_to "Reset Password", temp_password_sessions_path %>
 
 <%= form_tag sessions_path do %>
   <p>

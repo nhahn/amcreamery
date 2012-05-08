@@ -17,4 +17,13 @@ class EmployeeMailer < ActionMailer::Base
     end
   end
 
+  def reset_msg(user, password)
+    unless user.nil?
+      @employee = user.employee
+      @password = password
+      logger.info user.email
+      mail(:to => user.email, :subject => "You temporary password for A&M Creamery")
+    end
+  end
+
 end

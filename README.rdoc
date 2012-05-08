@@ -4,6 +4,7 @@ It does have its own populate file, so after migrating the database, you can sim
 
 In terms of extra credit options added in:
 - Full Javascript google map
+- Ability to send a temporary password for a user
 - Adding popovers to jobs
 - Autocomplete for the search box and the employee name when adding a new assignment
 - Calendar View
