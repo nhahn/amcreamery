@@ -32,7 +32,6 @@ end
 group :test do
   gem 'shoulda'
   gem 'shoulda-matchers'
-  gem 'factory_girl_rails'
   gem 'mocha'
   gem 'simplecov'
   gem 'cucumber-rails'

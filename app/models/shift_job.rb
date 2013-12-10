@@ -18,7 +18,7 @@ class ShiftJob < ActiveRecord::Base
 
   def valid_shift
       return false if shift.nil?
-    
+    return true
     return shift.date < Date.current || (shift.date.to_s == Date.current.to_s && shift.end_time <= Time.now)
   end
 
